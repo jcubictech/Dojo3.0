@@ -1,0 +1,104 @@
+﻿@{
+    ViewBag.App = "SenStay Dojo App";
+    ViewBag.Title = "Owner Payout Statement Summary";
+    ViewBag.PageHint = "Statement";
+    var defaultMonth = DateTime.Today.AddMonths(-1).ToString("MMMM yyyy");
+}
+
+<div class="owner-statement-page">
+    <div class="statement-h2">@ViewBag.Title <span id="dataCount"></span></div>
+    <div class="row">
+        <div class="statement-filters">
+            <div class="float-left statement-filter-item300 statement-filter-margin">
+                <div class="control-group">
+                    <div class="input-group revenue-input-item">
+                        <div class="input-group-addon"><span class="fa fa-calendar"><span> Month</span></span></div>
+                        <input id="revenueMonth" value="@defaultMonth" title="Revenue Month" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="float-left statement-filter-item500 statement-filter-margin">
+                <div class="control-group">
+                    <div class="input-group revenue-input-item">
+                        <div class="input-group-addon"><span class="fa fa-credit-card"><span> Payout Method</span></span></div>
+                        <div id="payoutMethodList"><input id="revenuePayoutMethod" style="width:340px;" /></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="float-left">
+                <div class="summary-button hide">
+                    <div class="revenue-button" style="margin-left:20px;">
+                        <a id="printSummary">&nbsp;&nbsp;Print Summary&nbsp;&nbsp;</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="float-left @ViewBag.AllowEditClass">
+                <div class="rebalance-button hide">
+                    <div class="revenue-button" style="margin-left:0px;">
+                        <a id="rebalanceSummary">&nbsp;&nbsp;<span class="rebalanceText">Rebalance</span>&nbsp;&nbsp;</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="float-left @ViewBag.AllowEditClass">
+                <div class="finalize-button hide">
+                    <div class="revenue-button" style="margin-left:0px;">
+                        <a id="finalizeSummary">&nbsp;&nbsp;<span class="finalizeText">Finalize Summary</span>&nbsp;&nbsp;</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- legend -->
+            <div class="float-left statement-filter-margin" style="padding-top:5px;">
+                Color Code:
+                <span>
+                    <span id="legend-summary-finalized" style="color:orange;padding-right:10px;padding-left:5px;">Summary Finalized</span>
+                    <span id="legend-statement-finalized" style="color:purple;padding-right:10px;">Statement Finalized</span>
+                    <span id="legend-has-data" style="color:black;padding-right:10px;">To-Do</span>
+                    <span id="legend-no-data" style="color:lightgray;text-decoration:line-through;">No Data</span>
+                </span>
+            </div>
+
+            <div class="float-left @ViewBag.AllowEditClass">
+                <div class="payment-button hide">
+                    <span id="paidPayoutAmount"></span>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+    <div id="ownerSummaryView" class="statementView"></div>
+
+    <!-- slding out alert messaging -->
+    <div id="actionAlert" class="alert-container"></div>
+</div >
+
+@Html.Partial("_DialogPartial")
+
+@section CustomFormStyle
+{
+    <style type="text/css">
+        .dialog-page-content {padding:20px;}
+    </style>
+}
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/revenue.css")" />
+    <link rel="Stylesheet" href="@Href("~/content/app/ownerStatement.css")" />
+}
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/app/ownerSummary.js")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            DojoWeb.OwnerSummary.init();
+        });
+    </script>
+}

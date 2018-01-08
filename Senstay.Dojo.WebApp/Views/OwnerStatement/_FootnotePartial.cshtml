@@ -1,0 +1,36 @@
+﻿@model Senstay.Dojo.Models.View.OwnerStatementViewModel
+
+<div class="owner-footnote-view">
+    <div class="">
+        <table class="statement-content" cellpadding="0" cellspacing="0">
+            <tr class="statement-footnote-row">
+                <td>
+                    <div class="footnote-item">
+                        <span>¹ A month's 'Nights' are defined by all reservations that begin in this month</span>
+                    </div>
+                    <div class="footnote-item">
+                        <span>² 'Taxes Collected' reflect city taxes for non-Airbnb reservations collected by SenStay for your property. SenStay does not remit taxes on your behalf. For all Airbnb reservations, Airbnb may remit applicable city taxes on your behalf. If you have any questions, please contact your account manager.</span>
+                    </div>
+                    @if (Model.IsProductRS == true)
+                    {
+                        <div class="footnote-item">
+                            <span>³ Management fees are calculated by the following formula: Total Revenue * Management Fees</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="footnote-item">
+                            <span>³ Management fees are calculated by the following formula: (Total Revenue - Cleaning Fees) * Management Fees</span>
+                        </div>
+                    }
+                    <div class="footnote-item">
+                        <span>⁴ This section may contain Reservation Adjustments and/or Cancellations. Positive and negative Payment Amounts reflect revenue generated or lost respectively. SenStay does not have full control over these changes as booking platforms can arbitrarily adjust or cancel a reservation</span>
+                    </div>
+                    <div class="footnote-item">
+                        <span>⁵ A receipt will accompany this statement for any singluar expense greater than $250</span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

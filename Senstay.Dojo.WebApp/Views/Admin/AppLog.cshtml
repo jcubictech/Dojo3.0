@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.AppName = "SenStay Dojo";
+    ViewBag.Title = "SenStay Dojo Application Log";
+    ViewBag.PageHint = "Administration";
+}
+
+<div class="revenue-page">
+    <div class="revenue-page-title revenue-h2">@ViewBag.Title <span style="font-size:smaller;padding-left:30px;">(most recent 500 records)</span></div>
+    <div class="log-title-divider"></div>
+
+    <div id="AppLog" class="revenue-data-grid">
+        <div id="AppLogGrid" class="revenue-grid"></div>
+    </div>
+</div>
+
+@section CustomFormStyle
+{
+    <style type="text/css">
+        body {overflow:hidden;}
+        .revenue-data-grid {width:100%;}
+        .log-title-divider {background-color:gray;height:2px;width:100%;}
+    </style>
+}
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/revenue.css")" />
+}
+
+@section Scripts
+{
+    @Scripts.Render("~/Scripts/app/applog.js")
+
+    <script>
+        $(function () { // will trigger when the document is ready
+            $(document).ready(function () {
+                DojoWeb.AppLog.init('AppLogGrid');
+            });
+        });
+    </script>
+}

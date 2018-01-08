@@ -1,0 +1,52 @@
+﻿@model Senstay.Dojo.Models.View.ExternalLoginConfirmationViewModel
+@{
+    ViewBag.AppName = "SenStay Dojo";
+    ViewBag.Title = "Register";
+}
+
+<div class="ss-page-content ss-page-form-720">
+    <div class="ss-page-title ss-h2">Associate your @ViewBag.LoginProvider account with @ViewBag.AppName Site</div>
+    <div class="ss-article-title-divider"></div>
+    <div class="ss-simple-box">
+        @using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="external-section">
+                <div class="col-xs-6 text-info no-left-padding bottom-margin-15">
+                    You've successfully authenticated with <strong>@ViewBag.LoginProvider</strong>.
+                    Please enter <span>@ViewBag.LoginProvider</span> email for this site below and click the Associate button to compete the
+                    sign-in.
+                </div>
+                <div class="clearfix"></div>
+
+                <div class="form-group ss-spacing-t15">
+                    <div class="col-xs-6 control-group">
+                        <div class="input-group">
+                            <div class="input-group-addon lead-width align-left"><span class="fa fa-envelope"><span>Email</span></span></div>
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", title = "Use one of your existing email accounts" })
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-xs-6 ss-section-spacing-top">
+                        <input type="submit" value="Associate" class="btn btn-default lead-width" />
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/appform.css")" />
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

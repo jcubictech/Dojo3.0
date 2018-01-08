@@ -1,0 +1,79 @@
+﻿@{
+    ViewBag.App = "SenStay Dojo App";
+    ViewBag.Title = "Owner Statement";
+    ViewBag.PageHint = "Statement";
+    var defaultMonth = DateTime.Today.AddMonths(-1).ToString("MMMM yyyy");
+}
+
+<div class="owner-statement-page">
+    <div id="statement-filters">
+        <div class="statement-h2">@ViewBag.Title <span id="dataCount"></span></div>
+        <div class="row">
+            <div class="statement-filters">
+                <div class="float-left statement-filter-item300 statement-filter-margin">
+                    <div class="control-group">
+                        <div class="input-group revenue-input-item">
+                            <div class="input-group-addon"><span class="fa fa-calendar"><span> Month</span></span></div>
+                            <input id="revenueMonth" value="@defaultMonth" title="Revenue Month" />
+                        </div>
+                    </div>
+                </div>
+                <div class="float-left statement-filter-item600">
+                    <div class="control-group">
+                        <div class="input-group">
+                            <div class="input-group-addon"><span class="fa fa-bank"><span> Property</span></span></div>
+                            <div id="propertyCodeList"><input id="revenuePropertyCode" style="width:500px;" /></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="float-left">
+                    <div class="statement-button hide">
+                        <div class="revenue-button" style="margin-left:20px;">
+                            <a id="printStatement">&nbsp;&nbsp;Printable Owner Statement&nbsp;&nbsp;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="float-left statement-filter-margin" style="line-height:8px;">
+                Statement Color Code:
+                <span>
+                    <span id="legend-finalized" style="color:purple;padding-right:10px;padding-left:5px;">Finalized</span>
+                    <span id="legend-approved" style="color:blue;padding-right:10px;">Approved</span>
+                    <span id="legend-reviewed" style="color:green;padding-right:10px;">Reviewed</span>
+                    <span id="legend-has-data" style="color:black;padding-right:10px;">To-Do</span>
+                    <span id="legend-no-data" style="color:lightgray;text-decoration:line-through;">No Data</span>
+                </span>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    <div id="ownerStatementView" class="statementView"></div>
+
+    <!-- slding out alert messaging -->
+    <div id="actionAlert" class="alert-container"></div>
+</div >
+
+@section CustomFormStyle
+{
+    <style type="text/css">
+        /*body { overflow: hidden; }*/
+    </style>
+}
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/revenue.css")" />
+    <link rel="Stylesheet" href="@Href("~/content/app/ownerStatement.css")" />
+}
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/app/ownerStatement.js")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            DojoWeb.OwnerStatement.init();
+        });
+    </script>
+}

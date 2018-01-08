@@ -1,0 +1,107 @@
+﻿@{
+    ViewBag.App = "SenStay Dojo App";
+    ViewBag.Title = "Owner Statement Report";
+    ViewBag.PageHint = "Statement";
+
+    var defaultMonth = DateTime.Today.AddMonths(-1).ToString("MMMM yyyy");
+}
+
+<div class="revenue-page">
+    <div id="statement-filters">
+        <div class="revenue-h2"><span id="reportTitle">@ViewBag.Title</span> <span id="dataCount"></span></div>
+        <div class="row">
+            <div class="statement-filters">
+                <!-- month -->
+                <div class="float-left statement-filter-item300">
+                    <div class="control-group">
+                        <div class="input-group revenue-input-item">
+                            <div class="input-group-addon"><span class="fa fa-calendar"><span> Month</span></span></div>
+                            <input id="revenueMonth" value="@defaultMonth" title="Report Month" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- payout mehtod | property | owner -->
+                <div class="float-left statement-filter-item600 hide">
+                    <div class="control-group">
+                        <div class="input-group">
+                            <div class="input-group-addon"><span class="fa fa-bank"><span> Property</span></span></div>
+                            <div id="propertyCodeList"><input id="revenuePropertyCode" style="width:500px;" /></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- export -->
+                <div class="float-left">
+                    <div class="statement-button">
+                        <div class="revenue-button" style="margin-left:20px;">
+                            <a id="exportReport">&nbsp;&nbsp;Export to Excel&nbsp;&nbsp;</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- report type -->
+                <div class="float-left statement-filter-margin" style="padding-top:3px;">
+                    Report Type:
+                    <span>
+                        <span style="padding-right:10px;padding-left:5px;">
+                            <input type="radio" name="reportType" id="reportType" value="Journal" checked="checked" /> Journal
+                        </span>
+                        <span style="padding-right:10px;">
+                            <input type="radio" name="reportType" id="reportType" value="Credit" /> Credit Memo
+                        </span>
+                        <span style="padding-right:10px;">
+                            <input type="radio" name="reportType" id="reportType" value="Invoice" /> Invoice
+                        </span>
+                    </span>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    <!-- action alert when there is internal error -->
+    <div id="report-alert"></div>
+
+    <div class="revenue-data-grid">
+        <div id="reportGrid" class="revenue-grid @ViewBag.AdminClass @ViewBag.EditClass"></div>
+    </div>
+
+    <!-- slding out alert messaging -->
+    <div id="actionAlert" class="alert-container"></div>
+
+</div >
+
+@Html.Partial("_DialogPartial")
+
+@Html.Partial("_ConfirmationDialog")
+
+@section CustomFormStyle
+{
+    <style type="text/css">
+        body {overflow:hidden;}
+        .revenue-data-grid {width:1600px;}
+        #reportTitle {padding-right:20px;}
+        #dataCount {font-size:20px;}
+        #exportReport{padding:1px 6px 0px;}
+    </style>
+}
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/revenue.css")" />
+    <link rel="Stylesheet" href="@Href("~/content/app/ownerStatement.css")" />
+}
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/jszip.min.js")
+    @Scripts.Render("~/Scripts/app/report.js")
+    @Scripts.Render("~/Scripts/app/statementReport.js")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            DojoWeb.StatementReport.init('reportGrid');
+        });
+    </script>
+}

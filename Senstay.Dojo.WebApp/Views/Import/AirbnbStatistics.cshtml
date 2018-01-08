@@ -1,0 +1,126 @@
+﻿@model Senstay.Dojo.Models.View.AirbnbImportCalendarModel
+@{
+    ViewBag.App = "SenStay Dojo App";
+    ViewBag.Title = "Airbnb Completed Transactions Statistics";
+    ViewBag.PageHint = "Import";
+}
+<div class="import-page">
+    <div class="import-h2">@ViewBag.Title</div>
+
+    <!-- action alert when there is internal error -->
+    <div id="import-alert"></div>
+
+    <!-- action bar -->
+    <div class="import-action float-left">
+        <a id="onViewImportLog">&nbsp;&nbsp;View Import Log&nbsp;&nbsp;</a>
+    </div>
+
+    <!-- display legend -->
+    <div class="float-left import-legend-container">
+        <div class="float-left import-legend-title"><b>Legend: </b></div>
+        <div class="float-left import-legend-item">Reservations </div><div class="float-left import-legend reservation-count"></div>
+        <div class="float-left import-legend-item">Resolutions </div><div class="float-left import-legend resolution-count"></div>
+        <div class="float-left import-legend-item">Gross Earnings </div><div class="float-left import-legend gross-count"></div>
+        <div class="float-left import-legend-item"><span class="account-file-missing">Missing Import Files (Most Recent Count = <span id="missingCount"></span>)</span></div><div class="float-left import-legend missing-count"></div>
+    </div>
+    <div class="clearfix"></div>
+
+    <div class="import-data-calendar hide">
+        <table cellpadding="0" cellspacing="0" border="1">
+            <tr class="import-header-row">
+                <td class="import-account-col align-left">Account</td>
+                @for (int col = 0; col < Model.DisplayDays; col++)
+                {
+                    <td><div class="import-header-item import-count-col">@Model.CalendarHeaderRow[col]</div></td>
+                }
+            </tr>
+
+            @foreach (var calendarRow in Model.calendarRows)
+            {
+                <tr class="import-account-row">
+                    <td class="import-account-col">
+                        @if ((@calendarRow.HasInputFile & 1) != 0)
+                        {
+                            @calendarRow.Account
+                        }
+                        else
+                        {
+                            <div class="red bold">@calendarRow.Account</div>
+                        }
+                    </td>
+
+                    @for (int col = 0; col < Model.DisplayDays; col++)
+                    {
+                        // mark the most recent 3 dates that import files are missing
+                        if ((col == 0 && (@calendarRow.HasInputFile & 1) == 0) ||
+                                (col == 1 && (@calendarRow.HasInputFile & 2) == 0) ||
+                                (col == 2 && (@calendarRow.HasInputFile & 4) == 0))
+                        {
+                            <td class="import-count-col no-file"></td>
+                            }
+                            else
+                            {
+                            <td class="import-count-col">
+                                @if (@calendarRow.CalendarCols[col].ReservationData != "")
+                                {
+                                <div class="import-count-item reservation-count">@calendarRow.CalendarCols[col].ReservationData</div>
+                                }
+                                else
+                                {
+                                <div class="import-count-item no-count"></div>
+                                }
+
+                                @if (@calendarRow.CalendarCols[col].ResolutionData != "")
+                                {
+                                <div class="import-count-item resolution-count">@calendarRow.CalendarCols[col].ResolutionData</div>
+                                }
+                                else
+                                {
+                                <div class="import-count-item no-count"></div>
+                                }
+
+                                @if (@calendarRow.CalendarCols[col].GrossData != "")
+                                {
+                                <div class="import-count-item gross-count">@calendarRow.CalendarCols[col].GrossData</div>
+                                }
+                                else
+                                {
+                                <div class="import-count-item no-count"></div>
+                                }
+                            </td>
+                        }
+                    }
+                </tr>
+            }
+        </table>
+    </div>
+
+    <!-- slding out alert messaging -->
+    <div id="actionAlert" class="alert-container"></div>
+</div>
+
+@Html.Partial("_DialogPartial")
+@Html.Partial("_ConfirmationDialog")
+
+@section CustomFormStyle
+{
+    <style type="text/css">
+        .import-data-calendar { width: 1400px; }
+        #formDialog input.input-sm { margin-bottom: 0px !important; }
+        .dialog-page-content { padding: 0px 0px 20px 20px; }
+    </style>
+}
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/import.css")" />
+}
+@section scripts
+{
+    @Scripts.Render("~/Scripts/app/airbnbImport.js")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            DojoWeb.AirbnbImport.init();
+        });
+    </script>
+}

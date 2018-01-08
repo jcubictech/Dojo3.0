@@ -1,0 +1,102 @@
+﻿@{
+    ViewBag.AppName = "SenStay Dojo";
+    ViewBag.Title = "Property Relationship Management";
+    ViewBag.PageHint = "Statement";
+}
+
+<div class="ss-page-content">
+    <div class="ss-page-title ss-h2">@ViewBag.Title</div>
+    <div class="ss-article-title-divider"></div>
+
+    <div id="ss-account-alert" class="alert-container"></div>
+
+    <div class="ss-grid-container">
+        @Html.AntiForgeryToken()
+
+        <div class="row lookup-table-group">
+            <span class="looup-table-item">Property Relation type: </span>
+            <span class="looup-table-item"><input type="radio" name="owner-account" id="owner-account" value="PayoutMethod" checked="checked" onclick="DojoWeb.PropertyAccount.show('Payout')" /> Payout Methods</span>
+            <span class="looup-table-item"><input type="radio" name="owner-account" id="owner-account" value="PropertyAccount" onclick="DojoWeb.PropertyAccount.show('Account')" /> Property Accounts</span>
+            <span class="looup-table-item"><input type="radio" name="owner-account" id="owner-account" value="PropertyEntity" onclick="DojoWeb.PropertyAccount.show('Entity')" /> Property Entities</span>
+            <span class="looup-table-item"><input type="radio" name="owner-account" id="owner-account" value="PropertyFee" onclick="DojoWeb.PropertyAccount.show('Fee')" /> Property Fees</span>
+            <span class="looup-table-item"><input type="radio" name="owner-account" id="owner-account" value="PropertyTitle" onclick="DojoWeb.PropertyAccount.show('Title')" /> Property Titles</span>
+        </div>
+        <div class="clearfix"></div>
+
+        <div id="payoutMethod" class="property-account-editor hide">
+            <div id="payoutMethodGrid" class="ss-data-grid"></div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div id="propertyAccount" class="property-account-editor hide">
+            <div id="propertyAccountGrid" class="ss-data-grid"></div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div id="propertyEntity" class="property-account-editor hide">
+            <div id="propertyEntityGrid" class="ss-data-grid"></div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div id="propertyFee" class="property-account-editor hide">
+            <div id="propertyFeeGrid" class="ss-data-grid"></div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div id="propertyTitle" class="property-account-editor hide">
+            <div id="propertyTitleGrid" class="ss-data-grid"></div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+@section CustomFormStyle
+{
+    <!-- need to hide overflow to prevent grid content to spill over; set width so that the grid won't take the whole page width; -->
+    <!-- need to hide overflow on body to prevent grid scrolling to scroll the browser page -->
+    <style type="text/css">
+        body {overflow:hidden;}
+        #propertyAccount {overflow:hidden; width:1800px !important}
+        #payoutMethod {overflow:hidden; width:100%;}
+        #propertyEntity {overflow:hidden; width:1500px !important}
+        #propertyFee {overflow:hidden; width:1750px !important}
+        .no-scrollbar .k-grid-header {padding: 0 !important;}
+        .no-scrollbar .k-grid-content {overflow-y: auto;}
+    </style>
+}
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/appform.css")" />
+}
+
+@section Scripts
+{
+    @Scripts.Render("~/Scripts/app/propertyAccount.js")
+
+    <script id="propertyTemplate" type="text/x-kendo-template">
+        <span class="search-multi-select property-search">
+            <label class="search-label" for="propertySearchBox">Search Property Code</label>
+            <input type="search" id="propertySearchBox" class="k-textbox" style="width: 150px" />
+            <input type="button" id="propertySearch" class="k-button" value="Search" />
+            <input type="button" id="propertyReset" class="k-button" value="Reset" />
+        </span>
+    </script>
+
+    <script id="payoutTemplate" type="text/x-kendo-template">
+        <span class="search-multi-select payout-search">
+            <label class="search-label" for="payoutSearchBox">Search Payout Method</label>
+            <input type="search" id="payoutSearchBox" class="k-textbox" style="width: 200px" />
+            <input type="button" id="payoutSearch" class="k-button" value="Search" />
+            <input type="button" id="payoutReset" class="k-button" value="Reset" />
+        </span>
+    </script>
+
+    <script>
+        $(function () { // will trigger when the document is ready
+            $(document).ready(function () {
+                DojoWeb.PropertyAccount.init();
+            });
+        });
+    </script>
+}

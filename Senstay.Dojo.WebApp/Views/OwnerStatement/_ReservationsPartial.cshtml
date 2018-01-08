@@ -1,0 +1,142 @@
+﻿@model Senstay.Dojo.Models.View.OwnerStatementViewModel
+@using Senstay.Dojo.Data.Providers
+@using Senstay.Dojo.Helpers
+
+<div class="owner-reservations-view">
+    <div class="statement-container pull-left">
+        <table cellpadding="0" cellspacing="0">
+            <!-- title row -->
+            <tr>
+                <td colspan="6"><div class="summary-title">Reservations⁴</div></td>
+            </tr>
+
+            <!-- resevations header -->
+            <tr class="statement-header">
+                <td class="reservations-col-1">Type</td>
+                <td class="reservations-col-2">Guest</td>
+                <td class="reservations-col-3">Arrival</td>
+                <td class="reservations-col-4">Departure</td>
+                <td class="reservations-col-5">Nights</td>
+                <td class="reservations-col-6">Total Revenue</td>
+            </tr>
+
+            <!-- resevation records -->
+            @for (int i = 0; i < Model.ReservationDetails.Count; i++)
+            {
+                <tr class="statement-row">
+                    @if (i == Model.ReservationDetails.Count - 1)
+                    {
+                        <td class="reservations-col-1 spacing-bottom-20">@Model.ReservationDetails[i].Type</td>
+                        <td class="reservations-col-2 spacing-bottom-20">@Model.ReservationDetails[i].Guest</td>
+                        <td class="reservations-col-3 spacing-bottom-20">@Model.ReservationDetails[i].Arrival.ToString("MM/dd/yyyy")</td>
+                        <td class="reservations-col-4 spacing-bottom-20">@Model.ReservationDetails[i].Departure.ToString("MM/dd/yyyy")</td>
+                        <td class="reservations-col-5 spacing-bottom-20">@Model.ReservationDetails[i].Nights.ToString()</td>
+                        <td class="reservations-col-6 spacing-bottom-20">@ConversionHelper.FormatMoney(Model.ReservationDetails[i].TotalRevenue)</td>
+                    }
+                    else
+                    {
+                        <td class="reservations-col-1">@Model.ReservationDetails[i].Type</td>
+                        <td class="reservations-col-2">@Model.ReservationDetails[i].Guest</td>
+                        <td class="reservations-col-3">@Model.ReservationDetails[i].Arrival.ToString("MM/dd/yyyy")</td>
+                        <td class="reservations-col-4">@Model.ReservationDetails[i].Departure.ToString("MM/dd/yyyy")</td>
+                        <td class="reservations-col-5">@Model.ReservationDetails[i].Nights.ToString()</td>
+                        <td class="reservations-col-6">@ConversionHelper.FormatMoney(Model.ReservationDetails[i].TotalRevenue)</td>
+                    }
+                </tr>
+            }
+
+            @if (Model.ResolutionDetails.Count > 0)
+            { 
+                for (int i = 0; i < Model.ResolutionDetails.Count; i++)
+                {
+                    <tr class="statement-row">
+                        @if (i == Model.ResolutionDetails.Count - 1)
+                        {
+                            <td class="reservations-col-1 spacing-bottom-20">@Model.ResolutionDetails[i].Type</td>
+                            <td class="reservations-col-2 spacing-bottom-20">@Model.ResolutionDetails[i].Guest</td>
+                            <td class="reservations-col-3 spacing-bottom-20">@Model.ResolutionDetails[i].Arrival.ToString("MM/dd/yyyy")</td>
+                            <td class="reservations-col-4 spacing-bottom-20">@Model.ResolutionDetails[i].Departure.ToString("MM/dd/yyyy")</td>
+                            <td class="reservations-col-5 spacing-bottom-20">@Model.ResolutionDetails[i].Nights.ToString()</td>
+                            <td class="reservations-col-6 spacing-bottom-20">@ConversionHelper.FormatMoney(Model.ResolutionDetails[i].TotalRevenue)</td>
+                        }
+                        else
+                        {
+                            <td class="reservations-col-1">@Model.ResolutionDetails[i].Type</td>
+                            <td class="reservations-col-2">@Model.ResolutionDetails[i].Guest</td>
+                            <td class="reservations-col-3">@Model.ResolutionDetails[i].Arrival.ToString("MM/dd/yyyy")</td>
+                            <td class="reservations-col-4">@Model.ResolutionDetails[i].Departure.ToString("MM/dd/yyyy")</td>
+                            <td class="reservations-col-5">@Model.ResolutionDetails[i].Nights.ToString()</td>
+                            <td class="reservations-col-6">@ConversionHelper.FormatMoney(Model.ResolutionDetails[i].TotalRevenue)</td>
+                        }
+                    </tr>
+                }
+
+            }
+
+            @if (Model.ReservationDetails.Count == 0 && Model.ResolutionDetails.Count == 0)
+            {
+                <tr class="statement-row">
+                    <td class="spacing-bottom-20" colspan="3">&nbsp;</td>
+                </tr>
+            }
+
+            <!-- resevation total -->
+            <tr class="reservations-summary-row">
+                <td class="reservations-col-1 right spacing-top-10" colspan="4">TOTAL</td>
+                <td class="reservations-col-5 spacing-top-10">@Model.NightsBooked.ToString()</td>
+                <td class="reservations-col-6 spacing-top-10">@ConversionHelper.FormatMoney(Model.ReservationsTotal)</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- reservation approval notes -->
+    @if (Model.IsPrint == false && AuthorizationProvider.CanFinalizeRevenue())
+    {
+        <div id="reservationsNote" class="pull-right">
+            <table cellpadding="0" cellspacing="0">
+            <tr class="reservations-note-title"><td class="reservations-note">Approval notes</td></tr>
+            <tr class="statement-row"><td class="reservations-note">&nbsp;</td></tr>
+
+            @for (int i = 0; i < Model.ReservationDetails.Count; i++)
+            {
+                if (string.IsNullOrEmpty(Model.ReservationDetails[i].ApprovedNote))
+                {
+                    <tr class="statement-row"><td class="reservations-note">&nbsp;</td></tr>
+                }
+                else if (Model.ReservationDetails[i].ApprovedNote.Length > 80)
+                {
+                    <tr class="statement-row"><td class="reservations-note">@Model.ReservationDetails[i].ApprovedNote.Substring(0, 80)...</td></tr>
+                }
+                else
+                {
+                    <tr class="statement-row"><td class="reservations-note">@Model.ReservationDetails[i].ApprovedNote</td></tr>
+                }
+            }
+
+            @if (Model.ResolutionDetails.Count > 0)
+            {
+                <tr class="statement-row">
+                    <td colspan="6">&nbsp;</td>
+                </tr>
+
+                for (int i = 0; i < Model.ResolutionDetails.Count; i++)
+                {
+                    if (string.IsNullOrEmpty(Model.ResolutionDetails[i].ApprovedNote))
+                    {
+                        <tr class="statement-row"><td class="reservations-note">&nbsp;</td></tr>
+                    }
+                    else if (Model.ResolutionDetails[i].ApprovedNote.Length > 90)
+                    {
+                        <tr class="statement-row"><td class="reservations-note">@Model.ResolutionDetails[i].ApprovedNote.Substring(0, 90)...</td></tr>
+                    }
+                    else
+                    {
+                        <tr class="statement-row"><td class="reservations-note">@Model.ResolutionDetails[i].ApprovedNote</td></tr>
+                    }
+                }
+            }
+        </table>
+        </div>
+    }
+    <div class="clearfix"></div>
+</div>

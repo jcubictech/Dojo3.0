@@ -1,0 +1,145 @@
+﻿@model Senstay.Dojo.Models.InquiriesValidation
+@using Senstay.Dojo.Data.Providers
+@using Senstay.Dojo.Models
+@using Heroic.Web.IoC
+@{
+    ViewBag.SubmenuHint = "inquiry";
+    var dbContext = Context.GetContainer().GetInstance<DojoDbContext>();
+    var channelList = new LookupProvider(dbContext).GetLookupList(LookupType.Channel);
+}
+
+<div class="dialog-page-content">
+    @using (Ajax.BeginForm("Edit", "Inquiry", new AjaxOptions
+        {
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "edit-ajax-target",
+            LoadingElementId = "edit-ajax-wait",
+            OnSuccess = "DojoWeb.InquiryForm.refreshEditForm",
+            OnFailure = "DojoWeb.InquiryForm.serverError"
+        },
+        new { @id = "InquiryEntryForm", @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <table cellpadding="0" cellspacing="10" width="100%">
+            <tr>
+                <td style="width:50%;padding-right:30px;">
+                    <!-- customer name -->
+                    <div class="form-input-item">
+                        <div class="control-group">
+                            <div> @Html.LabelFor(model => model.GuestName, new { @class = "control-label" }) *</div>
+                            <div>
+                                @Html.TextBoxFor(model => model.GuestName, new { @class = "form-control input-sm" + @ViewBag.EditClass })
+                                @Html.ValidationMessageFor(model => model.GuestName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <!-- inquiry team -->
+                    <div class="form-input-item">
+                        <div class="control-group">
+                            <div>@Html.LabelFor(model => model.InquiryTeam, new { @class = "control-label" }) *</div>
+                            <div>
+                                @Html.TextBoxFor(model => model.InquiryTeam, new { @class = "form-control", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(model => model.InquiryTeam, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <!-- property code -->
+                    <div class="form-input-item">
+                        <div class="control-group">
+                            <div>
+                                <div>@Html.LabelFor(model => model.PropertyCode, new { @class = "control-label" }) *</div>
+                            </div>
+                            <div id="PropertyCodeSearchableSelect">
+                                @Html.DropDownListFor(x => x.PropertyCode, (IEnumerable<SelectListItem>)ViewBag.Properties, "Type to find property...", new { @class = "input-sm kendo-searchable-dorpdown" + @ViewBag.EditClass })
+                                @Html.ValidationMessageFor(model => model.PropertyCode, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <!-- channel -->
+                    <div class="form-input-item">
+                        <div class="control-group">
+                            <div>
+                                @Html.LabelFor(model => model.Channel, new { @class = "control-label" })
+                            </div>
+                            <div>
+                                @Html.DropDownListFor(model => model.Channel, channelList, new { @class = "form-control input-sm" + @ViewBag.EditClass })
+                                @Html.ValidationMessageFor(model => model.Channel, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <!-- total payout -->
+                    <div class="form-input-item">
+                        <div class="control-group">
+                            <div>@Html.LabelFor(model => model.TotalPayout, new { @class = "control-label" }) *</div>
+                            <div>
+                                <div class="input-group decorated-field">
+                                    <div class="input-group-addon">$</div>
+                                    @Html.TextBoxFor(model => model.TotalPayout, new { @class = "form-control" + @ViewBag.EditClass })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.TotalPayout, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td style="width:50%;padding-left:30px;padding-right:10px;">
+                    <!-- check-in date -->
+                    <div class="form-input-item">
+                        <div class="control-group">
+                            <div>@Html.LabelFor(model => model.Check_inDate, new { @class = "control-label" }) *</div>
+                            <div>
+                                @Html.TextBoxFor(m => m.Check_inDate, new { @class = "app-simple-datepicker" + @ViewBag.EditClass })
+                                @Html.ValidationMessageFor(model => model.Check_inDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <!-- check-out date -->
+                    <div class="form-input-item">
+                        <div class="control-group">
+                            <div>@Html.LabelFor(model => model.Check_outDate, new { @class = "control-label" }) *</div>
+                            <div>
+                                @Html.TextBoxFor(model => model.Check_outDate, new { @class = "app-simple-datepicker" + @ViewBag.EditClass })
+                                @Html.ValidationMessageFor(model => model.Check_outDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <!-- weekday orphane days -->
+                    <div class="form-input-item">
+                        <div class="control-group">
+                            <div>@Html.LabelFor(model => model.Weekdayorphandays, new { @class = "control-label" }) *</div>
+                            <div>
+                                @Html.TextBoxFor(model => model.Weekdayorphandays, new { @class = "form-control input-sm" + @ViewBag.EditClass })
+                                @Html.ValidationMessageFor(model => model.Weekdayorphandays, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <!-- additional info -->
+                    <div class="form-input-item">
+                        <div class="control-group">
+                            <div>@Html.LabelFor(model => model.AdditionalInfo_StatusofInquiry, new { @class = "control-label" })</div>
+                            <div>
+                                @Html.TextAreaFor(model => model.AdditionalInfo_StatusofInquiry, new { @class = "form-control input-sm" + @ViewBag.EditClass, rows = "5" })
+                                @Html.ValidationMessageFor(model => model.AdditionalInfo_StatusofInquiry, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Action buttons -->
+        if (string.IsNullOrEmpty(ViewBag.EditClass))
+        {
+            <div class="form-action-button">
+                <input id="inquirySave" type="button" value="@ViewBag.ButtonText" class="btn btn-success btn-default" onclick="DojoWeb.InquiryForm.saveEditForm()" />
+                <input id="inquiryCancel" type="button" value="Cancel" class="btn btn-warning" onclick="DojoWeb.InquiryForm.cancel()" />
+            </div>
+        }
+
+        @Html.HiddenFor(model => model.Id)
+    }
+</div>
+
+
+

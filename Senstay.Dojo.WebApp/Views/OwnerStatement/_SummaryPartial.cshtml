@@ -1,0 +1,349 @@
+﻿@model Senstay.Dojo.Models.View.OwnerStatementSummaryModel
+@{
+    var month = @Model.StatementMonth.ToString("MM/dd/yyyy");
+    var hasAdvancePayment = false;
+}
+@Html.HiddenFor(model => model.PaidPayout)
+@Html.HiddenFor(model => model.TotalPayout)
+
+<div class="owner-summary-view">
+    <!-- approval summary section -->
+    @if (Model.IsPrint == false)
+    {
+        <div id="rebalance-alert"></div>
+        if (@Model.IsModified == true)
+        {
+            <div id="ModifyAlert" class="hide">One or more owner statement has been modified since last time the Owner Summary was finalized. Please re-finalize the summary.</div>
+        }
+        else
+        {
+            <div id="ModifyAlert" class="hide"></div>
+        }
+    }
+
+    <!-- statement banner -->
+    <div class="statement-banner">
+        <div class="statement-title pull-left">
+            <div class="statement-title">OWNER SUMMARY | @Model.StatementMonth.ToString("MMMM yyyy")</div>
+            <div class="statement-text margin-top-15">@Model.OwnerName</div>
+        </div>
+        <div class="pull-right right">
+            <div>
+                <div class="statement-logo"><img src="~/Content/images/senstay_logo.png" /></div>
+                <div>SenStay, Inc</div>
+                <div>San Diego, CA 92101</div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+
+    <!-- statement content -->
+    @for (int i = 0; i < Model.SummaryItems.Count; i++)
+    {
+        if (Model.SummaryItems[i].AdvancePayments != 0)
+        {
+            hasAdvancePayment = true;
+            break;
+        }
+    }
+    <div class="statement-container">
+        @if (Model.IsPrint == false)
+        {
+            if (@hasAdvancePayment)
+            {
+                <table class="statement-content" cellpadding="0" cellspacing="0">
+                    <!-- title row -->
+                    <tr>
+                        <td><div class="summary-title">Summary</div></td>
+                    </tr>
+                    <!-- statement body -->
+                    <tr>
+                        <td>
+                            <table cellpadding="0" cellspacing="0">
+                                <!-- statement body header -->
+                                <tr class="summary-header">
+                                    <td class="statement-col-1 first-data-row">Property ID</td>
+                                    <td class="statement-col-2">Address</td>
+                                    <td class="statement-col-3">Owner Entity</td>
+                                    <td class="statement-col-4">Payout Method</td>
+                                    <td class="statement-col-5">Beginning Balance</td>
+                                    <td class="statement-col-6">Total Revenue</td>
+                                    <td class="statement-col-7">Taxes Collected</td>
+                                    <td class="statement-col-8">Cleaning Fee</td>
+                                    <td class="statement-col-9">Management Fee</td>
+                                    <td class="statement-col-10">Owner &amp; Unit Expense Items</td>
+                                    <td class="statement-col-11"><span>Advance Owner Payments</span></td>
+                                    <td class="statement-col-13">Balance</td>
+                                </tr>
+                                @for (int i = 0; i < Model.SummaryItems.Count; i++)
+                                {
+                                    <tr class="statement-row">
+                                        <td class="statement-col-1"><a href="/OwnerStatement/StatementLink?month=@month&propertyCode=@Model.SummaryItems[i].PropertyID">@Model.SummaryItems[i].PropertyID</a></td>
+                                        <td class="statement-col-2">@Model.SummaryItems[i].Address</td>
+                                        <td class="statement-col-3">@Model.SummaryItems[i].EntityName</td>
+                                        <td class="statement-col-4">@Model.SummaryItems[i].PayoutMethod</td>
+                                        <td class="statement-col-5">@Model.SummaryItems[i].BeginBalance.ToString("c2")</td>
+                                        <td class="statement-col-6">@Model.SummaryItems[i].TotalRevenue.ToString("c2")</td>
+                                        <td class="statement-col-7">@Model.SummaryItems[i].TaxCollected.ToString("c2")</td>
+                                        <td class="statement-col-8">@Model.SummaryItems[i].CleaningFees.ToString("c2")</td>
+                                        <td class="statement-col-9">@Model.SummaryItems[i].ManagementFees.ToString("c2")</td>
+                                        <td class="statement-col-10">@Model.SummaryItems[i].UnitExpenseItems.ToString("c2")</td>
+                                        <td class="statement-col-11">@Model.SummaryItems[i].AdvancePayments.ToString("c2")</td>
+                                        <td class="statement-col-13">@Model.SummaryItems[i].EndingBalance.ToString("c2")</td>
+                                    </tr>
+                                }
+                                <tr class="statement-summary-row">
+                                    <td class="statement-col-1 right spacing-top-10" colspan="4">@Model.ItemTotal.PropertyID</td>
+                                    <td class="statement-col-5 spacing-top-10">@Model.ItemTotal.BeginBalance.ToString("c2")</td>
+                                    <td class="statement-col-6 spacing-top-10">@Model.ItemTotal.TotalRevenue.ToString("c2")</td>
+                                    <td class="statement-col-7 spacing-top-10">@Model.ItemTotal.TaxCollected.ToString("c2")</td>
+                                    <td class="statement-col-8 spacing-top-10">@Model.ItemTotal.CleaningFees.ToString("c2")</td>
+                                    <td class="statement-col-9 spacing-top-10">@Model.ItemTotal.ManagementFees.ToString("c2")</td>
+                                    <td class="statement-col-10 spacing-top-10">@Model.ItemTotal.UnitExpenseItems.ToString("c2")</td>
+                                    <td class="statement-col-11 spacing-top-10">@Model.ItemTotal.AdvancePayments.ToString("c2")</td>
+                                    <td class="statement-col-13 spacing-top-10">@Model.ItemTotal.EndingBalance.ToString("c2")</td>
+                                </tr>
+                                <tr class="statement-total-row">
+                                    @if (@Model.TotalPayout >= 0)
+                                    {
+                                        <td class="statement-col-1 right spacing-top-10" colspan="11">TOTAL PAYOUT</td>
+                                    }
+                                    else
+                                    {
+                                        <td class="statement-col-1 right spacing-top-10" colspan="11">ENDING BALANCE</td>
+                                    }
+                                    <td class="statement-col-13 spacing-top-10 right">@Model.TotalPayout.ToString("c2")</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            }
+            else
+            {
+                <table class="statement-content" cellpadding="0" cellspacing="0">
+                    <!-- title row -->
+                    <tr>
+                        <td><div class="summary-title">Summary</div></td>
+                    </tr>
+                    <!-- statement body -->
+                    <tr>
+                        <td>
+                            <table cellpadding="0" cellspacing="0">
+                                    <!-- statement body header -->
+                                    <tr class="summary-header">
+                                        <td class="statement-col-1-1 first-data-row">Property ID</td>
+                                        <td class="statement-col-2-1">Address</td>
+                                        <td class="statement-col-3-1">Owner Entity</td>
+                                        <td class="statement-col-4-1">Payout Method</td>
+                                        <td class="statement-col-5-1">Beginning Balance</td>
+                                        <td class="statement-col-6-1">Total Revenue</td>
+                                        <td class="statement-col-7-1">Taxes Collected</td>
+                                        <td class="statement-col-8-1">Cleaning Fee</td>
+                                        <td class="statement-col-9-1">Management Fee</td>
+                                        <td class="statement-col-10-1">Owner &amp; Unit Expense Items</td>
+                                        <td class="statement-col-13-1">Balance</td>
+                                    </tr>
+                                    @for (int i = 0; i < Model.SummaryItems.Count; i++)
+                                    {
+                                        <tr class="statement-row">
+                                            <td class="statement-col-1-1"><a href="/OwnerStatement/StatementLink?month=@month&propertyCode=@Model.SummaryItems[i].PropertyID">@Model.SummaryItems[i].PropertyID</a></td>
+                                            <td class="statement-col-2-1">@Model.SummaryItems[i].Address</td>
+                                            <td class="statement-col-3-1">@Model.SummaryItems[i].EntityName</td>
+                                            <td class="statement-col-4-1">@Model.SummaryItems[i].PayoutMethod</td>
+                                            <td class="statement-col-5-1">@Model.SummaryItems[i].BeginBalance.ToString("c2")</td>
+                                            <td class="statement-col-6-1">@Model.SummaryItems[i].TotalRevenue.ToString("c2")</td>
+                                            <td class="statement-col-7-1">@Model.SummaryItems[i].TaxCollected.ToString("c2")</td>
+                                            <td class="statement-col-8-1">@Model.SummaryItems[i].CleaningFees.ToString("c2")</td>
+                                            <td class="statement-col-9-1">@Model.SummaryItems[i].ManagementFees.ToString("c2")</td>
+                                            <td class="statement-col-10-1">@Model.SummaryItems[i].UnitExpenseItems.ToString("c2")</td>
+                                            <td class="statement-col-13-1">@Model.SummaryItems[i].EndingBalance.ToString("c2")</td>
+                                        </tr>
+                                    }
+                                    <tr class="statement-summary-row">
+                                        <td class="statement-col-1-1 right spacing-top-10" colspan="4">@Model.ItemTotal.PropertyID</td>
+                                        <td class="statement-col-5-1 spacing-top-10">@Model.ItemTotal.BeginBalance.ToString("c2")</td>
+                                        <td class="statement-col-6-1 spacing-top-10">@Model.ItemTotal.TotalRevenue.ToString("c2")</td>
+                                        <td class="statement-col-7-1 spacing-top-10">@Model.ItemTotal.TaxCollected.ToString("c2")</td>
+                                        <td class="statement-col-8-1 spacing-top-10">@Model.ItemTotal.CleaningFees.ToString("c2")</td>
+                                        <td class="statement-col-9-1 spacing-top-10">@Model.ItemTotal.ManagementFees.ToString("c2")</td>
+                                        <td class="statement-col-10-1 spacing-top-10">@Model.ItemTotal.UnitExpenseItems.ToString("c2")</td>
+                                        <td class="statement-col-13-1 spacing-top-10">@Model.ItemTotal.EndingBalance.ToString("c2")</td>
+                                    </tr>
+                                    <tr class="statement-total-row">
+                                        @if (@Model.TotalPayout >= 0)
+                                        {
+                                            <td class="statement-col-1-1 right spacing-top-10" colspan="10">TOTAL PAYOUT</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="statement-col-1-1 right spacing-top-10" colspan="10">ENDING BALANCE</td>
+                                        }
+                                        <td class="statement-col-12-1 spacing-top-10    statement-col-right">@Model.TotalPayout.ToString("c2")</td>
+                                    </tr>
+                                </table>
+                        </td>
+                    </tr>
+                </table>
+            }
+        }
+        else
+        {
+            if (@hasAdvancePayment)
+            {
+                <table class="statement-content" cellpadding="0" cellspacing="0">
+                    <!-- title row -->
+                    <tr>
+                        <td><div class="summary-title">Summary</div></td>
+                    </tr>
+                    <!-- statement body -->
+                    <tr>
+                        <td>
+                            <table cellpadding="0" cellspacing="0">
+                                <!-- statement body header -->
+                                <tr class="summary-header">
+                                    <td class="statement-col-1 first-data-row">Property ID</td>
+                                    <td class="statement-col-2">Address</td>
+                                    <td class="statement-col-3">Beginning Balance</td>
+                                    <td class="statement-col-4">Total Revenue</td>
+                                    <td class="statement-col-5">Taxes Collected</td>
+                                    <td class="statement-col-6">Cleaning Fee</td>
+                                    <td class="statement-col-7">Management Fee</td>
+                                    <td class="statement-col-8">Owner &amp; Unit Expense Items</td>
+                                    <td class="statement-col-9"><span>Advance Owner Payments</span></td>
+                                    <td class="statement-col-11">Balance</td>
+                                </tr>
+                                @for (int i = 0; i < Model.SummaryItems.Count; i++)
+                                {
+                                    <tr class="statement-row">
+                                        <td class="statement-col-1"><a href="/OwnerStatement/StatementLink?month=@month&propertyCode=@Model.SummaryItems[i].PropertyID">@Model.SummaryItems[i].PropertyID</a></td>
+                                        <td class="statement-col-2">@Model.SummaryItems[i].Address</td>
+                                        <td class="statement-col-3">@Model.SummaryItems[i].BeginBalance.ToString("c2")</td>
+                                        <td class="statement-col-4">@Model.SummaryItems[i].TotalRevenue.ToString("c2")</td>
+                                        <td class="statement-col-5">@Model.SummaryItems[i].TaxCollected.ToString("c2")</td>
+                                        <td class="statement-col-6">@Model.SummaryItems[i].CleaningFees.ToString("c2")</td>
+                                        <td class="statement-col-7">@Model.SummaryItems[i].ManagementFees.ToString("c2")</td>
+                                        <td class="statement-col-8">@Model.SummaryItems[i].UnitExpenseItems.ToString("c2")</td>
+                                        <td class="statement-col-9">@Model.SummaryItems[i].AdvancePayments.ToString("c2")</td>
+                                        <td class="statement-col-11">@Model.SummaryItems[i].EndingBalance.ToString("c2")</td>
+                                    </tr>
+                                }
+                                <tr class="statement-summary-row">
+                                    <td class="statement-col-1 right spacing-top-10" colspan="2">@Model.ItemTotal.PropertyID</td>
+                                    <td class="statement-col-3 spacing-top-10">@Model.ItemTotal.BeginBalance.ToString("c2")</td>
+                                    <td class="statement-col-4 spacing-top-10">@Model.ItemTotal.TotalRevenue.ToString("c2")</td>
+                                    <td class="statement-col-5 spacing-top-10">@Model.ItemTotal.TaxCollected.ToString("c2")</td>
+                                    <td class="statement-col-6 spacing-top-10">@Model.ItemTotal.CleaningFees.ToString("c2")</td>
+                                    <td class="statement-col-7 spacing-top-10">@Model.ItemTotal.ManagementFees.ToString("c2")</td>
+                                    <td class="statement-col-8 spacing-top-10">@Model.ItemTotal.UnitExpenseItems.ToString("c2")</td>
+                                    <td class="statement-col-9 spacing-top-10">@Model.ItemTotal.AdvancePayments.ToString("c2")</td>
+                                    <td class="statement-col-11 spacing-top-10">@Model.ItemTotal.EndingBalance.ToString("c2")</td>
+                                </tr>
+                                <tr class="statement-total-row">
+                                    @if (@Model.TotalPayout >= 0)
+                                    {
+                                        <td class="statement-col-1 right spacing-top-10" colspan="9">TOTAL PAYOUT</td>
+                                    }
+                                    else
+                                    {
+                                        <td class="statement-col-1 right spacing-top-10" colspan="9">ENDING BALANCE</td>
+                                    }
+                                    <td class="statement-col-11 spacing-top-10 right">@Model.TotalPayout.ToString("c2")</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            }
+            else
+            {
+                <table class="statement-content" cellpadding="0" cellspacing="0">
+                    <!-- title row -->
+                    <tr>
+                        <td><div class="summary-title">Summary</div></td>
+                    </tr>
+                    <!-- statement body -->
+                    <tr>
+                        <td>
+                            <table cellpadding="0" cellspacing="0">
+                                    <!-- statement body header -->
+                                    <tr class="summary-header">
+                                        <td class="statement-col-1-1 first-data-row">Property ID</td>
+                                        <td class="statement-col-2-1">Address</td>
+                                        <td class="statement-col-3-1">Beginning Balance</td>
+                                        <td class="statement-col-4-1">Total Revenue</td>
+                                        <td class="statement-col-5-1">Taxes Collected</td>
+                                        <td class="statement-col-6-1">Cleaning Fee</td>
+                                        <td class="statement-col-7-1">Management Fee</td>
+                                        <td class="statement-col-8-1">Owner &amp; Unit Expense Items</td>
+                                        <td class="statement-col-11-1">Balance</td>
+                                    </tr>
+                                    @for (int i = 0; i < Model.SummaryItems.Count; i++)
+                                    {
+                                        <tr class="statement-row">
+                                            <td class="statement-col-1-1"><a href="/OwnerStatement/StatementLink?month=@month&propertyCode=@Model.SummaryItems[i].PropertyID">@Model.SummaryItems[i].PropertyID</a></td>
+                                            <td class="statement-col-2-1">@Model.SummaryItems[i].Address</td>
+                                            <td class="statement-col-3-1">@Model.SummaryItems[i].BeginBalance.ToString("c2")</td>
+                                            <td class="statement-col-4-1">@Model.SummaryItems[i].TotalRevenue.ToString("c2")</td>
+                                            <td class="statement-col-5-1">@Model.SummaryItems[i].TaxCollected.ToString("c2")</td>
+                                            <td class="statement-col-6-1">@Model.SummaryItems[i].CleaningFees.ToString("c2")</td>
+                                            <td class="statement-col-7-1">@Model.SummaryItems[i].ManagementFees.ToString("c2")</td>
+                                            <td class="statement-col-8-1">@Model.SummaryItems[i].UnitExpenseItems.ToString("c2")</td>
+                                            <td class="statement-col-11-1">@Model.SummaryItems[i].EndingBalance.ToString("c2")</td>
+                                        </tr>
+                                    }
+                                    <tr class="statement-summary-row">
+                                        <td class="statement-col-1-1 right spacing-top-10" colspan="2">@Model.ItemTotal.PropertyID</td>
+                                        <td class="statement-col-3-1 spacing-top-10">@Model.ItemTotal.BeginBalance.ToString("c2")</td>
+                                        <td class="statement-col-4-1 spacing-top-10">@Model.ItemTotal.TotalRevenue.ToString("c2")</td>
+                                        <td class="statement-col-5-1 spacing-top-10">@Model.ItemTotal.TaxCollected.ToString("c2")</td>
+                                        <td class="statement-col-6-1 spacing-top-10">@Model.ItemTotal.CleaningFees.ToString("c2")</td>
+                                        <td class="statement-col-7-1 spacing-top-10">@Model.ItemTotal.ManagementFees.ToString("c2")</td>
+                                        <td class="statement-col-8-1 spacing-top-10">@Model.ItemTotal.UnitExpenseItems.ToString("c2")</td>
+                                        <td class="statement-col-11-1 spacing-top-10">@Model.ItemTotal.EndingBalance.ToString("c2")</td>
+                                    </tr>
+                                    <tr class="statement-total-row">
+                                        @if (@Model.TotalPayout >= 0)
+                                        {
+                                            <td class="statement-col-1-1 right spacing-top-10" colspan="8">TOTAL PAYOUT</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="statement-col-1-1 right spacing-top-10" colspan="8">ENDING BALANCE</td>
+                                        }
+                                        <td class="statement-col-10-1 spacing-top-10 right">@Model.TotalPayout.ToString("c2")</td>
+                                    </tr>
+                                </table>
+                        </td>
+                    </tr>
+                </table>
+            }
+        }
+    </div>
+
+    @if (Model.IsPrint == false)
+    {
+        <div class="statement-notes-container">
+            <table class="statement-content" cellpadding="0" cellspacing="0">
+                <!-- title row -->
+                <tr>
+                    <td><div class="summary-title">Notes<span style="font-size:smaller; font-weight:normal; padding-left:10px;">(Use Finalize Summary button to save notes)</span></div></td>
+                </tr>
+                <!-- statement body -->
+                <tr>
+                    <td>
+                        <div class="statementSummary-note-body">
+                            @Html.TextAreaFor(m => m.SummaryNotes, new { @placeholder = "Insert summary notes here...", @class = "statementSummary-note-text form-control form-multiline-text" + @ViewBag.EditClass, @rows = 9 })
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    }
+
+    @Html.HiddenFor(model => model.IsFinalized)
+    @Html.HiddenFor(model => model.IsRebalanced)
+    @Html.HiddenFor(model => model.IsEditFreezed)
+
+
+</div >

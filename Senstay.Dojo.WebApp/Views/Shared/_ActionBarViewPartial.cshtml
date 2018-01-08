@@ -1,0 +1,197 @@
+﻿@model Senstay.Dojo.Models.View.ActionBarViewModel
+
+<div id="DojoActionBar" class="actionBar vertical-align small">
+    <!-- page title -->
+    <div id="actionBarTitle" class="actionBar-item actionBar-text">
+        <i class="fa fa-university"></i> <span style="font-size:larger;font-weight:bold">@ViewBag.Title <span id="gridDataCount"></span></span>
+    </div>
+    <div class="section-indicator"></div>
+
+    <!-- export to Excel -->
+    @if (ViewBag.PageHint == "report")
+    {
+        <div id="actionBarExport" class="actionBar-link actionBar-text">
+            <i class="fa fa-file-excel-o"></i> Excel Export
+        </div>
+        <div class="section-indicator"></div>
+        <div id="actionBarDownload" class="actionBar-link actionBar-text">
+            <i class="fa fa-download"></i> Download DB to csv
+        </div>
+        <div class="section-indicator"></div>
+    }
+    else if (ViewBag.PermissionClass == "app-grid-edit")
+    {
+        {
+            <div id="actionBarAddNew" class="actionBar-link actionBar-text">
+                <i class="fa fa-plus"></i> Add New
+            </div>
+            <div class="section-indicator"></div>
+        }
+    }
+
+    <!-- upload: not needed anymore -->
+    @*<div id="actionBarUpload" class="actionBar-item actionBar-text">
+        <i class="fa fa-upload"></i> Upload
+    </div>
+    <div class="section-indicator"></div>*@
+
+    <!-- market custom filters -->
+    @if (ViewBag.PageHint != "AirbnbAccount" && ViewBag.PageHint != "report")
+    {
+        <div class="actionbar-custom-button">
+            <div class="actionBar-market-text">Favorite Markets</div>
+            <div>
+                @for (int i = 0; i < Model.CustomFilter1.Count; i++)
+                {
+                    <button id="@Model.CustomFilter1[i].ID" class="btn-xs actionBar-custom-group" title="@Model.CustomFilter1[i].ID" data-field="@Model.CustomFilter1[i].Field">@Model.CustomFilter1[i].DisplayName</button>
+                }
+            </div>
+        </div>
+        <div class="section-indicator"></div>
+    }
+
+    <!-- custom action filters -->
+    @if (ViewBag.PageHint == "property")
+    {
+        <!-- stats custom filters -->
+
+        <!-- TODO: dynamic filter creation based on filter object; enable later -->
+        @*if (Model.CustomFilter2.Count > 0)
+        {
+            <div class="actionbar-custom-button">
+                <div class="actionBar-market-text">Property Status</div>
+                @if (Model.CustomFilter2[0].Type == Senstay.Dojo.Models.View.FilterType.Checkbox)
+                {
+                    <div>
+                        <span>
+                            @for (int i = 0; i < Model.CustomFilter2.Count; i++)
+                            {
+                                <span>
+                                    <input type="checkbox" id="@Model.CustomFilter2[i].ID" name="@Model.CustomFilter2[i].ID" class="btn-xs actionBar-status-group check-control" data-field="@Model.CustomFilter2[i].Field" /> @Model.CustomFilter2[i].DisplayName
+                                </span>
+                            }
+                        </span>
+                    </div>
+                }
+                @if (Model.CustomFilter2[0].Type == Senstay.Dojo.Models.View.FilterType.Button)
+                {
+                    <div>
+                        @for (int i = 0; i < Model.CustomFilter2.Count; i++)
+                        {
+                            <button id="@Model.CustomFilter2[i].ID" class="btn-xs actionBar-custom-group" title="@Model.CustomFilter2[i].ID" data-field="@Model.CustomFilter2[i].Field">@Model.CustomFilter2[i].DisplayName</button>
+                        }
+                    </div>
+                }
+            </div>
+        }*@
+
+        <div class="actionbar-custom-button">
+            <div class="actionBar-market-text">Property Status</div>
+            <div class="favorite-status">
+                <span>
+                    <span>@Html.CheckBox("CustomStatusActive", new { @class = "btn-xs actionBar-status-group check-control" }) Active</span>
+                    <span>@Html.CheckBox("CustomStatusContract", new { @class = "btn-xs actionBar-status-group check-control" }) Contracting</span>
+                    <span>@Html.CheckBox("CustomStatusOnboard", new { @class = "btn-xs actionBar-status-group check-control" }) Onboarding</span>
+                    <span>@Html.CheckBox("CustomStatusInactive", new { @class = "btn-xs actionBar-status-group check-control" }) Inactive</span>
+                    <span>@Html.CheckBox("CustomStatusDead", new { @class = "btn-xs actionBar-status-group check-control" }) Dead</span>
+                </span>
+            </div>
+        </div>
+        <div class="section-indicator"></div>
+
+        <!-- vertical custom filters -->
+        <div class="actionbar-custom-button">
+            <div class="actionBar-market-text">Product</div>
+            <div class="favorite-vertical">
+                <span>
+                    <span>@Html.CheckBox("CustomVerticalFS", new { @class = "btn-xs actionBar-vertical-group check-control" }) FS</span>
+                    <span>@Html.CheckBox("CustomVerticalRS", new { @class = "btn-xs actionBar-vertical-group check-control" }) RS</span>
+                    <span>@Html.CheckBox("CustomVerticalSenStay", new { @class = "btn-xs actionBar-vertical-group check-control" }) SenStay</span>
+                    <span>@Html.CheckBox("CustomVerticalHotels", new { @class = "btn-xs actionBar-vertical-group check-control" }) Hotels</span>
+                    <span>@Html.CheckBox("CustomVerticalJV", new { @class = "btn-xs actionBar-vertical-group check-control" }) JV</span>
+                </span>
+            </div>
+        </div>
+        <div class="section-indicator"></div>
+    }
+
+    @if (ViewBag.PageHint == "inquiry")
+    {
+        <!-- channel custom filters -->
+        <div class="actionbar-custom-button">
+            <div class="actionBar-market-text">Channels</div>
+            <div class="favorite-inquiry">
+                <span>
+                    <span>@Html.CheckBox("Channel-AirBnB", new { @class = "btn-xs actionBar-channel-group check-control" }) Airbnb</span>
+                    <span>@Html.CheckBox("Channel-HomeAway", new { @class = "btn-xs actionBar-channel-group check-control" }) HomeAway</span>
+                    @*<span>@Html.CheckBox("Channel-FlipKey", new { @class = "btn-xs actionBar-channel-group check-control" }) FlipKey</span>
+                    <span>@Html.CheckBox("Channel-Booking.com", new { @class = "btn-xs actionBar-channel-group check-control" }) Booking.com</span>
+                    <span>@Html.CheckBox("Channel-Direct", new { @class = "btn-xs actionBar-channel-group check-control" }) Direct</span>*@
+                </span>
+            </div>
+        </div>
+        <div class="section-indicator"></div>
+        <!-- inquiry custom filters -->
+        <div class="actionbar-custom-button">
+            <div class="actionBar-market-text">Approval Status</div>
+            <div class="favorite-inquiry">
+                <span>
+                    <span>@Html.CheckBox("PricingDecision1-YES", new { @class = "btn-xs actionBar-approval-group check-control" }) Approved</span>
+                    <span>@Html.CheckBox("PricingDecision1-NO", new { @class = "btn-xs actionBar-approval-group check-control" }) Disapproved</span>
+                    <span>@Html.CheckBox("PricingDecision1-HOLD", new { @class = "btn-xs actionBar-approval-group check-control" }) Hold</span>
+                    <span>@Html.CheckBox("PricingDecision1-COUNTEROFFER", new { @class = "btn-xs actionBar-approval-group check-control" }) Counter Offer</span>
+                </span>
+            </div>
+        </div>
+        <div class="section-indicator"></div>
+    }
+
+    <!-- Date range -->
+    <div id="actionBarDateRange">
+        <div id="app-date-begin" class="actionBar-item">
+            <div>
+                <div>From</div>
+                <input id="beginDatePicker" class="app-actionBar-date" name="Date Begin" required="required" />
+            </div>
+            <span data-for='Date Begin' class='k-invalid-msg'></span>
+        </div>
+        <div class="actionBar-item-alt">
+            —
+        </div>
+        <div id="app-date-end" class="actionBar-item">
+            <div>
+                <div>To</div>
+                <input id="endDatePicker" class="app-actionBar-date" name="Date End" required="required"
+                        data-greaterdate-field="Date Begin"
+                        data-greaterdate-msg='End Date should be after Begin Date' />
+            </div>
+            <span data-for='Date End' class='k-invalid-msg'></span>
+        </div>
+    </div>
+    <div class="actionBar-item-alt">
+        <button id="actionBarGo" class="btn btn-xs btn-primary"> GO </button>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        // default to 3 months
+        var beginDate = undefined;
+        var endDate = undefined;
+        if ($('.favorite-inquiry').length > 0) { // inquiry default t 7 days
+            beginDate = (7).days().ago();
+            endDate = Date.today();
+        }
+        else if ($('.favorite-vertical').length == 0) { // accounts
+            beginDate = new Date(2015, 9, 1); // the first date of data available; this will get the entire account
+            endDate = Date.today();
+        }
+        else { // property
+            beginDate = new Date(2015, 9, 1); // the first date of data available; this will get the entire property
+            endDate = Date.today();
+        }
+        DojoWeb.ActionBar.install(beginDate, endDate);
+    });
+</script>
+
+

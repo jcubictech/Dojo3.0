@@ -1,0 +1,81 @@
+﻿@using Senstay.Dojo.Data.Providers
+@using Senstay.Dojo.Models
+@using Heroic.Web.IoC
+
+@{
+    ViewBag.App = "SenStay Dojo App";
+    ViewBag.Title = "Revenue - Additional Revenue";
+    ViewBag.PageHint = "Revenue";
+
+    var dbContext = Context.GetContainer().GetInstance<DojoDbContext>();
+    var provider = new PropertyProvider(dbContext);
+    var defaultMonth = DateTime.Today.AddMonths(-1).ToString("MMMM yyyy");
+}
+
+<div class="revenue-page">
+    <div class="revenue-page-title revenue-h2">@ViewBag.Title <span id="dataCount"></span></div>
+    <div class="row">
+        <div class="revenue-filters">
+            <div class="float-left statement-filter-item300 statement-filter-margin">
+                <div class="control-group">
+                    <div class="input-group revenue-input-item">
+                        <div class="input-group-addon"><span class="fa fa-calendar"><span> Month</span></span></div>
+                        <input id="revenueMonth" value="@defaultMonth" title="Revenue Month" />
+                    </div>
+                </div>
+            </div>
+            <div class="float-left statement-filter-item700 statement-filter-margin">
+                <div class="control-group">
+                    <div class="input-group revenue-input-item">
+                        <div class="input-group-addon"><span class="fa fa-bank"><span> Property</span></span></div>
+                        <div id="propertyCodeList"><input id="revenuePropertyCode" style="width:560px;" /></div>
+                    </div>
+                </div>
+            </div>
+            @Html.Partial("_PropertyLegendPartial")
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+    <!-- action alert when there is internal error -->
+    <div id="revenue-alert"></div>
+
+    <div class="revenue-data-grid">
+        <div id="revenueGrid" class="revenue-grid @ViewBag.ReviewerClass @ViewBag.ApproverClass @ViewBag.FinalizerClass @ViewBag.AdminClass @ViewBag.EditClass"></div>
+    </div>
+
+    <!-- slding out alert messaging -->
+    <div id="actionAlert" class="alert-container"></div>
+</div >
+
+@Html.Partial("_DialogPartial")
+
+@Html.Partial("_ConfirmationDialog")
+
+@section CustomFormStyle
+{
+    <style type="text/css">
+        body {overflow:hidden;}
+        .revenue-data-grid {width:100%;}
+        #formDialog input.input-sm {margin-bottom: 0px !important;}
+        .dialog-page-content {padding:0px 0px 20px 20px;}
+    </style>
+}
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/appForm.css")" />
+    <link rel="Stylesheet" href="@Href("~/content/app/revenue.css")" />
+}
+
+@section scripts
+{
+@Scripts.Render("~/Scripts/app/revenueWorkflow.js")
+    @Scripts.Render("~/Scripts/app/otherRevenue.js")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            DojoWeb.OtherRevenue.init('revenueGrid');
+        });
+    </script>
+}

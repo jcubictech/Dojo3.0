@@ -1,0 +1,26 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+<div class="ss-simple-box ss-simple-box-error" style="min-height:270px;">
+    <div class="col-xs-12 route-error">
+        <div class="col-xs-1 bug-margin"><i class="fa fa-bug fa-5x"></i></div>
+        <div class="col-xs-11">
+            <h3>We have encountered an error while processing your request...</h3>
+            <h4>If the problem persists, please try the following remedies:</h4>
+            <ul style="margin-left:30px;list-style:disc outside none;">
+                <li><b>If you are uploading files, make sure that the size of all files does not exceed 10Mb.</b></li>
+                <li>Close your browser and restart SenStay Dojo Site</li>
+                <li>Send a email to notify SenStay Site administrator about your experience</li>
+                <li>Use the browser back button to go back to the previous page</li>
+            </ul>
+
+            <div class="back-to-home col-xs-12"><a href="/"><h4><i class="fa fa-university fa-2x"></i> SenStay Home</h4></a></div>
+        </div>
+    </div>
+</div>
+<div class="bug-margin clearfix"></div>
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/appform.css")" />
+}
+

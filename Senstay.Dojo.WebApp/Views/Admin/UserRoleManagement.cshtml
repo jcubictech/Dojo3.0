@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.AppName = "SenStay Dojo";
+    ViewBag.Title = "SenStay Dojo User Role Management";
+    ViewBag.PageHint = "Administration";
+}
+
+<div class="ss-page-content">
+    <div class="ss-page-title ss-h2">@ViewBag.Title</div>
+    <div class="ss-article-title-divider"></div>
+
+    <div id="ss-user-alert" class="alert-container"></div>
+
+    <div class="ss-grid-container">
+        @Html.AntiForgeryToken()
+        <div id="AppUserRoleGrid" class="ss-data-grid ss-grid-900"></div>
+    </div>
+</div>
+
+@section CustomFormStyle
+{
+    <style type="text/css">
+        body {overflow:hidden;}
+    </style>
+}
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/appform.css")" />
+}
+
+@section Scripts
+{
+    @Scripts.Render("~/Scripts/app/userManager.js")
+
+    <script>
+        $(function () { // will trigger when the document is ready
+            $(document).ready(function () {
+                DojoWeb.UserRoleManagerEditor.init('AppUserRoleGrid');
+            });
+        });
+    </script>
+}

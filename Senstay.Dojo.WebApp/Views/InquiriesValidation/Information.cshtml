@@ -1,0 +1,496 @@
+﻿@model Senstay.Dojo.Models.InquiriesValidation
+@using Senstay.Dojo.Data.Providers
+@using Senstay.Dojo.Helpers
+
+@*<script type="text/javascript">
+        $(function () {
+            if ("@Model.CPL.NeedsOwnerApproval" == "True") {
+                $('.hiddenForm').removeClass('hidden');
+            } else { };
+            $('.myTabs a').click(function (e) {
+                e.preventDefault()
+                $(this).tab('show')
+            });
+        });
+    </script>*@
+
+<ul class="nav nav-pills myTabs">
+    <li role="presentation" class="active"><a data-target="#home" data-toggle="tab">Main</a></li>
+    <li role="presentation"><a data-target="#panel" data-toggle="tab">CPL Information</a></li>
+    <li class="hiddenForm" role="presentation"><a data-target="#requiers" data-toggle="tab">Approvals</a></li>
+    <li role="presentation"><a data-target="#template" data-toggle="tab">Template</a></li>
+</ul>
+<br />
+
+<div class="form-horizontal">
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="home">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Check_inDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.Check_inDate, new
+                            {
+                               @id = "checkin",
+                               @class = "form-control",
+                               @readonly = "readonly",
+                               @Value = (Model.Check_inDate != null ? Model.Check_inDate.Value.ToString("d") : null)
+                            })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Check_InDay, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            <textbox id="checkinday" class="form-control" readonly="readonly">@Model.Check_InDay</textbox>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Check_outDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.Check_outDate, new
+                            {
+                               @id = "checkout",
+                               @class = "form-control",
+                               @readonly = "readonly",
+                               @Value = (Model.Check_outDate != null ? Model.Check_outDate.Value.ToString("d") : null)
+                            })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Check_OutDay, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            <textbox id="checkoutday" class="form-control" readonly="readonly">@Model.Check_OutDay</textbox>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.GuestName, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.GuestName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4">Property</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.PropertyCode, new { htmlAttributes = new { @class = "form-control ablList", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4">Account</label>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.CPL.Account, new { htmlAttributes = new { @class = "form-control ablList", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DaysOut, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.DaysOut, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CPL.AirBnb, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8 urla">
+                            <a href="@Model.CPL.AirBnb">@Model.CPL.AirBnb</a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CPL.HomeAway, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8 urla">
+                            <a href="@Model.CPL.HomeAway">@Model.CPL.HomeAway</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.LengthofStay, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.LengthofStay, new { htmlAttributes = new { @class = "form-control ablList", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Weekdayorphandays, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.Weekdayorphandays, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AirBnBListingTitle, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.AirBnBListingTitle, new { htmlAttributes = new { @class = "form-control ablList", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Channel, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.Channel, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                @*<div class="col-md-3 col-md-offset-1">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DoesitrequireInquiryTeamLeadapproval, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.DoesitrequireInquiryTeamLeadapproval, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.DoesitrequireInquiryTeamLeadapproval, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>*@
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.NightlyRate, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <div class="input-group-addon">$</div>
+                                @Html.EditorFor(model => model.NightlyRate, new { htmlAttributes = new { @id = "nightlyRate", @class = "form-control", @style = "width:261px", @readonly = "readonly" } })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CPL.CleaningFees, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <div class="input-group-addon">$</div> 
+                                @Html.EditorFor(model => model.CPL.CleaningFees, new { htmlAttributes = new { @id = "cleaningFee", @class = "form-control", @style = "width:261px", @readonly = "readonly" } })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.TotalPayout, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <div class="input-group-addon">$</div>
+                                @Html.EditorFor(model => model.TotalPayout, new { htmlAttributes = new { @id = "totalPayout", @class = "form-control", @style = "width:261px", @readonly = "readonly" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AdditionalInfo_StatusofInquiry, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextAreaFor(model => model.AdditionalInfo_StatusofInquiry, new { @class = "form-control", @readonly = "readonly", rows = "7" })
+                        </div>
+                    </div>
+                </div>
+                @*<div class="col-md-3 col-md-offset-1">
+                        <p class="control-label col-md-2 hidden hiddenForm" style="color: red">Need Owner Apppproval</p>
+                    </div>*@
+            </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="panel">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CPL.PropertyStatus, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @*@Html.DropDownListFor(model => model.CPL.PropertyStatus, ListProvider.PropertyList)*@
+                            @Html.EditorFor(model => model.CPL.PropertyStatus, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CPL.Vertical, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @*@Html.DropDownListFor(model => model.CPL.Vertical, ListProvider.VerticalList)*@
+                            @Html.EditorFor(model => model.CPL.Vertical, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CPL.Address, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.CPL.Address, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CPL.Market, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.CPL.Market, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CPL.State, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.CPL.State, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CPL.Zipcode, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.CPL.Zipcode, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CPL.CrossStreets, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.CPL.CrossStreets, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CPL.SellingPoints, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextAreaFor(model => model.CPL.SellingPoints, new { @class = "form-control", @readonly = "readonly", rows = "5" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CPL.WiFiNetwork, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.CPL.WiFiNetwork, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CPL.WiFiPassword, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.CPL.WiFiPassword, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CPL.BookingGuidelines, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextAreaFor(model => model.CPL.BookingGuidelines, new { @class = "form-control", @readonly = "readonly", id = "informtext", rows = "5" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CPL.Bedrooms, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.CPL.Bedrooms, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CPL.BedsDescription, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.CPL.BedsDescription, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CPL.Bathrooms, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.CPL.Bathrooms, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CPL.Floor, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.CPL.Floor, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CPL.StdOcc, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.CPL.StdOcc, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CPL.MaxOcc, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.CPL.MaxOcc, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CPL.Elevator, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @*@Html.DropDownListFor(model => model.CPL.Elevator, ListProvider.YesNoNotAvailableList)*@
+                            @Html.EditorFor(model => model.CPL.Elevator, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CPL.A_C, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.CPL.A_C, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CPL.Parking, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.CPL.Parking, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CPL.Amenities, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.CPL.Amenities, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CPL.BeltDesignation, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.CPL.BeltDesignation, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="requiers">
+            @if (Model.CPL.NeedsOwnerApproval.HasValue && Model.CPL.NeedsOwnerApproval.Value)
+            {
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CPL.NeedsOwnerApproval, htmlAttributes: new { @class = "alert alert-warning col-md-12" })
+                        @*<div class="col-md-8 urla">
+                                <p>@Model.CPL.NeedsOwnerApproval</p>
+                            </div>*@
+                    </div>
+                </div>
+            }
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ApprovedbyOwner, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-10">
+                                @*@Html.DropDownListFor(model => model.ApprovedbyOwner, ListProvider.ApprovedByOwnerList, new { @class = "form-control" })*@
+                                @Html.EditorFor(model => model.ApprovedbyOwner, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.PricingApprover1, htmlAttributes: new { @class = "control-label col-md-12" })
+                                    <div class="col-md-12">
+                                        @*@Html.DropDownListFor(model => model.PricingApprover1, ListProvider.AproverList, new { @class = "form-control" })*@
+                                        @Html.EditorFor(model => model.PricingApprover1, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                @if (Model.CPL.BeltDesignation == "Black belt")
+                                {
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.PricingApprover2, htmlAttributes: new { @class = "control-label col-md-12" })
+                                        <div class="col-md-12">
+                                            @*@Html.DropDownListFor(model => model.PricingApprover2, ListProvider.AproverList, new { @class = "form-control" })*@
+                                            @Html.EditorFor(model => model.PricingApprover2, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                       </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PricingDecision1, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-10">
+                                @*@Html.DropDownListFor(model => model.PricingDecision1, ListProvider.PricingDesicionList, new { @class = "form-control" })*@
+                                @Html.EditorFor(model => model.PricingDecision1, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                           </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PricingReason1, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-10">
+                                @Html.TextAreaFor(model => model.PricingReason1, new { @class = "form-control", @readonly = "readonly", rows = "6" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PricingApprover2, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.PricingApprover2, ListProvider.aproverlist, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.PricingApprover2, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PricingDecision2, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.PricingDecision2, ListProvider.ApprovedbyownerList, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.PricingDecision2, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PricingReason2, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-10">
+                                @Html.TextAreaFor(model => model.PricingReason2, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.PricingReason2, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>*@
+            </div>
+        </div>
+
+        <div id="template" class="tab-pane">
+            @{
+                decimal? nr = ConversionHelper.RoundToZn(Model.NightlyRate, 2);
+                decimal? gp = ConversionHelper.RoundToZn((Model.LengthofStay * Model.NightlyRate), 2);
+                decimal? grrmaf = ConversionHelper.RoundToZn((gp * (decimal)0.97), 2);
+                decimal? acfmaf = null;
+                if (Model.CPL.CleaningFees != null)
+                {
+                    acfmaf = ConversionHelper.RoundToZn((decimal?)((Model.CPL.CleaningFees.Value) * 0.97), 2);
+                }
+                decimal? comm = null;
+                if (Model.CPL.Ownership != null)
+                {
+                    comm = ConversionHelper.RoundToZn((grrmaf * (decimal)(1 - Model.CPL.Ownership)), 2);
+                }
+                decimal? dnto;
+                if (Model.CPL.Vertical == "PS")
+                {
+                    dnto = ConversionHelper.RoundToZn((grrmaf - comm) / Model.LengthofStay - acfmaf / Model.LengthofStay, 2);
+                }
+                else
+                {
+                    dnto = ConversionHelper.RoundToZn((grrmaf - comm) / Model.LengthofStay, 2);
+                }
+            }
+            <br />
+            <textarea class="form-control" rows="16" style="width: 500px">
+@Model.CPL.Address
+----------------------------
+Guest Name: @Model.GuestName
+Guest Description: @Model.BookingGuidelines
+Check-in Date: @(Model.Check_inDate != null ? Model.Check_inDate.Value.ToString("d") : "")
+Check-Out Date: @(Model.Check_outDate != null ? Model.Check_outDate.Value.ToString("d") : "")
+Length of Stay: @Model.LengthofStay
+Nightly Rate: @nr
+Gross Payout: @gp
+
+----------------------------
+
+GROSS ROOM RENT MINUS AIRBNB FEE: @grrmaf
+CLEANING FEE: @Model.CPL.CleaningFees
+ADJUSTED CLEANING FEE MINUS AIRBNB FEE: @acfmaf
+COMMISSION % : @(1 - Model.CPL.Ownership)
+COMMISSION: @comm
+DAILY NET TO OWNER: @dnto
+            </textarea>
+        </div>
+    </div>
+</div>

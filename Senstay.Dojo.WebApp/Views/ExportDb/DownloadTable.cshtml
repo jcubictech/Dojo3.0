@@ -1,0 +1,28 @@
+﻿@model Senstay.Dojo.Models.View.DownloadViewModel
+@{
+    ViewBag.Title = "Download Properties";
+    ViewBag.DownloadToken = "DownloadToken";
+}
+<br />
+
+@using (Html.BeginForm("DownloadTable", "ExportDb", FormMethod.Post, new { @id = "DownloadForm" }))
+{
+    @Html.HiddenFor(m => m.DownloadToken)
+}
+
+@section scripts
+    {
+    @Scripts.Render("~/Scripts/jquery.blockUI.js")
+
+    <script>
+        $(function () { // will trigger when the document is ready
+            $(document).ready(function () {
+                DojoWeb.Download.monitor(ViewBag.DownloadToken, DojoWeb.Busy.hide);
+            });
+        });
+    </script>
+}
+
+
+
+

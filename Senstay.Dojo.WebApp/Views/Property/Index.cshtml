@@ -1,0 +1,50 @@
+﻿@model Senstay.Dojo.Models.View.PropertyViewModel
+
+@{
+    ViewBag.AppName = "SenStay Dojo App";
+    ViewBag.Title = "Properties";
+    ViewBag.PageHint = "property";
+}
+
+<div class="navbar navbar-fixed-top actionBar-fixed-top">
+    @Html.Partial("_PropertyActionBarPartial")
+</div>
+
+<div id="dojo-alert" class="alert-container"></div>
+
+<div id="PropertyList" class="app-page-content">
+    <div id="propertyGrid" class="app-grid @ViewBag.PermissionClass"></div>
+</div>
+
+<div><span id="propertyNotification" style="display:none;"></span></div>
+
+@Html.Partial("_DialogPartial")
+
+@Html.Partial("_ConfirmationDialog")
+
+@section CustomFormStyle
+{
+    <style type="text/css">
+        .kendo-searchable-dorpdown {width:110%;}
+        #formDialog input.input-sm {
+            margin-bottom: 0px !important;
+        }
+    </style>
+}
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/appform.css")" />
+}
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/datejs.js")
+    @Scripts.Render("~/Scripts/app/property.js?r=" + ViewBag.Release)
+
+    <script>
+        $(document).ready(function () {
+            DojoWeb.Property.init('propertyGrid');
+        });
+    </script>
+}

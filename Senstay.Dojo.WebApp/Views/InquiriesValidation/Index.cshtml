@@ -1,0 +1,104 @@
+﻿@using GridMvc.Html;
+@using Senstay.Dojo.Data.Providers;
+@model IQueryable<Senstay.Dojo.Models.InquiriesValidation>
+
+@{
+    ViewBag.Title = "Inquiries Validation";
+    ViewBag.SubmenuHint = "inquiries";
+}
+
+<h3>Inquiries 
+@if (AuthorizationProvider.IsEditor())
+{
+    <a class="btn btn-primary" href="@Url.Action("ShortAdd", "InquiriesValidation")" role="button">+ Add new inquiry</a>
+}
+</h3>
+
+@if (Request.QueryString["grid-dir"] != null | Request.QueryString["grid-filter"] != null)
+{
+    <a id="resetButton" href="@Url.Action("Index", "InquiriesValidation")" class="btn btn-default btn-xs" role="button">Clear filters and sorting</a>
+}
+
+<div style="font-size : 12px; margin-left : 0;">
+
+    @Html.Grid(Model).Columns(columns =>
+{
+    columns.Add()
+          .Encoded(false)
+          .Sanitized(false)
+          .RenderValueAs(d =>
+        @<b>
+            <a class="showPopup" data-id="@d.Id" href="#">View</a><br />
+            @Html.ActionLink("Edit", "ShortEdit", new { id = d.Id })
+            @Html.ActionLink("Approvals", "OwnerApprovalInfo", new { id = d.Id })
+        </b>).SetWidth(200);
+    columns.Add(o => o.Id)
+   .Titled("Id").Sortable(true).Filterable(true);
+    columns.Add(o => o.InquiryCreatedTimestamp).Format("{0:MM/dd/yyyy hh:mm tt}")
+        .Titled("Created Timestamp").Sortable(true)
+        .Filterable(true);
+    columns.Add(o => o.GuestName)
+           .Titled("Guest Name").Sortable(true).Filterable(true);
+    columns.Add(o => o.InquiryTeam)
+             .Titled("Inquiry Team").Sortable(true).Filterable(true);
+    columns.Add(o => o.CPL.AirBnBHomeName)
+         .Titled("Airbnb Listing Title").Sortable(true).Filterable(true);
+    columns.Add(o => o.PropertyCode)
+         .Titled("Property Code").Sortable(true).Filterable(true).Sanitized(false).Encoded(false)
+           .RenderValueAs(d => Html.Raw("<a href=\""+Url.Action("Index", "CPL", new RouteValueDictionary() { { "grid-filter", "PropertyCode__1__"+d.PropertyCode } })+"\">"+d.PropertyCode+"</a>"));
+    columns.Add(o => o.Channel)
+         .Titled("Channel").Sortable(true).Filterable(true);
+    columns.Add(o => o.CPL.BookingGuidelines)
+         .Titled("Booking Guidelines").Sortable(true).Filterable(true).Css("grid-header-wide");
+    columns.Add(o => o.AdditionalInfo_StatusofInquiry)
+         .Titled("Summary").Sortable(true).Filterable(true);
+    columns.Add(o => o.Check_inDate)
+    .Format("{0:MM/dd/yyyy}")
+         .Titled("Check-in Date").Sortable(true).Filterable(true);
+    columns.Add(o => o.Check_outDate)
+    .Format("{0:MM/dd/yyyy}")
+         .Titled("Check-out Date").Sortable(true).Filterable(true);
+    columns.Add(o => o.ApprovedbyOwner)
+         .Titled("Approved by Owner?").Sortable(true).Filterable(true);
+    columns.Add(o => o.PricingApprover1)
+         .Titled("Pricing Approver").Sortable(true).Filterable(true);
+    columns.Add(o => o.PricingApprover2)
+         .Titled("Pricing Approver 2").Sortable(true).Filterable(true);
+    columns.Add(o => o.PricingDecision1)
+         .Titled("Pricing Decision").Sortable(true).Filterable(true);
+    columns.Add(o => o.PricingReason1)
+         .Titled("Pricing Reason").Sortable(true).Filterable(true);
+    columns.Add(o => o.CPL.BeltDesignation)
+        .Titled("Belt Designation").Sortable(true).Filterable(true);
+}).WithPaging(100).WithMultipleFilters()
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog model-wide" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">View Inquiry Information</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <!--button type="button" class="btn btn-primary">Save changes</button-->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/gridmvc.js");
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            DojoWeb.Plugin.initDialog('.showPopup', '/InquiriesValidation/Information');
+        });
+    </script>
+}
+

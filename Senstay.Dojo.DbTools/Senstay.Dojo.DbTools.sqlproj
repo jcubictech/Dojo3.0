@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>Senstay.Dojo.DbTools</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{77323fa9-b1a4-4440-9a43-da418eb631d2}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql110DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>DjoDbTools</RootNamespace>
+    <AssemblyName>DjoDbTools</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <TargetDatabase>DojoDbTools</TargetDatabase>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="RetrieveProeprties.sql" />
+    <Build Include="RetrieveInquiries.sql" />
+    <Build Include="RetrieveAirbnbAccounts.sql" />
+    <Build Include="WeeklyTotalPayouts.sql" />
+    <Build Include="WeeklyUnitInServices.sql" />
+    <Build Include="MarketPayoutOfMonth.sql" />
+    <Build Include="RetrieveSelectedProperties.sql" />
+    <Build Include="TrimDojoLog.sql" />
+    <Build Include="GetFavoritePage.sql" />
+    <Build Include="AddCalendarData.sql" />
+    <Build Include="AddOrUpdateInquiriesFromAuditLogs.sql" />
+    <Build Include="AddOrUpdatePropertiesFromAuditLogs.sql" />
+    <Build Include="MigratePropertiesFromAuditLogs.sql" />
+    <Build Include="MigrateInquiriesFromAuditLogs.sql" />
+    <Build Include="MigrateAccountsFromAuditLogs.sql" />
+    <Build Include="GetUserId.sql" />
+    <Build Include="InitOwnerPayout.sql" />
+    <Build Include="RetrieveOwnerPayouts.sql" />
+    <Build Include="RetrieveReservationRevenue.sql" />
+    <Build Include="RetrieveReservationRevenueById.sql" />
+    <Build Include="RetrieveResolutions.sql" />
+    <Build Include="RetrieveReservations.sql" />
+    <Build Include="RetrieveOwnerPayoutRevenue.sql" />
+    <Build Include="RetrieveOwnerPayoutRevenueById.sql" />
+    <Build Include="RetrieveOtherExpenses.sql" />
+    <Build Include="RetrieveExpensesRevenue.sql" />
+    <Build Include="RetrieveCombinedExpensesRevenue.sql" />
+    <Build Include="GetReservationStatement.sql" />
+    <Build Include="ConvertJobCostsToExpenses.sql" />
+    <Build Include="RetrieveResolutionRevenue.sql" />
+    <Build Include="GroupExpenses.sql" />
+    <Build Include="GetPropertiesForOwnerSummary.sql" />
+    <Build Include="GetUnitExpenses.sql" />
+    <Build Include="GetCleaningFee.sql" />
+    <Build Include="GetAdvancePaymentStatement.sql" />
+    <Build Include="GetResolutionTotal.sql" />
+    <Build Include="MigrateOwnershipFromProperty.sql" />
+    <Build Include="GetResolutionStatement.sql" />
+    <Build Include="RetrieveOtherRevenueFromTable.sql" />
+    <Build Include="GetOwnerPayoutDiscrepancy.sql" />
+    <Build Include="UpdateOwnerPayoutMatchStatus.sql" />
+    <Build Include="RetrieveCombinedExpenses.sql" />
+    <Build Include="FinalizePropertyStatement.sql" />
+    <Build Include="GenerateInsertStatementsForOwnerPayoutBalance.sql" />
+    <Build Include="RetrieveResolutionRevenueById.sql" />
+    <Build Include="GetOwnerPayoutAccounts.sql" />
+    <Build Include="GetConfirmationCodeForAccount.sql" />
+    <Build Include="GetPropertyCodeWithAddress.sql" />
+    <Build Include="GetOwnerSummaryPayoutMethodList.sql" />
+    <Build Include="GetOwnerStatementPropertyList.sql" />
+    <Build Include="GeneratePropertyTitleChangesFromAuditLogs.sql" />
+    <Build Include="GeneratePropertyChangesFromAuditLogs.sql" />
+    <Build Include="UpdateAllReservationWorkflowStates.sql" />
+    <Build Include="UpdateAllResolutionWorkflowStates.sql" />
+    <Build Include="UpdateAllExpenseWorkflowStates.sql" />
+    <Build Include="RetrievePayoutMethodPayments.sql" />
+    <Build Include="GetPayoutBalancesForMonth.sql" />
+    <Build Include="GetOwnerSummaryForPayoutMethod.sql" />
+    <Build Include="GetBalancesForPayoutMethod.sql" />
+    <Build Include="SplitReservation.sql" />
+    <Build Include="GenerateSqlForOffAirbnbTotalRevenue.sql" />
+    <Build Include="RetrievePropertyEntities.sql" />
+    <Build Include="RetrievePropertyAccounts.sql" />
+    <Build Include="RetrieveExpenseRevenueById.sql" />
+    <Build Include="RetrievePayoutMethods.sql" />
+    <Build Include="RetrieveStatementReport.sql" />
+    <Build Include="GetDuplicateReservations.sql" />
+    <Build Include="GetCarryOverForProperties.sql" />
+    <Build Include="CreateExpensesFromJobCosts.sql" />
+    <Build Include="GetImportStatistics.sql" />
+    <Build Include="GetPropertyCodeInfo.sql" />
+    <Build Include="GetOrphanResolutions.sql" />
+    <Build Include="GetUnitExpensesOld.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DojoDbTools.publish.xml" />
+    <None Include="DojoDbTools-Jeff.publish.xml" />
+    <None Include="DojoDbTools-dev.publish.xml" />
+    <None Include="LookupList.sql" />
+    <None Include="RenameLookupFields.sql" />
+    <None Include="DojoDbTools-local.publish.xml" />
+  </ItemGroup>
+</Project>

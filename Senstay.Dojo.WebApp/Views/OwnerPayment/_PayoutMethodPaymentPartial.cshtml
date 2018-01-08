@@ -1,0 +1,82 @@
+﻿@model Senstay.Dojo.Models.View.PayoutMethodPaymentEditModel
+
+<div class="dialog-page-content">
+    @using (Ajax.BeginForm("PaymentEditor", "OwnerPayment", new AjaxOptions
+        {
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "edit-ajax-target",
+            LoadingElementId = "edit-ajax-wait",
+            OnSuccess = "DojoWeb.PaymentEditor.refresh",
+            OnFailure = "DojoWeb.PaymentEditor.serverError"
+        },
+        new { @id = "PayoutMethodPaymentForm", @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <div class="payout-payment-view">
+            <div>
+                <div class="payment-actionbar float-left">(<span class="payment-edit-text-color">colored</span> cells are editable)</div>
+                <div class="payment-actionbar float-right"><a id="suggestedPayments">&nbsp;&nbsp;Apply Suggested Payments&nbsp;&nbsp;</a></div>
+            </div>
+            <div class="clearfix"></div>
+            <table class="payout-payment-table" cellpadding="0" cellspacing="0">
+                <tr class="payment-header">
+                    <td class="payout-payment-col-1">Payout Method</td>
+                    <td class="payout-payment-col-2">Begin Balance</td>
+                    <td class="payout-payment-col-2">Total Balance</td>
+                    <td class="payout-payment-col-3">Payment</td>
+                    <td class="payout-payment-col-2">Carry Over</td>
+                    <td class="hide"></td>
+                    <td class="hide"></td>
+                    <td class="hide"></td>
+                    <td class="hide"></td>
+                </tr>
+                @for (int i = 0; i < Model.Payments.Count; i++)
+                {
+                    <tr class="payment-row">
+                        <td class="payout-payment-col-1"><span class="methodName">@Model.Payments[i].PayoutMethodName</span></td>
+                        <td class="payout-payment-col-2">
+                            <span class="payment-begin-balance">
+                                @if (Model.Payments[i].BeginBalance != null)
+                                {
+                                    @Model.Payments[i].BeginBalance.Value.ToString("c2") 
+                                }
+                            </span>
+                        </td>
+                        <td class="payout-payment-col-2">
+                            <span class="payment-total-balance">
+                                @if (Model.Payments[i].TotalBalance != null)
+                                { 
+                                    @Model.Payments[i].TotalBalance.Value.ToString("c2") 
+                                }
+                            </span>
+                        </td>
+                        <td class="payout-payment-col-3 payment-edit-color"><input type="text" id=@($"payment-item-{i}") name=@($"payment-item-{i}") class="payment-item payment-edit-color" value="@Model.Payments[i].PaymentAmount" /></td>
+                        <td class="payout-payment-col-2">
+                            @if (Model.Payments[i].CarryOver != null) { @Model.Payments[i].CarryOver.Value.ToString("c2") }
+                        </td>
+                        <td class="hide"><div class="methodId">@Model.Payments[i].PayoutMethodId</div></td>
+                        <td class="hide"><div class="paymentId">@Model.Payments[i].PayoutPaymentId</div></td>
+                        <td class="hide"><div class="paymentMonth">@Model.Payments[i].PaymentMonth</div></td>
+                        <td class="hide"><div class="paymentYear">@Model.Payments[i].PaymentYear</div></td>
+                    </tr>
+                }
+            </table>
+            
+        </div>
+
+        <!-- Action buttons -->
+        if (string.IsNullOrEmpty(ViewBag.EditClass))
+        {
+            <div class="form-action-button">
+                <input id="PaymentSave" type="button" value="Save Payments" class="btn btn-success btn-default btn-spacing" />
+                <input id="PaymentCancel" type="button" value="Cancel" class="btn btn-warning" />
+            </div>
+        }
+    }
+</div>
+
+
+

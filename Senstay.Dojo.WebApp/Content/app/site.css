@@ -1,0 +1,293 @@
+﻿/* This would ensure scrollbar appear outside of main body in IE */
+@-ms-viewport { width: auto; }
+
+html,body {height:100%;margin:0;}
+body {margin-top:110px;}
+body, p, span, a, div, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+.container {min-width:1500px;height:100%;padding:0;margin:0;max-width:none !important;}
+hr{margin-top:5px;margin-bottom:5px;}
+.float-left{float:left;}
+.float-right{float:right;}
+.no-padding{padding:0;}
+.no-margin{margin:0;}
+.white-font{color:white;}
+.center {text-align:center;}
+
+/* bootstrap navbar overwrite */
+.navbar {background-color:#040722;margin-bottom:0px;border-bottom:2px solid #00ABEC;}
+.navbar-header{padding-top:24px;padding-bottom:0;float:left;width:80%;}
+.navbar-header .row{margin-left:0;margin-right:0;}
+.navbar-brand {color:white;padding:0px;height:auto;font-size:32px;line-height:32px;font-weight:lighter;margin-bottom:15px;margin-left:25px;}
+.navbar-nav{margin:-8px 0 0 0;padding-left:8px;}
+.navbar a, .navbar a:hover, .navbar a:visited{color:white;text-decoration: none;outline: none;}
+.nav{font-size: 17px;font-weight:lighter;margin-left:0;display:flex;}
+.nav > li > div{text-align: center;display:flex;flex-direction:column;}
+.nav > li > div {margin:0 18px;padding:8px 0 10px 0;}
+.navbar-nav > li > div > i {color:#00ABEC;}
+.navbar-active{font-size:1.1em;margin-bottom:-14px;line-height:15px;}
+.nav > li:hover,.nav > li:focus{background:#005b80;}
+.nav > li > div > a:hover,.nav > li > span > a:hover,.nav > li > div > a:focus,.nav > li > span > a:focus {text-decoration: none;color:#a3d7f6;}
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus{background:none;}
+.nav .caret {color:white;border-top-color:white;border-bottom-color:white;}
+.navbar-nav .dropdown-menu{border-radius:0;margin:0}
+.navbar-nav .dropdown .dropdown-menu li > a{font-size:14px;padding:5px 17px;}
+.navbar-nav .dropdown .dropdown-menu li > a:hover,.navbar-nav .dropdown .dropdown-menu li > a:focus{background:#eee;}
+.nav .section-indicator{width:10px;padding-top:0px;margin-right:15px;margin-left:15px;font-size:inherit;}
+.navbar-nav{float:left;}
+.dropdown-menu li {text-align:left;}
+.dropdown .dropdown-menu li > a:hover, .dropdown .dropdown-menu label:hover, .filterListItem {background-color:#eee;cursor:pointer;}
+.dropdown .dropdown-menu li > a, .dropdown .dropdown-menu label, .dropdown-menu ul {
+    display: block;
+    color: #555;
+    text-decoration: none;
+    line-height: 18px;
+    font-size:12px;
+    list-style:none;
+}
+.maintenance-text {olor:yellow;font-size:28px;line-height:32px;}
+.dojosite-text {color:yellow;font-size:28px;line-height:32px;}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {padding-left:15px;padding-right:15px;}
+
+/* Override the default bootstrap behavior where horizontal description lists  will truncate texts that are too long to fit in the left column */
+.dl-horizontal dt {white-space:normal;}
+
+/* Set default width on the form input elements since they're 100% wide by default */
+/*input, select, textarea {max-width:500px;}*/
+input.btn {width:auto;}
+select {height:30px;}
+
+/*#informtext {max-width:310px;}*/
+
+.model-wide {width:80%; /* either % (e.g. 60%) or px (400px) */}
+
+.form-group .urla {margin-top:7px;}
+.tab-content .control-label {text-align:left;}
+.grid-header-wide {min-width:300px;}
+
+/* to to top styling */
+#top-link-block.affix-top {
+    position: absolute; /* allows it to "slide" up into view */
+    bottom: -82px; /* negative of the offset - height of link element */
+    right: 10px; /* padding from the left side of the window */
+}
+#top-link-block.affix {
+    position: fixed; /* keeps it on the bottom once in view */
+    bottom: 18px; /* height of link element */
+    left: 10px; /* padding from the left side of the window */
+}
+
+/* shared generic styles */
+.vertical-align {display:flex; flex-direction:row; align-items:center;}
+.vertical-align > [class^="col-"],.vertical-align > [class*=" col-"] {display:flex;align-items:center;}
+
+/* footer */
+.app-footer {padding:20px;}
+.footer-panel, .stickyFooter {height:30px;}
+#footer-copyright {padding-top:10px;}
+.footer {margin-top:10px;}
+.footer span {color:black;}
+
+/* error */
+.bug-margin {margin-top:25px;}
+
+/* alert */
+.alert-container {margin-top:10px;}
+
+/* Wait Spinner Styles */
+#waitAnimation {
+    display: none;
+    font-size: 100px;
+    z-index: 10000;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -50px;
+    width: 100px;
+    height: 100px;
+}
+
+/* colors */
+.green {font-weight:bold;color:#2AB05B;}
+.yellow {font-weight:bold;color:#EADE16;}
+.red {font-weight:bold;color:#FD595B;}
+.cyan {font-weight:bold;color:#00abec;}
+.blue {font-weight:bold;color:#1244ac;}
+.gray {font-weight:bold;color:#393939;}
+.lighterGray {font-weight:bold;color:#888;}
+.faintGray {color:#ccc;}
+.black {color:black;}
+.orange {color:#ff6600;}
+.white {color:#fff;}
+
+/* app page container */
+.app-page-container {position:absolute;top:166px;min-width:1200px;width:100%;}
+
+/* grid page style */
+.app-page-content {padding-bottom:20px;width:100%;}
+.app-h4, .app-h4 span {font-family:'Segoe UI Light', Tahoma, Geneva, Verdana, sans-serif;line-height:55px;padding-right:60px;font-size:30px;font-weight:normal;}
+.app-cell-spacing {padding-left:.6em; padding-right:.6em;}
+/* grid filter display style overwrite */
+.k-grid .k-grid-header .k-header {white-space:normal;min-width:80px;}
+.k-grid .k-grid-header .k-header .k-link {height:auto;}
+.app-grid.k-grid td:first-child {padding:0;}
+#AirbnbAccountGrid.app-grid.k-grid td:nth-child(2),#AirbnbAccountGrid.app-grid.k-grid td:nth-child(3) {padding:0;}
+#inquiryGrid.app-grid.k-grid td:nth-child(2),#inquiryGrid.app-grid.k-grid td:nth-child(3),#inquiryGrid.app-grid.k-grid td:nth-child(4) {padding:0;}
+.k-multicheck-wrap .k-label{font-weight:normal;}
+.k-multicheck-wrap .k-label input[type="radio"], .k-multicheck-wrap .k-label input[type="checkbox"]{margin:4px 3px 0 0px;}
+.k-multicheck-wrap {overflow-x:visible;}
+.app-page-content .k-button {padding:0;border:0;padding-left:10px;}
+.app-page-content .k-widget {border:0;border-left:1px solid #ccc;background-color:#fff;}
+.app-page-content .k-grid-toolbar {background-color:#fff;}
+
+/* form page style */
+.app-form-content {padding:20px;width:100%;}
+.form-page-width {width:100%;}
+.form-page-half-width {max-width:50%;}
+.form-page-bk-gray {background-color:#f8f8f8;}
+.form-page-title {padding-top:20px;padding-bottom:10px;padding-left:10px;}
+.form-page-title-divider {background-color:gray;height:2px;width:100%;margin-bottom:20px;}
+.form-font {font-family: arial,helvetica,'Tw Cen MT';font-size:12px;}
+.form-h1 {font-size:30px;}
+.form-h2 {font-size:24px;}
+.form-h3 {font-size:20px;}
+.form-h4, .form-h4 a {font-size:16px;}
+.form-h5, .form-large {font-size:14px;}
+.form-h6, .form-normal {font-size:12px;}
+.form-h7, .form-small {font-size:10px;}
+.form-text {width:300px;padding-right:20px;color:black;}
+.form-text a {color:black;text-decoration:underline;font-weight:bold;}
+.form-text span {color:black !important;}
+
+/* action bar style */
+.actionBar-fixed-top {top:110px;}
+.actionBar {color:#fff;height:60px;background-color: #004F6E;}
+.actionBar i, .actionBar span{font-size:100%;}
+.actionBar .actionBar-text{font-size:16px;font-weight:lighter;}
+.actionBar .section-indicator{width:1px;padding-top:30px;margin:0 12px;height:80%;}
+.actionBar input{color:#000;}
+.actionBar .dropdown .dropdown-menu{padding-bottom:10px;border-radius:0;}
+.actionBar .dropdown .dropdown-menu-form{padding:3px 5px;border:none;box-shadow:none;}
+.actionBar .dropdown .dropdown-menu li span{font-size:12px;font-weight:normal;line-height:17px;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+.actionBar .btn:hover, .actionBar .btn:focus {color:#a3d7f6;}
+.actionBar-item-alt {margin-top:15px;}
+.actionBar-item-alt .btn:hover, .actionBar-item-alt .btn:focus{color:#fff;}
+.actionBar-item, .actionBar-link {padding:0 5px;}
+.actionBar-link {cursor:pointer;}
+.actionBar-inquiry-search {position:absolute;width:260px;height:32px;left:540px;top:70px;}
+.actionBar-login {width:20%;float:right;text-align:right;color:white;padding-top:24px;padding-right:30px;font-size:14px;font-weight:600;}
+.actionBar-favorite i {color:white;}
+.actionBar-favorite1 {color:red;position:absolute;top:80px;right:180px;}
+.actionBar-login a:hover{color:#a3d7f6;}
+.section-indicator {width:25px;vertical-align:top;padding-top:11px;font-size:30px;color:#00abec;border-right:1px solid #eee;font-family:'Segoe UI Light', Tahoma, Geneva, Verdana, sans-serif;}
+
+/* custom filters in acton bar */
+.actionbar-custom-button {text-align:center;}
+.actionBar-market-text {margin-left:-30px;}
+.custom-filter {background-color:darkGray;border:1px solid darkGray;color:white;margin-right:3px;}
+.actionBar-custom-group:hover {background-color:gray;color:white !important;}
+.actionBar-custom-group:visited {background-color:#0073a1;border:1px solid #a3d7f6;color:white !important;}
+.actionBar-custom-group.custom-filter-selected {background-color:#0073a1;border:1px solid #a3d7f6;color:white !important;}
+.actionBar-reset-filter {background-color:#eee;border:1px solid #eee;color:black;margin-left:6px;}
+.actionBar-reset-filter:hover {background-color:#ccc;border:1px solid #ccc !important;}
+.btn-xs {border-radius:5px;}
+.actionbar-custom-button span span {padding-right:10px;}
+#actionBarGo {width:50px;margin:4px 20px 0 10px;padding:5px 10px 5px 10px;}
+
+/* date range in acton bar */
+#actionBarDateRange {display:flex;flex-direction:row;align-items:center;}
+#actionBarDateRange .k-datepicker {width:120px;}
+#actionBarDateRange .k-datepicker .k-picker-wrap .k-select {padding-right:3px;}
+
+.app-action-panel {padding:30px 0 30px 0;}
+
+/* dialog style */
+#confirmation-dialog {overflow:hidden;padding-bottom:20px;overflow-x:hidden;}
+.app-dialog {background-color:white;border:1px solid black;padding:10px;}
+.dialog-text {padding-top:20px;padding-bottom:20px;}
+.dialog-page-content {padding:30px;overflow:hidden;}
+.dialog-page-content label {font-weight:normal;font-size:16px;padding-bottom:5px;}
+.dialog-page-content .form-control {height:24px;font-size:16px;padding:3px 5px;}
+.dialog-page-content .input-group .form-control {height:32px;font-size:16px;padding:5px 5px;}
+.dialog-page-content textarea.form-control {height:auto;}
+.form-action-button {padding-top:20px;}
+.form-multiline-text {height:auto;}
+.k-window-titlebar {margin-top:-24px;font-size:24px;font-weight:normal;}
+.form-input-item {padding-bottom:15px;}
+.app-simple-datepicker {border:0;background-color:#fff;}
+#formDialog span.app-simple-datepicker {width:104%;line-height:28px;}
+#formDialog input.input-sm {margin-bottom:10px;}
+.kendo-searchable-dorpdown {width:103%;line-height:28px;padding:0;margin:0;}
+.decorated-field {width:103%;line-height:28px;}
+/*#ss-bs-alert {margin-top:100px;}*/
+.dialog-3-cells {width:33%;}
+.dialog-left-cell {padding-right:30px;}
+.dialog-right-cell {padding-left:30px;}
+.dialog-link {height:60px;font-size:larger;}
+.inquiry-info-content {min-height:560px;padding-top:10px;}
+.app-dialog-tab {margin-bottom:20px;border-bottom:1px solid darkgray;}
+div.inquiry-info-tab {padding-left:18px !important;padding-right:18px !important;margin:0 0 !important;}
+.tab-item {padding-left:0 !important;padding-right:0 !important;}
+div.inquiry-info-tab:hover {color:white;}
+div.inquiry-info-tab:focus, .active-tab {color:white;background-color:#428bca;}
+
+.actionBar-inquiry-search span {cursor:pointer;}
+#actionBarExport:hover {cursor:pointer;}
+
+.dashboard-container {padding:15px 0 20px 0;}
+.dashboard-title {font-size:24px;line-height:180px;font-weight:normal;}
+.dashboard-title .smaller-font {font-size:14px;}
+.dashboard-legend {margin-top:15px;border:1px solid lightgray;padding:10px;font-size:12px;}
+.legend-right {float:right;font-size:12px;margin-right:50px;border:1px solid lightgray;padding:0px 0px 2px 10px;}
+.legend-right span.legend-text {padding-left:5px;padding-right:10px;}
+.payout-color {color:#7cc27e;}
+.unit-color {color:#E97751;}
+.na-color {color:#aaa;}
+
+/* make kendo grid header fixed on top of the screen and grid content to scroll under it */
+.app-grid, .app-grid .k-grid-header {width:100%;border-width:0;}
+.app-grid .k-grid-header {position:fixed;top:173px;z-index:2;}
+.app-grid > .k-grid-content {overflow:visible !important;}
+/*.app-grid .k-grid-header th {background-color:gray; color:white;}
+.k-icon.k-filter {background-color:white;color:white;}*/
+#propertyGrid {top:48px;}
+#inquiryGrid {top:44px;}
+#AirbnbAccountGrid {top:33px;}
+#AirbnbAccountReportGrid, #PropertyReportGrid, #InquiryReportGrid {top:50px;}
+#ReservationReportGrid, #ResolutionReportGrid, #OwnerPayoutReportGrid {top:30px;}
+/*#dojoReportDashboard {position:fixed;top:173px;z-index:2;width:100%;background-color:white;}
+#InquiryReport {position:relative;top:220px;overflow:visible !important;}
+#InquiryReport, .app-grid .k-grid-header {width:100%;border-width:0;}
+#InquiryReport .k-grid-header {position:fixed;top:390px;z-index:2;}
+#InquiryReport > .k-grid-content {overflow:visible !important;}
+#InquiryReportGrid {top:30px;}*/
+
+.k-grid .k-state-selected {background-color:#fcf0e2 !important;color:#000000;}
+.k-grid .k-alt.k-state-selected {background-color:#fdf1e3 !important;color:#000000;}
+html .k-grid tr:hover {background:transparent;}
+
+.date-direction {color:white;font-weight:bold;font-size:24px;cursor:pointer;}
+.date-direction i.fa-chevron-right {margin:25px 10px 0 10px;}
+.date-direction i.fa-chevron-left {margin:25px 10px 0 0;}
+
+#newFeature-dialog {overflow-x:hidden;}
+#newFeature-dialog_wnd_title {font-weight:bold;}
+#newFeature-dialog {font-size:14px;}
+#newFeature-dialog .dialog-instruction {margin:0;padding:20px 0px 20px 0px;}
+#newFeature-dialog .dialog-instruction div {padding-bottom:10px;}
+#newFeature-dialog .dialog-instruction ul li {padding-bottom:5px;}
+div.recent-features ul {padding-left:0px}
+div.recent-features ul li {display:inline;padding:20px 0px 20px 10px;}
+li.selected-feature {font-weight:bold;}
+.new-feature-btn {text-align:center;background-color:#e5e5e5;color:#888;font-weight:bold;font-size:18px;line-height:36px;height:36px;width:95%;cursor:pointer;}
+
+.showPropertyInfo, .showPropertyDetails {cursor:pointer;color:navy;}
+.showPropertyInfo:hover, .showPropertyDetails:hover {text-decoration:underline;}
+.featureIcon {font-size:12px;color:yellow;vertical-align:super;}
+
+.k-notification-wrap {font-size:20px;color:white;background-color:orangeRed;opacity:0.3;}
+.k-notification-wrap .k-icon {display:none;}
+
+.dojo-test-button {width:100%;}

@@ -1,0 +1,60 @@
+﻿@model Senstay.Dojo.Models.PayoutHistory
+@{
+    ViewBag.PageHint = "Revenue";
+}
+
+<div class="dialog-page-content">
+    @using (Ajax.BeginForm("AddPayoutHistory", "OwnerStatement", new AjaxOptions
+        {
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "edit-ajax-target",
+            LoadingElementId = "edit-ajax-wait",
+            OnSuccess = "DojoWeb.PayoutForm.refresh",
+            OnFailure = "DojoWeb.PayoutForm.serverError"
+        },
+        new { @id = "PayoutEntryForm", @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <div  class="revenue-form-width">
+            <!-- payout amount -->
+            <div class="form-input-item revenue-form-single-field">
+                <div class="control-group">
+                    <div>@Html.LabelFor(m => m.Amount, new { @class = "control-label" }) * (will override existing amount)</div>
+                    <div>
+                        <div class="input-group decorated-field">
+                            <div class="input-group-addon">$</div>
+                            @Html.TextBoxFor(m => m.Amount, new { @class = "form-control" + @ViewBag.EditClass })
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Amount, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="control-group spacing-top-30">
+                        <div class="revenue-input-item">
+                            @Html.CheckBoxFor(m => m.IsFinalized, new { @class = "check-control" })
+                            <span class="control-label">Is Payout Final?</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action buttons -->
+        if (string.IsNullOrEmpty(ViewBag.EditClass))
+        {
+            <div class="form-action-button">
+                <input id="PayoutSave" type="button" value="Save Payout Amount" class="btn btn-success btn-default btn-spacing" />
+                <input id="PayoutCancel" type="button" value="Cancel" class="btn btn-warning" />
+            </div>
+        }
+
+        @Html.HiddenFor(m => m.Month)
+        @Html.HiddenFor(m => m.Year)
+        @Html.HiddenFor(m => m.PayoutMethod)
+        @Html.HiddenFor(m => m.EndingBalance)
+    }
+</div>
+
+
+

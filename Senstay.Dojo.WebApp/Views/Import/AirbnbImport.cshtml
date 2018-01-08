@@ -1,0 +1,138 @@
+﻿@model Senstay.Dojo.Models.View.AirbnbImportFormModel
+@{
+    ViewBag.AppName = "SenStay Dojo";
+    ViewBag.Title = "Import Airbnb Transactions";
+    ViewBag.PageHint = "Import";
+    var defaultDate = DateTime.Today.ToString("MM/dd/yyyy");
+}
+
+<div class="ss-page-content">
+    <div class="ss-page-title ss-h2">Import Airbnb Transactions</div>
+    <div class="ss-article-title-divider"></div>
+
+    <div class="ss-simple-box owner-payout-height">
+        @using (Ajax.BeginForm("AirbnbImport", "Import", new AjaxOptions
+        {
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "edit-ajax-target",
+            LoadingElementId = "edit-ajax-wait",
+            OnSuccess = "DojoWeb.AirbnbImportForm.refreshForm",
+            OnFailure = "DojoWeb.AirbnbImportForm.serverError"
+        },
+            new { @id = "OwnerPayoutForm", @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="transaction-import">
+                <div class="float-left statement-filter-item400">
+                    <div class="control-group">
+                        <div class="input-group revenue-input-item">
+                            <div class="input-group-addon"><span class="fa fa-calendar"><span> Report Date </span> </span></div>
+                            <input id="ReportDate" value="@defaultDate" title="Report Date" />
+                        </div>
+                    </div>
+                </div>
+                <!-- transaction report date -->
+                @*<div class="float-left import-date">
+                    <div>
+                        @Html.LabelFor(m => m.ReportDate, htmlAttributes: new { @class = "control-label" }) *
+                    </div>
+                    <div>
+                        @Html.TextBoxFor(m => m.ReportDate, new { @class = "ss-field-width ss-simple-datepicker " + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(m => m.ReportDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+                <div class="float-left transaction-type-group">
+                    <span class="transaction-item">Airbnb Transaction Type:</span>
+                    <span class="transaction-item"><input type="radio" name="transaction-type" id="transaction-type" value="completed" checked="checked" onclick="DojoWeb.AirbnbImportForm.setType('completed')" /> Completed Transactions</span>
+                    <span class="transaction-item"><input type="radio" name="transaction-type" id="transaction-type" value="future" onclick="DojoWeb.AirbnbImportForm.setType('future')" /> Future Transactions</span>
+                    <span class="transaction-item"><input type="radio" name="transaction-type" id="transaction-type" value="gross" onclick="DojoWeb.AirbnbImportForm.setType('gross')" /> Gross Earnings</span>
+                    @if (Request.Url.GetLeftPart(UriPartial.Path).ToLower().IndexOf("localhost") > 0)
+                    {
+                        <span class="transaction-item"><input type="radio" name="transaction-type" id="transaction-type" value="gross" onclick="DojoWeb.AirbnbImportForm.setType('log')" /> Missing Completed Transactions</span>
+                    }
+                </div>
+                <div class="clearfix"></div>
+
+                <!-- completed Airbnb transaction files list -->
+                <div id="completedFilesContainer" class="import-file-list hide">
+                    <div>
+                        @Html.LabelFor(m => m.CompletedTransactionFiles, htmlAttributes: new { @class = "control-label" })<span id="completedFolderName"></span> <span id="completedCount"></span>
+                    </div>
+                    <div>
+                        <select id="completedFileList" class="form-control dojo-miltiselect" multiple="multiple"></select>
+                    </div>
+                </div>
+
+                <!-- future Airbnb transaction files list -->
+                <div id="futureFilesContainer" class="import-file-list hide">
+                    <div>
+                        @Html.LabelFor(m => m.FutureTransactionFiles, htmlAttributes: new { @class = "control-label" })<span id="futureFolderName"></span> <span id="futureCount"></span>
+                    </div>
+                    <div>
+                        <select id="futureFileList" class="form-control dojo-miltiselect" multiple="multiple"></select>
+                    </div>
+                </div>
+
+                <!-- gross Airbnb transaction files list -->
+                <div id="grossFilesContainer" class="import-file-list hide">
+                    <div>
+                        @Html.LabelFor(m => m.GrossTransactionFiles, htmlAttributes: new { @class = "control-label" })<span id="grossFolderName"></span> <span id="grossCount"></span>
+                    </div>
+                    <div>
+                        <select id="grossFileList" class="form-control dojo-miltiselect" multiple="multiple"></select>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+
+                <!-- action buttons -->
+                <div class="control-group">
+                    <div class="float-left ss-section-spacing-top no-left-padding">
+                        <input id="airbnbImport" type="button" value="Import Airbnb Transactions" class="btn btn-default btn-success" />
+                    </div>
+                    <div class="float-left ss-section-spacing-top ss-left-margin10">
+                        <input id="importLogViewer" type="button" value="View Import Log" class="btn btn-info ss-left-margin10" />
+                    </div>
+               </div>
+                <div class="clearfix"></div>
+
+                <div id="longProcessNote" class="col-xs-12 ss-process-note"></div>
+                <div id="notificationMessage" class="col-xs-12 ss-process-note hide"></div>
+                <div id="import-alert" class="alert-container"></div>
+            </div>
+        }
+    </div>
+</div>
+<div class="clearfix"></div>
+
+<div>
+    @Html.HiddenFor(model => model.CompletedTransactionFiles)
+    @Html.HiddenFor(model => model.FutureTransactionFiles)
+    @Html.HiddenFor(model => model.GrossTransactionFiles)
+    @Html.HiddenFor(model => model.TransactionFileType)
+</div>
+
+@section CustomFormStyle
+{
+    <style type="text/css">
+        .input-group-addon span.fa {width:100px;}
+    </style>
+}
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/appform.css")" />
+    <link rel="Stylesheet" href="@Href("~/content/app/import.css")" />
+}
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/app/airbnbImport.js")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            DojoWeb.AirbnbImportForm.init();
+        });
+    </script>
+}

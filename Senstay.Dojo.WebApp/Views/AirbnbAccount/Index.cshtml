@@ -1,0 +1,35 @@
+﻿@model Senstay.Dojo.Models.View.AirbnbAccountViewModel
+
+@{
+    ViewBag.AppName = "SenStay Dojo App";
+    ViewBag.Title = "Airbnb Accounts";
+    ViewBag.PageHint = "AirbnbAccount";
+}
+
+<div class="navbar navbar-fixed-top actionBar-fixed-top">
+    @Html.Partial("_AccountActionBarPartial")
+</div>
+
+<div id="dojo-alert" class="alert-container" style="top:40px;"></div>
+
+<div id="AirbnbAccountList" class="app-page-content">
+    <div id="AirbnbAccountGrid" class="app-grid @ViewBag.PermissionClass"></div>
+</div>
+
+<div><span id="accountNotification" style="display:none;"></span></div>
+
+@Html.Partial("_DialogPartial")
+
+@Html.Partial("_ConfirmationDialog")
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/datejs.js")
+    @Scripts.Render("~/Scripts/app/AirbnbAccount.js?r=" + ViewBag.Release)
+
+    <script>
+        $(document).ready(function () {
+            DojoWeb.AirbnbAccount.init('AirbnbAccountGrid');
+        });
+    </script>
+}

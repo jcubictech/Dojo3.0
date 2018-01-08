@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.AppName = "SenStay Dojo";
+    ViewBag.Title = "Airbnb Import Log";
+    ViewBag.PageHint = "Import";
+}
+
+<div class="revenue-page">
+    <div class="revenue-page-title revenue-h2">@ViewBag.Title</div>
+    <div class="log-title-divider"></div>
+
+    <!-- action alert when there is internal error -->
+    <div id="import-alert"></div>
+
+    <div id="AppLog" class="revenue-data-grid">
+        <div id="AppLogGrid" class="revenue-grid"></div>
+    </div>
+</div>
+
+@section CustomFormStyle
+{
+    <style type="text/css">
+        body {overflow:hidden;}
+        .revenue-data-grid {width:100%;}
+        .log-title-divider {background-color:gray;height:2px;width:100%;}
+    </style>
+}
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/revenue.css")" />
+}
+
+@section Scripts
+{
+    @Scripts.Render("~/Scripts/app/airbnbImport.js")
+
+    <script>
+        $(function () { // will trigger when the document is ready
+            $(document).ready(function () {
+                DojoWeb.AirbnbImportLog.init('AppLogGrid');
+            });
+        });
+    </script>
+}

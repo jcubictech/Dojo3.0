@@ -1,0 +1,72 @@
+﻿@model Senstay.Dojo.Models.View.RebalanceEditModel
+
+<div class="dialog-page-content">
+    @using (Ajax.BeginForm("RebalanceEditor", "OwnerPayment", new AjaxOptions
+    {
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "edit-ajax-target",
+        LoadingElementId = "edit-ajax-wait",
+        OnSuccess = "DojoWeb.RebalanceEditor.refresh",
+        OnFailure = "DojoWeb.RebalanceEditor.serverError"
+    },
+        new { @id = "RealanceEntryForm", @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <div class="rebalance-view">
+            <div>
+                <div class="rebalance-actionbar balanceTotal float-left">Total Balance:
+                        @for (int i = 0; i < Model.Balances.Count; i++)
+                        {
+                            if (Model.Balances[i].IsSummary == true)
+                            {
+                                <span>@Model.Balances[i].BeginningBalance.Value.ToString("c2")</span>
+                                break;
+                            }
+                        }
+                </div>
+                <div class="rebalance-actionbar float-right"><a id="defaultRebalance">&nbsp;&nbsp;Apply Default Rules&nbsp;&nbsp;</a></div>
+            </div>
+            <div class="clearfix"></div>
+            <table class="rebalance-table" cellpadding="0" cellspacing="0">
+                <tr class="rebalance-header">
+                    <td class="rebalance-col-1">Property Code</td>
+                    <td class="rebalance-col-1">Rebalance Month</td>
+                    <td class="rebalance-col-2">Property Balance</td>
+                    <td class="rebalance-col-3">Adjusted Balance</td>
+                    <td class="hide"></td>
+                    <td class="hide"></td>
+                </tr>
+                @for (int i = 0; i < Model.Balances.Count; i++)
+                {
+                    if (Model.Balances[i].IsSummary == false)
+                    {
+                        <tr class="rebalance-row">
+                            <td class="rebalance-col-1"><span class="propertyCode">@Model.Balances[i].PropertyCode</span></td>
+                            <td class="rebalance-col-1">@Model.Balances[i].Month/@Model.Balances[i].Year</td>
+                            <td class="rebalance-col-2"><span class="beginBalance">@Model.Balances[i].BeginningBalance.Value.ToString("c2")</span></td>
+                            <td class="rebalance-col-3 rebalance-edit-color"><input type="text" id=@($"rebalance-item-{i}") name=@($"rebalance-item-{i}") class="rebalance-item rebalance-edit-color" value="@Model.Balances[i].AdjustedBalance" /></td>
+                            <td class="hide"><div class="rebalanceMonth">@Model.Balances[i].Month</div></td>
+                            <td class="hide"><div class="rebalanceYear">@Model.Balances[i].Year</div></td>
+                        </tr>
+                    }
+                }
+            </table>
+            
+        </div>
+
+        <!-- Action buttons -->
+        if (string.IsNullOrEmpty(ViewBag.EditClass))
+        {
+            <div class="form-action-button">
+                <input id="RebalanceSave" type="button" value="Save Balance" class="btn btn-success btn-default btn-spacing" />
+                <input id="RebalanceCancel" type="button" value="Cancel" class="btn btn-warning" />
+            </div>
+        }
+    }
+</div>
+
+
+

@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.AppName = "SenStay Dojo";
+    ViewBag.Title = "SenStay Dojo App User Invitation";
+    ViewBag.PageHint = "Administration";
+}
+
+<div class="ss-page-content">
+    <div class="ss-page-title ss-h2">@ViewBag.Title</div>
+    <div class="ss-article-title-divider"></div>
+
+    <div id="ss-user-alert" class="alert-container"></div>
+
+    <div class="ss-grid-container">
+        @Html.AntiForgeryToken()
+        <div id="userInvitationGrid" class="ss-data-grid ss-grid-full"></div>
+    </div>
+</div>
+
+@section CustomFormStyle
+{
+    <style type="text/css">
+        body {overflow:hidden;}
+    </style>
+}
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/appform.css?r=" + ViewBag.Release)" />
+}
+
+@section Scripts
+{
+    @Scripts.Render("~/Scripts/datejs.js")
+    @Scripts.Render("~/Scripts/app/userManager.js?r=" + ViewBag.Release)
+
+    <script>
+        $(function () {
+            $(document).ready(function () {
+                DojoWeb.UserInvitationEditor.init('userInvitationGrid');
+            });
+        });
+    </script>
+}

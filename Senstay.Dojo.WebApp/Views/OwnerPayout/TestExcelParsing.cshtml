@@ -1,0 +1,18 @@
+﻿<div class="ss-page-content">
+    <button id="TestExcelParsingButton" type="button" class="btn btn-primary">Test</button>
+</div>
+
+<script type="text/javascript">
+    $('#TestExcelParsingButton').on('click', function (e) {
+        $.ajax({
+            type: 'POST',
+            url: '/OwnerPayout/DoTestExcelParsing',
+            success: function (result) {
+                alert(result);
+            },
+            error: function (jqXHR, status, errorThrown) {
+                
+            }
+        });
+    });
+</script>

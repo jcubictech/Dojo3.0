@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.PageHint = "Revenue";
+}
+
+<div class="dialog-page-content">
+    <!-- combine expenses -->
+    <div class="combine-expenses" style="padding-top:20px;">
+        <div style="height:40px;width:300px;margin-right:20px;float:left;">
+            <div class="input-group">
+                <div class="input-group-addon"><span class="fa fa-calendar"><span> Expense Date</span></span></div>
+                <input id="newDate" type="text" title="New Expense Date" class="form-control input-sm" />
+            </div>
+        </div>
+        <div style="height:40px;width:600px;margin-right:20px;float:left;">
+            <div class="input-group">
+                <div class="input-group-addon"><span class="fa fa-file"><span> Category </span></span></div>
+                <input id="newCategory" type="text" title="New Category" class="form-control input-sm" />
+            </div>
+        </div>
+        <div style="height:40px;width:100px;margin-right:20px;float:left;">
+            <div class="input-group revenue-input-item">
+                <input id="NewExpense" type="button" value="Add New Expense" class="btn btn-success btn-default" />
+            </div>
+        </div>
+        <div class="clearfix"></div>
+
+        <!-- data source -->
+        <div class="expense-grid-section" style="padding:20px 0px;">
+            <div style="width:47%;margin-right:20px;float:left;">
+                <div class="expense-data-grid">
+                    <div id="expenseFromGrid" class="expense-grid"></div>
+                </div>
+            </div>
+            <!-- data target -->
+            <div style="width:47%;margin-right:20px;float:left;">
+                <div class="expense-data-grid">
+                    <div id="expenseToGrid" class="expense-grid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

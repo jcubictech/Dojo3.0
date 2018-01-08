@@ -1,0 +1,147 @@
+﻿@model Senstay.Dojo.Models.ResolutionRevenueModel
+@using Senstay.Dojo.Data.Providers
+@using Senstay.Dojo.Models
+@using Heroic.Web.IoC
+@{
+    ViewBag.PageHint = "Revenue";
+    var dbContext = Context.GetContainer().GetInstance<DojoDbContext>();
+    var propertyCodeList = new PropertyProvider(dbContext).StatementPropertyCodes();
+    var impactList = new LookupProvider(dbContext).GetLookupList(LookupType.Impact);
+    var booleanList = new LookupProvider(dbContext).GetLookupList(LookupType.Boolean);
+}
+
+<div class="dialog-page-content">
+    @using (Ajax.BeginForm("AddResolution", "OwnerPayout", new AjaxOptions
+        {
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "edit-ajax-target",
+            LoadingElementId = "edit-ajax-wait",
+            OnSuccess = "DojoWeb.NewResolutionForm.refresh",
+            OnFailure = "DojoWeb.NewResolutionForm.serverError"
+        },
+        new { @id = "ResolutionEntryForm", @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <div class="revenue-form-width">
+            <!-- property code -->
+            <div class="form-input-item revenue-form-field pull-left">
+                <div class="control-group">
+                    <div>@Html.LabelFor(m => m.PropertyCode, new { @class = "control-label" }) *</div>
+                    <div>
+                        @Html.TextBoxFor(m => m.PropertyCode, new { @class = "form-control input-sm" + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(m => m.PropertyCode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <!-- confirmation code -->
+            <div class="form-input-item revenue-form-field pull-left">
+                <div class="control-group">
+                    <div>@Html.LabelFor(m => m.ConfirmationCode, new { @class = "control-label" })</div>
+                    <div>
+                        @Html.TextBoxFor(m => m.ConfirmationCode, new { @class = "form-control input-sm" + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(m => m.ConfirmationCode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <!-- impact -->
+            <div class="form-input-item revenue-form-field pull-left">
+                <div class="control-group">
+                    <div>@Html.LabelFor(m => m.Impact, new { @class = "control-label" }) *</div>
+                    <div>
+                        @Html.DropDownListFor(m => m.Impact, impactList, "Select an option...", new { @class = "form-control input-sm" + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(m => m.Impact, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="revenue-form-width">
+            <!-- impact -->
+            <div class="form-input-item revenue-form-field pull-left">
+                <div class="control-group">
+                    <div>@Html.LabelFor(m => m.ResolutionType, new { @class = "control-label" }) *</div>
+                    <div>
+                        @Html.TextBoxFor(m => m.ResolutionType, new { @class = "form-control input-sm" + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(m => m.ResolutionType, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <!-- resolution date -->
+            <div class="form-input-item revenue-form-field pull-left">
+                <div class="control-group">
+                    <div>
+                        <div>@Html.LabelFor(m => m.ResolutionDate, new { @class = "control-label" }) *</div>
+                    </div>
+                    <div>
+                        @if (@ViewBag.EditClass != " app-field-readonly")
+                        {
+                            @Html.TextBoxFor(m => m.ResolutionDate, new { @class = "app-simple-datepicker" + @ViewBag.EditClass })
+                            @Html.ValidationMessageFor(m => m.ResolutionDate, "", new { @class = "text-danger" })
+                        }
+                        else
+                        {
+                            @Html.TextBox("Resolution Date", Model.ResolutionDate.Value.ToString("MM/dd/yyyy"), new { @class = "form-control input-sm" + @ViewBag.EditClass })
+                        }
+                    </div>
+                </div>
+            </div>
+            <!-- resolution amount -->
+            <div class="form-input-item revenue-form-field pull-left">
+                <div class="control-group">
+                    <div>@Html.LabelFor(m => m.ResolutionAmount, new { @class = "control-label" }) *</div>
+                    <div>
+                        <div class="input-group decorated-field">
+                            <div class="input-group-addon">$</div>
+                            @Html.TextBoxFor(m => m.ResolutionAmount, new { @class = "form-control input-sm" + @ViewBag.EditClass })
+                        </div>
+                        @Html.ValidationMessageFor(m => m.ResolutionAmount, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="revenue-form-width">
+            <!-- resolution description -->
+            <div class="form-input-item revenue-form-field2 pull-left">
+                <div class="control-group">
+                    <div> @Html.LabelFor(m => m.ResolutionDescription, new { @class = "control-label" }) *</div>
+                    <div>
+                        @Html.TextBoxFor(m => m.ResolutionDescription, new { @class = "form-control input-sm" + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(m => m.ResolutionDescription, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <!-- include on statement -->
+            <div class="form-input-item revenue-form-field1 pull-left">
+                <div class="control-group">
+                    <div>@Html.LabelFor(m => m.IncludeOnStatement, new { @class = "control-label" })</div>
+                    <div>
+                        @Html.DropDownListFor(m => m.IncludeOnStatement, booleanList, "Select an option...", new { @class = "form-control input-sm" + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(m => m.IncludeOnStatement, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <!-- Action buttons -->
+        if (string.IsNullOrEmpty(ViewBag.EditClass))
+        {
+            <div class="form-action-button">
+                <input id="ResolutionSave" type="button" value="Create New Resolution" class="btn btn-success btn-default btn-spacing" />
+                <input id="ResolutionCancel" type="button" value="Cancel" class="btn btn-warning" />
+            </div>
+        }
+
+        @Html.HiddenFor(m => m.PropertyCode)
+        @Html.HiddenFor(m => m.OwnerPayoutId)
+    }
+</div>
+
+
+

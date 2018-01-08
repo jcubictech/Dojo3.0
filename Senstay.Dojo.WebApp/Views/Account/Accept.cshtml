@@ -1,0 +1,158 @@
+﻿@model Senstay.Dojo.Models.View.UserInvitationViewModel
+@using Microsoft.Owin.Security
+@using Senstay.Dojo.Models.View
+@{
+    ViewBag.AppName = "SenStay Dojo";
+    ViewBag.Title = "Invitation to Access Dojo App";
+    ViewBag.ReturnUrl = null;
+    var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
+}
+
+<div class="ss-page-content">
+    <div class="ss-page-title ss-h2">@ViewBag.AppName Site @ViewBag.Title</div>
+    <div class="ss-article-title-divider"></div>
+    <div class="ss-simple-box">
+        @Html.HiddenFor(m => m.UserId)
+
+        <div id="ss-user-alert" class="alert-container"></div>
+
+        <!-- invitation info -->
+        <div class="col-xs-3">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                    <td class="ss-section-indicator">1</td>
+                    <td class="ss-section-body">
+                        <h4>Invitation Information</h4>
+                        <div class="ss-section-header-divider"></div>
+                        <!-- invitation code -->
+                        <div class="control-group">
+                            <div>@Html.LabelFor(model => model.InvitationCode, new { @class = "control-label" })</div>
+                            @Html.TextBoxFor(m => m.InvitationCode, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        </div>
+                        <!-- user name -->
+                        <div class="control-group">
+                            <div>@Html.LabelFor(model => model.UserName, new { @class = "control-label ss-label-spacing" })</div>
+                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        </div>
+                        <!-- user email -->
+                        <div class="control-group">
+                            <div>@Html.LabelFor(model => model.UserEmail, new { @class = "control-label ss-label-spacing" })</div>
+                            @Html.TextBoxFor(m => m.UserEmail, new { @class = "form-control input-sm", @readonly = "readonly" })
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- mobile phone -->
+        <div class="col-xs-3">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                    <td class="ss-section-indicator">2</td>
+                    <td class="ss-section-body">
+                        <h4>Mobile Contact</h4>
+                        <div class="ss-section-header-divider"></div>
+                        <div class="ss-section-note">Your mobile contact information will allow Dojo App to send mobile notification when the feauture is available.</div>
+                        <!-- mobile phone -->
+                        <div class="control-group">
+                            <div>@Html.LabelFor(model => model.MobilePhone, new { @class = "control-label" })</div>
+                            @Html.TextBoxFor(m => m.MobilePhone, new { @class = "form-control input-sm" })
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- accept invitation -->
+        <div class="col-xs-3">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                    <td class="ss-section-indicator">3</td>
+                    <td class="ss-section-body">
+                        <h4>Accept Invitation</h4>
+                        <div class="ss-section-header-divider"></div>
+                        <div class="ss-h4 ss-section-text">Use your existing account to accept and sign-in (recommended)</div>
+                        @if (loginProviders.Count() == 0)
+                        {
+                            <div id="socialLoginList">There are no external authentication services configured.</div>
+                        }
+                        else
+                        {
+                            using (Html.BeginForm("ExternalAccept", "Account"))
+                            {
+                                @Html.AntiForgeryToken()
+                                <div id="socialLoginList">
+                                    <p>
+                                        @foreach (AuthenticationDescription p in loginProviders)
+                                        {
+                                            <!-- button actions are installed in client script -->
+                                            <button type="submit" class="btn btn-default social-submit" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your SenStay @p.Caption account">SenStay / @p.AuthenticationType Account</button>
+                                        }
+                                    </p>
+                                </div>
+
+                                <div id="SocialInvite">
+                                    <!-- hack: need to do this so what these fields can be packed in form -->
+                                    @Html.Hidden("InvitationCode")
+                                    @Html.Hidden("UserId")
+                                    @Html.Hidden("UserName")
+                                    @Html.Hidden("UserEmail")
+                                    @Html.Hidden("MobilePhone")
+                                    @Html.Hidden("Provider")
+                                </div>
+                            }
+                        }
+
+                        @using (Html.BeginForm("Accept", "Account", FormMethod.Post, new { id = "AcceptInvite", @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="ss-h4 ss-section-spacing-top ss-section-text">Or specify your password to create a Dojo account</div>
+
+                            <!-- password -->
+                            <div class="control-group">
+                                <div>@Html.LabelFor(model => model.Password, new { @class = "control-label" }) *</div>
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control input-sm", type = "password" })
+                            </div>
+
+                            <!-- confirm password -->
+                            <div class="control-group">
+                                <div>@Html.LabelFor(model => model.ConfirmPassword, new { @class = "control-label ss-label-spacing" }) *</div>
+                                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control input-sm", type = "password", title = "Confirm the password you enter above" })
+                            </div>
+
+                            <!-- action buttons -->
+                            <div class="ss-accept-spacing-top">
+                                <input id="acceptSubmit" type="button" value="Accept Invitation" class="btn btn-default lead-width" />
+                            </div>
+
+                            <!-- hack: need to do this so what these fields can be packed in form -->
+                            @Html.Hidden("InvitationCode")
+                            @Html.Hidden("UserId")
+                            @Html.Hidden("UserName")
+                            @Html.Hidden("UserEmail")
+                            @Html.Hidden("MobilePhone")
+                        }
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/appform.css")" />
+}
+
+@section Scripts {
+    @Scripts.Render("~/scripts/app/userManager.js?r=" + ViewBag.Release)
+
+    <script>
+            $(document).ready(function () {
+                DojoWeb.AcceptInvite.init('AcceptInvite', 'ss-user-alert');
+            });
+    </script>
+}

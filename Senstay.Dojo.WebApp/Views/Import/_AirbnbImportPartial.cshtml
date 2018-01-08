@@ -1,0 +1,79 @@
+﻿@model Senstay.Dojo.Models.View.AirbnbImportFormModel
+
+<div class="ss-page-content">
+    <div class="ss-page-title ss-h2">Airbnb Transactions Import</div>
+    <div class="ss-article-title-divider"></div>
+    <div class="ss-simple-box owner-payout-height">
+        @using (Ajax.BeginForm("AirbnbImportForm", "Import", new AjaxOptions
+        {
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "edit-ajax-target",
+            LoadingElementId = "edit-ajax-wait",
+            OnSuccess = "DojoWeb.AirbnbImportForm.refresh",
+            OnFailure = "DojoWeb.AirbnbImportForm.serverError"
+        },
+                new { @id = "AirbnbImportForm", @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="transaction-import">
+                <!-- transaction report date -->
+                <div class="float-left import-date">
+                    <div>
+                        @Html.LabelFor(m => m.ReportDate, htmlAttributes: new { @class = "control-label" }) *
+                    </div>
+                    <div>
+                        @Html.TextBoxFor(m => m.ReportDate, new { @class = "ss-field-width ss-simple-datepicker " + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(m => m.ReportDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="float-left transaction-type-group">
+                    <span class="transaction-item">Select a transaction type:</span>
+                    <span class="transaction-item"><input type="radio" name="transaction-type" id="transaction-type" value="completed" checked="checked" onclick="DojoWeb.OwnerPayoutForm.setType('completed')" /> Completed Transactions</span>
+                    <span class="transaction-item"><input type="radio" name="transaction-type" id="transaction-type" value="future" onclick="DojoWeb.OwnerPayoutForm.setType('future')" /> Future Transactions</span>
+                </div>
+                <div class="clearfix"></div>
+                <!-- completed Airbnb transaction files list -->
+                <div id="completedFilesContainer" class="import-file-list hide">
+                    <div>
+                        @Html.LabelFor(m => m.CompletedTransactionFiles, htmlAttributes: new { @class = "control-label" })<span id="completedFolderName"></span> <span id="completedCount"></span>
+                    </div>
+                    <div>
+                        <select id="completedFileList" class="form-control dojo-miltiselect" multiple="multiple"></select>
+                    </div>
+                </div>
+                <!-- future Airbnb transaction files list -->
+                <div id="futureFilesContainer" class="import-file-list hide">
+                    <div>
+                        @Html.LabelFor(m => m.FutureTransactionFiles, htmlAttributes: new { @class = "control-label" })<span id="futureFolderName"></span> <span id="futureCount"></span>
+                    </div>
+                    <div>
+                        <select id="futureFileList" class="form-control dojo-miltiselect" multiple="multiple"></select>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <!-- action buttons -->
+                <div class="control-group">
+                    <div class="col-xs-2 ss-section-spacing-top">
+                        <input id="ownerPayoutImport" type="button" value="Import Airbnb Transactions" class="btn btn-default btn-success" />
+                        <input id="importClose" type="button" value="Close Import" class="btn btn-default btn-success" />
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div id="longProcessNote" class="col-xs-12 ss-process-note"></div>
+                <div id="notificationMessage" class="col-xs-12 ss-process-note hide"></div>
+                <div id="ownerPayout-alert" class="alert-container"></div>
+            </div>
+        }
+    </div>
+</div>
+<div class="clearfix"></div>
+<div>
+    @Html.HiddenFor(model => model.CompletedTransactionFiles);
+    @Html.HiddenFor(model => model.FutureTransactionFiles);
+</div>
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/appform.css")" />
+}

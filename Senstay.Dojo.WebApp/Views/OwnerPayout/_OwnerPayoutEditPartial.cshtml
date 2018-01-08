@@ -1,0 +1,94 @@
+﻿@model Senstay.Dojo.Models.Grid.OwnerPayoutRevenueModel
+@using Senstay.Dojo.Data.Providers
+@using Senstay.Dojo.Models
+@using Heroic.Web.IoC
+@{
+    ViewBag.PageHint = "Revenue";
+}
+
+<div class="dialog-page-content">
+    @using (Ajax.BeginForm("EditRevenue", "OwnerPayout", new AjaxOptions
+        {
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "edit-ajax-target",
+            LoadingElementId = "edit-ajax-wait",
+            OnSuccess = "DojoWeb.OwnerPayoutForm.refresh",
+            OnFailure = "DojoWeb.OwnerPayoutForm.serverError"
+        },
+        new { @id = "OwnerPayoutEntryForm", @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <div class="revenue-form-width">
+            <!-- source -->
+            <div class="form-input-item revenue-form-split-field pull-left">
+                <div class="control-group">
+                    <div>@Html.LabelFor(m => m.Source, new { @class = "control-label" }) *</div>
+                    <div>
+                        @Html.TextBoxFor(m => m.Source, new { @class = "form-control input-sm" + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(m => m.Source, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <!-- payout account -->
+            <div class="form-input-item revenue-form-split-field pull-left">
+                <div class="control-group">
+                    <div> @Html.LabelFor(m => m.PayToAccount, new { @class = "control-label" }) *</div>
+                    <div>
+                        @Html.TextBoxFor(m => m.PayToAccount, new { @class = "form-control input-sm" + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(m => m.PayToAccount, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="revenue-form-width">
+            <!-- payout date -->
+            <div class="form-input-item revenue-form-split-field pull-left">
+                <div class="control-group">
+                    <div>
+                        <div>@Html.LabelFor(m => m.PayoutDate, new { @class = "control-label" }) *</div>
+                    </div>
+                    <div id="PropertyCodeSearchableSelect">
+                        @Html.TextBoxFor(m => m.PayoutDate, new { @class = "app-simple-datepicker" + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(m => m.PayoutDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <!-- payout amount -->
+            <div class="form-input-item revenue-form-split-field pull-left">
+                <div class="control-group">
+                    <div>@Html.LabelFor(m => m.PayoutAmount, new { @class = "control-label" }) *</div>
+                    <div>
+                        <div class="input-group decorated-field">
+                            <div class="input-group-addon">$</div>
+                            @Html.TextBoxFor(m => m.PayoutAmount, new { @class = "form-control input-sm" + @ViewBag.EditClass })
+                        </div>
+                        @Html.ValidationMessageFor(m => m.PayoutAmount, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <!-- Action buttons -->
+        if (string.IsNullOrEmpty(ViewBag.EditClass))
+        {
+        <div class="form-action-button">
+            <input id="RevenueSave" type="button" value="@ViewBag.ButtonText" class="btn btn-success btn-default btn-spacing" />
+            <input id="RevenueCancel" type="button" value="Cancel" class="btn btn-warning" />
+        </div>
+        }
+
+        @Html.HiddenFor(m => m.OwnerPayoutId)
+        @Html.HiddenFor(m => m.InputSource)
+        @Html.HiddenFor(m => m.IsAmountMatched)
+        @Html.HiddenFor(m => m.DiscrepancyAmount)
+    }
+</div>
+
+
+

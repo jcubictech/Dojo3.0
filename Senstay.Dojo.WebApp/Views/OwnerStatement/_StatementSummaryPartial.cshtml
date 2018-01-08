@@ -1,0 +1,120 @@
+﻿@model Senstay.Dojo.Models.View.OwnerStatementViewModel
+@using Senstay.Dojo.Data.Providers
+@using Senstay.Dojo.Helpers
+
+<div class="owner-statementSummary-view">
+    <!-- statement content -->
+    <div class="statement-container pull-left">
+        <table cellpadding="0" cellspacing="0">
+            <!-- title row -->
+            <tr>
+                <td><div class="summary-title">Statement Summary</div></td>
+            </tr>
+            <!-- statement summary body -->
+            <tr>
+                <td>
+                    <table cellpadding="0" cellspacing="0">
+                        <!-- statement summary body header -->
+                        <tr class="statement-row">
+                            <td class="statementSummary-col-1 spacing-top-10">Nights¹ Booked</td>
+                            <td class="statementSummary-col-2 spacing-top-10">@Model.NightsBooked.ToString()</td>
+                        </tr>
+                        <tr class="statement-row">
+                            <td class="statementSummary-col-1">Number of Reservations</td>
+                            <td class="statementSummary-col-2">@Model.ReservationCount.ToString()</td>
+                        </tr>
+                        <tr class="statement-row">
+                            <td class="statementSummary-col-1" colspan="2">&nbsp;</td>
+                        </tr>
+                        <tr class="statement-row">
+                            <td class="statementSummary-col-1">Beginning Balance</td>
+                            <td class="statementSummary-col-2">@ConversionHelper.FormatMoney(Model.BeginBalance)</td>
+                        </tr>
+                        <tr class="statement-row">
+                            <td class="statementSummary-col-1" colspan="2">&nbsp;</td>
+                        </tr>
+                        <tr class="statement-row">
+                            <td class="statementSummary-col-1">Total Revenue</td>
+                            <td class="statementSummary-col-2">@ConversionHelper.FormatMoney(Model.TotalRevenue)</td>
+                        </tr>
+                        <tr class="statement-row">
+                            <td class="statementSummary-col-1">Tax Collected²</td>
+                            <td class="statementSummary-col-2">@ConversionHelper.FormatMoney(Model.TaxCollected)</td>
+                        </tr>
+                        <tr class="statement-row">
+                            <td class="statementSummary-col-1" colspan="2">&nbsp;</td>
+                        </tr>
+                        @if (Model.IsProductRS == false)
+                        {
+                            <tr class="statement-row">
+                                <td class="statementSummary-col-1 cleaning-fee-item">Cleaning Fees</td>
+                                <td class="statementSummary-col-2">@ConversionHelper.FormatMoney(Model.CleaningFees)</td>
+                            </tr>
+                        }
+                        <tr class="statement-row">
+                            <td class="statementSummary-col-1">Management Fees³ (@Model.ManagementFeePercentage)</td>
+                            <td class="statementSummary-col-2">@ConversionHelper.FormatMoney(Model.ManagementFees)</td>
+                        </tr>
+                        <tr class="statement-row">
+                            <td class="statementSummary-col-1">Owner &amp; Unit Expense Items⁵</td>
+                            <td class="statementSummary-col-2">@ConversionHelper.FormatMoney(Model.UnitExpensesTotal)</td>
+                        </tr>
+                        <tr class="statement-row">
+                            <td class="statementSummary-col-1" colspan="2">&nbsp;</td>
+                        </tr>
+                        @if (Model.AdvancePaymentDetails.Count > 0)
+                        {
+                            <tr class="statement-row">
+                                <td class="statementSummary-col-1 spacing-bottom-10 advance-payment-item">Advance Owner Payments</td>
+                                <td class="statementSummary-col-2 spacing-bottom-10">@ConversionHelper.FormatMoney(Model.AdvancementPaymentsTotal)</td>
+                            </tr>
+                        }
+                        <tr class="statementSummary-summary-row">
+                            <td class="statementSummary-col-1 spacing-top-10">BALANCE</td>
+                            <td class="statementSummary-col-2 spacing-top-10"><div id="endingBalance">@ConversionHelper.FormatMoney(Model.EndingBalance)</div></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!-- finalize -->
+    @if (Model.IsPrint == false && AuthorizationProvider.CanFinalizeRevenue())
+    {
+        <div class="statementSummary-action pull-left">
+            <div class="statementSummary-note">
+                <table cellpadding="0" cellspacing="0">
+                    <!-- title row -->
+                    <tr>
+                        <td><div class="summary-note-title">Statement Notes</div></td>
+                    </tr>
+                    <!-- statement summary note body -->
+                    <tr>
+                        <td>
+                            <div class="statementSummary-note-body">
+                                @Html.TextAreaFor(m => m.StatementNotes, new { @placeholder="Insert statement notes here...", @class = "statementSummary-note-text form-control form-multiline-text" + @ViewBag.EditClass, @rows = 9 })
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- statement finalization action -->
+                    <tr>
+                        <td class="stateSummary-finalize-row">
+                            <div class="pull-right" id="finalizeStatement" onclick="DojoWeb.OwnerStatement.finalizeStatement();">
+                                @if (Model.IsFinalized){
+                                    <div><i class="fa fa-calendar-check-o fa-4x green"></i></div>
+                                    <div class="finalize-text">Un-finalize Statement</div>
+                                }
+                                else
+                                {
+                                    <div><i class="fa fa-calendar-check-o fa-4x blue"></i></div>
+                                    <div class="finalize-text">Finalize Statement</div>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    }
+    <div class="clearfix"></div>
+</div>

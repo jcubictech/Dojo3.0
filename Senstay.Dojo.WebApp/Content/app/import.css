@@ -1,0 +1,26 @@
+﻿.import-page {margin-top:0px;padding:0px 20px 0px 20px;min-height:400px;}
+.import-page-title {padding-bottom:20px;}
+.import-h2 {font-size:24px;padding:20px 10px;font-weight:bold;}
+.import-data-calendar {min-width:1200px;margin-top:10px;}
+.import-account-col {width:150px;padding:0 5px;}
+.import-count-col {width:60px;}
+.import-count-item {height:20px;text-align:center;}
+.import-header-item {height:36px;padding-top:8px;text-align:center;font-weight:bold;}
+.import-header-row {height:36px;}
+.import-account-row {height:60px;}
+.reservation-count {background-color:green;color:white;}
+.resolution-count {background-color:orange;color:white;}
+.gross-count {background-color:blue;color:white;}
+.missing-count {background-color:#f9b0b4;color:white;}
+.account-file-missing {background-color:white;color:red;font-weight:bold;}
+.no-count {background-color:#eeeeee;}
+.no-file {background-color:#f9b0b4 !important;}
+.import-legend-container {padding-top:5px;}
+.import-legend {width:40px;height:16px;margin-top:4px;margin-right:15px;}
+.import-legend-title {padding-right:15px;}
+.import-legend-item {padding-right:5px;}
+.import-action {margin-right:40px;}
+.import-action a {text-decoration:none;}
+.align-center {text-align:center;}
+.align-left {text-align:left;}
+.align-right {text-align:right;}

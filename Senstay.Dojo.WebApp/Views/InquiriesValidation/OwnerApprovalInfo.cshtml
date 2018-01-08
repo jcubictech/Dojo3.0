@@ -1,0 +1,122 @@
+﻿@model Senstay.Dojo.Models.InquiriesValidation
+@using Senstay.Dojo.Data.Providers
+
+@{
+    ViewBag.Title = "Inquiry Approval";
+    ViewBag.SubmenuHint = "inquiries";
+    ViewBag.Release = System.Configuration.ConfigurationManager.AppSettings["ReleaseVersion"];
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="ss-page-content ss-page-content-half-width ss-page-bk-gray">
+        <div class="ss-page-title ss-h2">@ViewBag.Title</div>
+        <div class="ss-article-title-divider"></div>
+
+        <div id="ss-user-alert" class="alert-container" style="margin-top:10px;"></div>
+
+        @if (Model.CPL.NeedsOwnerApproval.HasValue && Model.CPL.NeedsOwnerApproval.Value)
+        {
+            <div class="col-md-12">
+                @Html.LabelFor(model => model.CPL.NeedsOwnerApproval, htmlAttributes: new { @class = "alert alert-warning col-md-12" })
+                @*<div class="col-md-8 urla">
+                        <p>@Model.CPL.NeedsOwnerApproval</p>
+                    </div>*@
+            </div>
+        }
+
+        <!-- approval status -->
+        <div class="col-md-12">
+            <div class="form-group">
+                @Html.LabelFor(model => model.ApprovedbyOwner, htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownListFor(model => model.ApprovedbyOwner, ListProvider.ApprovedByOwnerList, new { @class = "form-control ss-input-width-full" })
+                @Html.ValidationMessageFor(model => model.ApprovedbyOwner, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- pricing approver -->
+        <div class="col-md-12">
+            <div class="row">
+                @if (Model.CPL.BeltDesignation == "Black belt")
+                {
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PricingApprover1, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.PricingApprover1, ListProvider.AproverList, new { @class = "form-control ss-input-width-full" })
+                            @Html.ValidationMessageFor(model => model.PricingApprover1, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PricingApprover2, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.PricingApprover2, ListProvider.AproverList, new { @class = "form-control ss-input-width-full" })
+                            @Html.ValidationMessageFor(model => model.PricingApprover2, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PricingApprover1, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.PricingApprover1, ListProvider.AproverList, new { @class = "form-control ss-input-width-full" })
+                            @Html.ValidationMessageFor(model => model.PricingApprover1, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- pricing decision -->
+        <div class="col-md-12">
+            <div class="form-group">
+                @Html.LabelFor(model => model.PricingDecision1, htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownListFor(model => model.PricingDecision1, ListProvider.PricingDesicionList, new { @class = "form-control ss-input-width-full" })
+                @Html.ValidationMessageFor(model => model.PricingDecision1, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- pricing reason -->
+        <div class="col-md-12">
+            <div class="form-group">
+                @Html.LabelFor(model => model.PricingReason1, htmlAttributes: new { @class = "control-label" })
+                @Html.TextAreaFor(model => model.PricingReason1, new { @class = "form-control ss-input-width-full", @rows = 8 })
+                @Html.ValidationMessageFor(model => model.PricingReason1, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-md-12 ss-top-margin20 no-left-margin">
+            <!-- submit action -->
+            <div>
+                <input id="inquirySave" type="submit" value="Save" class="btn btn-success btn-default" />
+                <input id="inquiryCancel" type="button" value="Cancel" class="btn btn-warning" />
+            </div>
+
+            <!-- back link -->
+            <div class="ss-back-link">
+                @Html.ActionLink("Back to Inquiries List", "Index")
+            </div>
+        </div>
+    </div>
+}
+
+@section styles
+{
+    @if (string.IsNullOrEmpty(ViewBag.Release))
+    {
+        <link rel="Stylesheet" href="@Href("~/content/app/appform.css")" />
+    }
+    else
+    {
+        <link rel="Stylesheet" href="@Href("~/content/app/appform.css?r=" + ViewBag.Release)" />
+    }
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#inquiryCancel').click(function () {
+            window.location.href = "/InquiriesValidation";
+        });
+    });
+</script>

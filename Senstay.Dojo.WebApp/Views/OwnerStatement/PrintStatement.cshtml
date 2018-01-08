@@ -1,0 +1,15 @@
+﻿@model Senstay.Dojo.Models.View.OwnerStatementViewModel
+@{
+    ViewBag.App = "SenStay Dojo App";
+    ViewBag.Title = "Print Owner Statement";
+}
+
+<div class="owner-statement-page">
+    @Html.Partial("_StatementPartial", Model)
+</div >
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/revenue.css")" />
+    <link rel="Stylesheet" href="@Href("~/content/app/ownerStatement.css")" />
+}

@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.AppName = "SenStay Dojo";
+    ViewBag.Title = "SenStay Dojo App User Management";
+    ViewBag.PageHint = "Administration";
+}
+
+<div class="ss-page-content">
+    <div class="ss-page-title ss-h2">@ViewBag.Title</div>
+    <div class="ss-article-title-divider"></div>
+    <div class="ss-simple-box">
+        @Html.AntiForgeryToken()
+        <div class="ss-h4 bold">What do you like to do for your users today?</div>
+        <div class="ss-admin-options ss-h4">
+            <ul>
+                <li><a href="/Admin/Users" target="_self">Manage Users</a></li>
+                <li><a href="/Admin/Roles" target="_self">Manage Roles</a></li>
+                <li><a href="/Admin/UserRoles" target="_self">Manage User Role Associations</a></li>
+                <li><a href="/Admin/UserInvitation" target="_self">Invite Users</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+@section CustomFormStyle
+{
+    <style type="text/css">
+        body {overflow:hidden;}
+    </style>
+}
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/appform.css")" />
+}
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,75 @@
+﻿@using Senstay.Dojo.Data.Providers
+@{
+    ViewBag.AppName = "SenStay Dojo";
+    ViewBag.Title = "Test Owner Payout Import";
+    ViewBag.PageHint = "Import";
+}
+
+<div class="ss-page-content">
+    <div class="ss-page-title ss-h2">@ViewBag.AppName Developer Test Dashboard</div>
+    <div class="ss-article-title-divider"></div>
+
+    <div id="ownerPayout-alert" class="alert-container"></div>
+
+    @if (AuthorizationProvider.IsDataImporter())
+    {
+        using (Ajax.BeginForm("Import", "ActionDashboard", new AjaxOptions
+        {
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "edit-ajax-target",
+            LoadingElementId = "edit-ajax-wait",
+            OnSuccess = "DojoWeb.ActionDashboard.refreshForm",
+            OnFailure = "DojoWeb.ActionDashboard.serverError"
+        },
+        new { @id = "ActionDashboardForm", @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="ss-simple-box owner-payout-height">
+                <!-- expense file upload -->
+                <div class="control-group ownerPayout-field">
+                    <div class="col-xs-5">
+                        @Html.Label("ExcelFile", htmlAttributes: new { @class = "control-label" })
+                        @Html.TextBox("ExcelFile", new { @class = "form-control", @readonly = "readonly" })
+                        @Html.ValidationMessage("ExcelFile", "", new { @class = "text-danger" })
+                        <div id="excelFileMessage" class="no-left-padding"></div>
+                    </div>
+                    <div class="col-xs-2">
+                        <img id="attachExcelFile" class="dojo-action-icon dojo-file-upload" data-field="ExcelFile" data-upload="attachedExpenseFile" src="/Content/images/icon/attach.png" />
+                        <img id="removeExcelFile" class="dojo-action-icon dojo-file-remove" data-field="ExcelFile" src="/Content/images/icon/eraser.png" />
+                        <div class="hide"><input id="attachedExcelFile" name="attachedExcelFile" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" /></div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+
+                <div class="excel-section">
+                    <div class="control-group">
+                        <div class="col-xs-2">
+                            <input id="ContactUpdate" type="button" value="Import Contact Update" class="btn btn-default btn-success dojo-test-button" />
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        }
+    }
+
+    <div id="import-alert" class="alert-container"></div>
+</div>
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/appform.css")" />
+}
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/app/actionDashboard.js")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            DojoWeb.ActionDashboardForm.init();
+        });
+    </script>
+}

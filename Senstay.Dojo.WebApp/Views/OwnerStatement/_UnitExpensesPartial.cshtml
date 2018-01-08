@@ -1,0 +1,47 @@
+﻿@model Senstay.Dojo.Models.View.OwnerStatementViewModel
+@using Senstay.Dojo.Helpers
+@{ 
+    var unitExpenseTotal = Model.UnitExpensesTotal * -1;
+}
+<div class="owner-unitExpenses-view">
+    <div class="statement-container">
+        <table class="statement-content" cellpadding="0" cellspacing="0">
+            <!-- title row -->
+            <tr>
+                <td colspan="3"><div class="summary-title">Owner &amp; Unit Expense Items⁵</div></td>
+            </tr>
+            <!-- statement header -->
+            <tr class="statement-header">
+                <td class="advancePayments-col-1">Category</td>
+                <td class="advancePayments-col-2"></td>
+                <td class="advancePayments-col-3">Expense Amount</td>
+            </tr>
+            @for (int i = 0; i < Model.UnitExpenseDetails.Count; i++)
+            {
+                <tr class="statement-row">
+                    @if (i == Model.UnitExpenseDetails.Count - 1)
+                    {
+                        <td class="advancePayments-col-1 spacing-bottom-20" colspan="2">@Model.UnitExpenseDetails[i].Category</td>
+                        <td class="advancePayments-col-3 spacing-bottom-20">@ConversionHelper.FormatMoney(Model.UnitExpenseDetails[i].Amount)</td>
+                    }
+                    else
+                    {
+                        <td class="advancePayments-col-1" colspan="2">@Model.UnitExpenseDetails[i].Category</td>
+                        <td class="advancePayments-col-3">@ConversionHelper.FormatMoney(Model.UnitExpenseDetails[i].Amount)</td>
+                    }
+                </tr>
+            }
+            @if (Model.UnitExpenseDetails.Count == 0)
+            {
+                <tr class="statement-row">
+                    <td class="spacing-bottom-20" colspan="3">&nbsp;</td>
+                </tr>
+            }
+            <tr class="advancePayments-summary-row">
+                <td class="advancePayments-col-1 right spacing-top-10" colspan="2">TOTAL</td>
+                <td class="advancePayments-col-3 spacing-top-10">@ConversionHelper.FormatMoney(unitExpenseTotal)</td>
+            </tr>
+        </table>
+    </div>
+</div>
+

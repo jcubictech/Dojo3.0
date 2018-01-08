@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Inquiries Upload";
+}
+
+@if (ViewBag.UploadMessage != null)
+{
+    <div class="alert alert-success" role="alert">@ViewBag.UploadMessage. Return @Html.ActionLink("index", "Index")</div>
+}
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger" role="alert">@ViewBag.ErrorMessage</div>
+}
+
+<div class="ss-page-content">
+    <div class="ss-page-title ss-h2">@ViewBag.Title</div>
+    <div class="ss-article-title-divider"></div>
+
+    <div class="ss-simple-box">
+        @using (Html.BeginForm("Upload", "InquiriesValidation", FormMethod.Post, new { @id = "UploadForm", @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Partial("_FileUploadPartial")
+        }
+    </div>
+</div>
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/appform.css?r=" + ViewBag.Release)" />
+}

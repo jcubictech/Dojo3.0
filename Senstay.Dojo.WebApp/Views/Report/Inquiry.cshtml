@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.AppName = "SenStay Dojo App";
+    ViewBag.Title = "Inquiry Report";
+    ViewBag.PageHint = "report";
+}
+
+<div class="navbar navbar-fixed-top actionBar-fixed-top">
+    @Html.Partial("_ReportActionBarPartial")
+</div>
+
+<div id="dojo-alert" class="alert-container"></div>
+
+<div id="InquiryReport" class="app-page-content">
+    <div id="InquiryReportGrid" class="app-grid"></div>
+</div>
+
+<div><span id="reportNotification" style="display:none;"></span></div>
+
+@Html.Partial("_ConfirmationDialog")
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/datejs.js")
+    @Scripts.Render("~/Scripts/jszip.min.js")
+    @Scripts.Render("~/Scripts/app/report.js?r=" + ViewBag.Release)
+
+    <script>
+        $(document).ready(function () {
+            DojoWeb.InquiryReport.init('InquiryReportGrid');
+        });
+    </script>
+}

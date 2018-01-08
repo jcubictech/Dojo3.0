@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.AppName = "SenStay Dojo";
+    ViewBag.Title = "Reservation Report";
+}
+
+<div class="navbar navbar-fixed-top actionBar-fixed-top">
+    @Html.Partial("ReservationActionBar")
+</div>
+
+<div id="dojo-alert" class="alert-container"></div>
+
+<div id="AirbnbAccountReport" class="app-page-content">
+    <div id="ReservationReportGrid" class="app-grid"></div>
+</div>
+
+<div><span id="reportNotification" style="display:none;"></span></div>
+
+@Html.Partial("_ConfirmationDialog")
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/datejs.js")
+    @Scripts.Render("~/Scripts/jszip.min.js")
+    @Scripts.Render("~/Scripts/app/reservationReport.js")
+
+    <script>
+        $(document).ready(function () {
+            // default to 3 months
+            var beginDate = new Date(2017, 5, 20); // the first date of data available; this will get the entire records
+            var endDate = Date.today();
+            DojoWeb.ReservationReportBar.install(beginDate, endDate);
+
+            DojoWeb.ReservationReport.init('ReservationReportGrid');
+        });
+    </script>
+}

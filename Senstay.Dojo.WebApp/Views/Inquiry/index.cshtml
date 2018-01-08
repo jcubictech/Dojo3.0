@@ -1,0 +1,47 @@
+﻿@model Senstay.Dojo.Models.View.InquiryViewModel
+
+@{
+    ViewBag.AppName = "SenStay Dojo App";
+    ViewBag.Title = "Inquiries";
+    ViewBag.PageHint = "inquiry";
+}
+
+<div class="navbar navbar-fixed-top actionBar-fixed-top">
+    @Html.Partial("_InquiryActionBarPartial")
+</div>
+
+<div id="dojo-alert" class="alert-container"></div>
+
+<div id="InquiryList" class="app-page-content">
+    <div id="inquiryGrid" class="app-grid @ViewBag.PermissionClass @ViewBag.ApprovalClass"></div>
+</div>
+
+<div><span id="inquiryNotification" style="display:none;"></span></div>
+
+@Html.HiddenFor(m => m.InquiryId)
+@Html.Hidden("UserName", Model.UserName)
+
+@Html.Partial("_DialogPartial")
+
+@Html.Partial("_ConfirmationDialog")
+
+@section CustomFormStyle
+{
+    <style type="text/css">
+        #formDialog input.input-sm {
+            margin-bottom: 0px !important;
+        }
+    </style>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/datejs.js")
+    @Scripts.Render("~/Scripts/app/inquiry.js?r=" + ViewBag.Release)
+
+    <script>
+        $(document).ready(function () {
+            DojoWeb.Inquiry.init('inquiryGrid');
+        });
+    </script>
+}

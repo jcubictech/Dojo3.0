@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.AppName = "SenStay Dojo";
+    ViewBag.Title = "Owner Statement BackFill Import";
+    ViewBag.PageHint = "Import";
+}
+
+<div class="ss-page-content">
+    <div class="ss-page-title ss-h2">Backfill Owner Statements</div>
+    <div class="ss-article-title-divider"></div>
+
+    <div class="ss-simple-box owner-payout-height">
+        @using (Ajax.BeginForm("OwnerStatement", "Import", new AjaxOptions
+        {
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "edit-ajax-target",
+            LoadingElementId = "edit-ajax-wait",
+            OnSuccess = "DojoWeb.OwnerStatementForm.refreshForm",
+            OnFailure = "DojoWeb.OwnerStatementForm.serverError"
+        },
+            new { @id = "OwnerStatementForm", @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="ownerPayout-section">
+                <div class="col-xs-2 control-group ownerPayout-field">
+                    <div>
+                        @Html.Label("Statement Month", htmlAttributes: new { @class = "control-label" }) *
+                    </div>
+                    <div>
+                        @Html.TextBox("StatementDate", new { @class = "ss-simple-datepicker" + @ViewBag.ViewClass + @ViewBag.EditClass, width = "100%" })
+                    </div>
+                </div>
+
+                <div class="col-xs-4 control-group" style="margin-top:50px;">
+                    <span class="looup-table-item"><input type="radio" name="statement-type" id="statement-type" value="Statement" /> Owner Statements</span>
+                    <span class="looup-table-item"><input type="radio" name="statement-type" id="statement-type" value="Summary" /> Owner Summaries</span>
+                </div>
+
+                <div class="clearfix"></div>
+
+                <!-- action buttons -->
+                <div class="control-group">
+                    <div class="col-xs-2 ss-section-spacing-top">
+                        <input id="ownerStatementImport" type="button" value="Backfill Owner Statements" class="btn btn-default btn-success" />
+                    </div>
+               </div>
+                <div class="clearfix"></div>
+
+                <div id="import-alert" class="alert-container"></div>
+            </div>
+        }
+    </div>
+</div>
+<div class="clearfix"></div>
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/appform.css")" />
+}
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/app/ownerstatement.js")
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            DojoWeb.OwnerStatementForm.init();
+        });
+    </script>
+}

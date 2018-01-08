@@ -1,0 +1,408 @@
+﻿@model Senstay.Dojo.Models.CPL
+@using Senstay.Dojo.Data.Providers
+@using Senstay.Dojo.Models
+@using Heroic.Web.IoC
+
+@{
+    ViewBag.ViewClass = ViewBag.Title == "View Property" ? " app-form-view" : "";
+    ViewBag.SubmenuHint = "property";
+    ViewBag.OwnerApprovalClass = Model.NeedsOwnerApproval == null ? " no-boolean-selection" : "";
+    var dbContext = Context.GetContainer().GetInstance<DojoDbContext>();
+    var lookupProvider = new LookupProvider(dbContext);
+    var propertyStatusList = lookupProvider.GetLookupList(LookupType.PropertyStatus).OrderBy(x => x.Text).ToList();
+    var marketList = lookupProvider.GetLookupList(LookupType.Market);
+    var verticalList = lookupProvider.GetLookupList(LookupType.Vertical);
+    var areaList = lookupProvider.GetLookupList(LookupType.Area);
+    var neighborhoodList = lookupProvider.GetLookupList(LookupType.Neighborhood);
+    var cityList = lookupProvider.GetLookupList(LookupType.City);
+    var stateList = lookupProvider.GetLookupList(LookupType.AbbreviatedState);
+    var yesNoList = lookupProvider.GetLookupList(LookupType.YesNo);
+    var yesNoNaList = lookupProvider.GetLookupList(LookupType.YesNoNa);
+    var approvalList = lookupProvider.GetLookupList(LookupType.Approval);
+    //var paymentMethodList = lookupProvider.GetLookupList(LookupType.PaymentMethod);
+    var booleanList = lookupProvider.GetLookupList(LookupType.Boolean);
+}
+
+@using (Ajax.BeginForm("ModalEdit", "Property", new AjaxOptions
+        {
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "ss-ajax-target",
+            LoadingElementId = "ss-ajax-wait",
+            OnSuccess = "DojoWeb.PropertyForm.refresh",
+            OnFailure = "DojoWeb.PropertyForm.serverError"
+        },
+        new { @id = "PropertyEntryForm", @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div id="ss-ajax-target">
+        <div id="ss-ajax-wait" style="display:none">
+            Loading...<img src="~/content/Images/ajax-loader.gif" />
+        </div>
+
+        <div class="clearfix"></div>
+        <div class="dialog-page-content" style="padding:15px 0px 30px 0px;">
+            <!-- proprty Overview -->
+            <table id="ss-property-form" cellpadding="0" cellspacing="0" width="100%">
+                <!-- proprty overview -->
+                <tr class="ss-orange-bg ss-field-header">
+                    <td colspan="4">Property Overview</td>
+                </tr>
+                <tr class="ss-light-orange-bg ss-field-name">
+                    <td><span class="red">Property Code *</span></td>
+                    <td>Square Footage</td>
+                    <td>Check-in Type</td>
+                    <td>Belt Designation</td>
+                </tr>
+                <tr class="ss-field-bg ss-field">
+                    <td>
+                        @Html.TextBoxFor(model => model.PropertyCode, new { @class = "ss-field-width" + @ViewBag.OwnerApprovalClass + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.PropertyCode, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.SquareFootage, new { @class = "ss-field-width" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.SquareFootage, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.CheckInType, new { @class = "ss-field-width" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.CheckInType, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(model => model.BeltDesignation, ListProvider.BeltDesignationList, "Select an option...", new { @class = "ss-field-width-dd" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.BeltDesignation, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr class="ss-light-orange-bg ss-field-name">
+                    <td>Address</td>
+                    <td>City</td>
+                    <td>State</td>
+                    <td>Zip Code</td>
+                </tr>
+                <tr class="ss-field-bg ss-field">
+                    <td>
+                        @Html.TextBoxFor(model => model.Address, new { @class = "ss-field-width" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(model => model.City, cityList, "Select an option...", new { @class = "ss-field-width-dd" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(model => model.State, stateList, "Select an option...", new { @class = "ss-field-width-dd" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.Zipcode, new { @class = "ss-field-width" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.Zipcode, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr class="ss-light-orange-bg ss-field-name">
+                    <td>Floor</td>
+                    <td>Market</td>
+                    <td>Area</td>
+                    <td>Neighborhood</td>
+                </tr>
+                <tr class="ss-field-bg ss-field">
+                    <td>
+                        @Html.TextBoxFor(model => model.Floor, new { @class = "ss-field-width" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.Floor, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(model => model.Market, marketList, "Select an option...", new { @class = "ss-field-width-dd" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.Market, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(model => model.Area, areaList, "Select an option...", new { @class = "ss-field-width-dd" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(model => model.Neighborhood, neighborhoodList, "Select an option...", new { @class = "ss-field-width-dd" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.Neighborhood, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+
+                <!-- proprty status -->
+                <tr class="ss-orange-bg ss-field-header">
+                    <td colspan="4">Property Status</td>
+                </tr>
+                <tr class="ss-light-orange-bg ss-field-name">
+                    <td>Status</td>
+                    <td>Start Date</td>
+                    <td>Contract Date</td>
+                    <td>Onboarding Date</td>
+                </tr>
+                <tr class="ss-field-bg ss-field">
+                    <td>
+                        @Html.DropDownListFor(model => model.PropertyStatus, propertyStatusList, "Select an option...", new { @class = "ss-field-width-dd" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.PropertyStatus, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.ListingStartDate, new { @class = "ss-field-width ss-simple-datepicker" + @ViewBag.ViewClass + @ViewBag.EditClass, width = "100%" })
+                        @Html.ValidationMessageFor(m => m.ListingStartDate, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.PendingContractDate, new { @class = "ss-field-width ss-simple-datepicker" + @ViewBag.ViewClass + @ViewBag.EditClass, width = "100%" })
+                        @Html.ValidationMessageFor(model => model.PendingContractDate, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.PendingOnboardingDate, new { @class = "ss-field-width ss-simple-datepicker" + @ViewBag.ViewClass + @ViewBag.EditClass, width = "100%" })
+                        @Html.ValidationMessageFor(model => model.PendingOnboardingDate, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+
+                <!-- reservation information -->
+                <tr class="ss-orange-bg ss-field-header">
+                    <td colspan="4">Reservation Information</td>
+                </tr>
+                <tr class="ss-light-orange-bg ss-field-name">
+                    <td colspan="2">Booking Guidelines</td>
+                    <td colspan="2">Operations Contact</td>
+                </tr>
+                <tr class="ss-field-bg ss-field">
+                    <td colspan="2">
+                        @Html.TextAreaFor(model => model.BookingGuidelines, new { @class = "ss-field-width ss-field-textarea" + @ViewBag.ViewClass + @ViewBag.EditClass, @rows = 5 })
+                        @Html.ValidationMessageFor(model => model.BookingGuidelines, "", new { @class = "text-danger" })
+                    </td>
+                    <td colspan="2">
+                        @Html.TextAreaFor(model => model.AirbnbiCalexportlink, new { @class = "ss-field-width ss-field-textarea" + @ViewBag.ViewClass + @ViewBag.EditClass, @rows = 5 })
+                        @Html.ValidationMessageFor(model => model.AirbnbiCalexportlink, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+
+                <!-- owner details -->
+                <tr class="ss-orange-bg ss-field-header">
+                    <td colspan="4">Owner Details</td>
+                </tr>
+                <tr class="ss-light-orange-bg ss-field-name">
+                    <td>Owner Contact</td>
+                    <td>Product</td>
+                    <td>Owner Approval?</td>
+                    <td></td>
+                </tr>
+                <tr class="ss-field-bg ss-field">
+                    <td>
+                        @Html.TextBoxFor(model => model.Owner, new { @class = "ss-field-width" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.Owner, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(model => model.Vertical, verticalList, "Select an option...", new { @class = "ss-field-width-dd" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.Vertical, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(model => model.NeedsOwnerApproval, booleanList, "Select an option...", new { @class = "ss-field-width-dd" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.NeedsOwnerApproval, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        <div class="hide">
+                            @Html.TextBoxFor(model => model.Ownership, new { @class = "ss-field-width" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                            @Html.ValidationMessageFor(model => model.Ownership, "", new { @class = "text-danger" })
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- listing details -->
+                <tr class="ss-orange-bg ss-field-header">
+                    <td colspan="4">Listing Details</td>
+                </tr>
+                <tr class="ss-light-orange-bg ss-field-name">
+                    <td colspan="2">Airbnb Listing Title</td>
+                    <td>Airbnb Account</td>
+                    <td>Airbnb ID</td>
+                </tr>
+                <tr class="ss-field-bg ss-field">
+                    <td colspan="2">
+                        @Html.TextBoxFor(model => model.AirBnBHomeName, new { @class = "ss-field-width" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.AirBnBHomeName, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(x => x.Account, (IEnumerable<SelectListItem>)ViewBag.Accounts, "Type to find account...", new { @class = "kendo-searchable-dorpdown ss-field-width-dd" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.Account, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.AIrBnBID, new { @class = "ss-field-width" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.AIrBnBID, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr class="ss-light-orange-bg ss-field-name">
+                    <td>Streamline Home ID</td>
+                    <td>HomeAway Property Code</td>
+                    <td>Cleaning Fee</td>
+                    <td>Security Deposit</td>
+                </tr>
+                <tr class="ss-field-bg ss-field">
+                    <td>
+                        @Html.TextBoxFor(model => model.StreamlineHomeName, new { @class = "ss-field-width" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.StreamlineHomeName, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.HomeAway, new { @class = "ss-field-width" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.HomeAway, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.CleaningFees, new { @class = "ss-field-width" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.CleaningFees, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.SecurityDeposit, new { @class = "ss-field-width" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.SecurityDeposit, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+
+                <!-- property details -->
+                <tr class="ss-orange-bg ss-field-header">
+                    <td colspan="4">Property Details</td>
+                </tr>
+                <tr class="ss-light-orange-bg ss-field-name">
+                    <td>Max Occupancy</td>
+                    <td>Bedrooms</td>
+                    <td>Bathrooms</td>
+                    <td>Bedroom Description</td>
+                </tr>
+                <tr class="ss-field-bg ss-field">
+                    <td>
+                        @Html.TextBoxFor(model => model.MaxOcc, new { @class = "ss-field-width" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.MaxOcc, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.Bedrooms, new { @class = "ss-field-width" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.Bedrooms, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.Bathrooms, new { @class = "ss-field-width" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.Bathrooms, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.BedsDescription, new { @class = "ss-field-width" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.BedsDescription, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr class="ss-light-orange-bg ss-field-name">
+                    <td colspan="2">Parking</td>
+                    <td>WiFI Network</td>
+                    <td>WiFi Password</td>
+                </tr>
+                <tr class="ss-field-bg ss-field">
+                    <td colspan="2">
+                        @Html.TextBoxFor(model => model.Parking, new { @class = "ss-field-width" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.Parking, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.WiFiNetwork, new { @class = "ss-field-width" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.WiFiNetwork, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.WiFiPassword, new { @class = "ss-field-width" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.WiFiPassword, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+
+                <!-- property amenitites -->
+                <tr class="ss-orange-bg ss-field-header">
+                    <td colspan="4">Property Amenities</td>
+                </tr>
+                <tr class="ss-light-orange-bg ss-field-name">
+                    <td>Elevator</td>
+                    <td>A/C</td>
+                    <td>Pool</td>
+                    <td>Walk-through Checklist</td>
+                </tr>
+                <tr class="ss-field-bg ss-field">
+                    <td>
+                        @Html.DropDownListFor(model => model.Elevator, yesNoNaList, "Select an option...", new { @class = "ss-field-width-dd" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.Elevator, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.A_C, new { @class = "ss-field-width" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.A_C, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(model => model.Pool, yesNoList, "Select an option...", new { @class = "ss-field-width-dd" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.Pool, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.Amenities, new { @class = "ss-field-width" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.Amenities, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+
+                <!-- property financials -->
+                <tr class="ss-orange-bg ss-field-header hide">
+                    <td colspan="4">Property Financials</td>
+                </tr>
+                <tr class="ss-light-orange-bg ss-field-name hide">
+                    <td>Outstanding Balance</td>
+                    <td>Owner Entity</td>
+                    <td>Owner Payout</td>
+                    <td>Payment Email</td>
+                </tr>
+                <!-- =======================================================================-->
+                <!-- Obsolete; <tr> to be removed after the fields are deleted from schema. -->
+                <!-- =======================================================================-->
+                <tr class="ss-field-bg ss-field hide">
+                    <td style="padding-left:0;">
+                        <div class="input-group">
+                            <div class="input-group-addon ss-addon-no-gap">$</div>
+                            @Html.TextBoxFor(model => model.OutstandingBalance, new { @class = "ss-field-currency" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.OutstandingBalance, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.OwnerEntity, new { @class = "ss-field-width" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.OwnerEntity, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.OwnerPayout, new { @class = "ss-field-width" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.OwnerPayout, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.PaymentEmail, new { @class = "ss-field-width" + @ViewBag.ViewClass + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(model => model.PaymentEmail, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Action buttons -->
+        @if (string.IsNullOrEmpty(ViewBag.EditClass))
+        {
+            <div class="app-action-panel" style="padding:0px 0 50px 0px;">
+                <div class="control-group">
+                    <div class="col-xs-offset-2 col-xs-10">
+                        @if (@ViewBag.Title == "View Property")
+                        {
+                            <input id="propertyCancel" type="button" value="Close" class="btn btn-warning" />
+                        }
+                        else
+                        {
+                            <input id="propertySave" type="button" value="@ViewBag.ButtonText" class="btn btn-success btn-default" />
+                            <input id="propertyCancel" type="button" value="Cancel" class="btn btn-warning" />
+                        }
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div id="InputErrorMessage" style="color:red;margin-top:15px;margin-left:15px;"></div>
+            </div>
+        }
+    </div>
+
+    @Html.HiddenFor(model => model.AirBnb);
+    @Html.HiddenFor(model => model.Currency);
+    @Html.HiddenFor(model => model.GoogleDrivePicturesLink);
+    @Html.HiddenFor(model => model.StdOcc);
+    @Html.HiddenFor(model => model.MonthlyRent);
+    @Html.HiddenFor(model => model.DailyRent);
+    @Html.HiddenFor(model => model.OldListingTitle);
+    @Html.HiddenFor(model => model.Inactive);
+    @Html.HiddenFor(model => model.Dead);
+    @Html.HiddenFor(model => model.CreatedDate);
+    @Html.HiddenFor(model => model.CreatedBy);
+}
+
+<script>
+    $(document).ready(function () {
+        DojoWeb.Plugin.initDatePicker('.ss-simple-datepicker');
+        DojoWeb.Plugin.initSearchableList('#Account', 'AccountSearchableSelect');
+    });
+</script>

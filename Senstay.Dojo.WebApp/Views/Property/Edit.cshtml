@@ -1,0 +1,489 @@
+﻿@model Senstay.Dojo.Models.CPL
+@using Senstay.Dojo.Data.Providers
+
+@{
+    ViewBag.PageHint = "property";
+    ViewBag.ViewClass = ViewBag.Title == "View Property" ? " app-form-view" : "";
+}
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger" role="alert">@ViewBag.ErrorMessage</div>
+}
+
+@using (Ajax.BeginForm("Edit", "Property", new AjaxOptions
+    {
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "edit-ajax-target",
+        LoadingElementId = "edit-ajax-wait",
+        OnSuccess = "DojoWeb.PropertyForm.refresh",
+        OnFailure = "DojoWeb.PropertyForm.serverError"
+    },
+    new { @id = "PropertyEntryForm", @class = "form-horizontal", role = "form" }))
+{
+
+    @Html.AntiForgeryToken()
+
+    <div class="app-form-content form-horizontal form-page-bk-gray">
+        <div class="form-page-title form-h2">@ViewBag.Title</div>
+        <div class="form-page-title-divider"></div>
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="col-xs-3">
+            <!-- AirBnBHomeName -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.AirBnBHomeName, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.AirBnBHomeName, new { @class = "form-control input-sm" + @ViewBag.ViewClass })
+                    @Html.ValidationMessageFor(model => model.AirBnBHomeName, "", new { @class = "text-danger" })
+                </div>
+           </div>
+            <!-- PropertyCode -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.PropertyCode, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.PropertyCode, new { @class = "form-control input-sm" + @ViewBag.ViewClass })
+                    @Html.ValidationMessageFor(model => model.PropertyCode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- Vertical -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.Vertical, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.DropDownListFor(model => model.Vertical, ListProvider.VerticalList, new { @class = "form-control input-sm" + @ViewBag.ViewClass })
+                    @Html.ValidationMessageFor(model => model.Vertical, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- City -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.DropDownListFor(model => model.City, ListProvider.CityList, new { @class = "form-control input-sm" + @ViewBag.ViewClass })
+                    @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- ListingStartDate -->
+            <div class="form-group">
+                <div>@Html.LabelFor(m => m.ListingStartDate, new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(m => m.ListingStartDate, new { @class = "app-simple-datepicker" + @ViewBag.ViewClass, @Value = "" })
+                    @Html.ValidationMessageFor(m => m.ListingStartDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- Bedrooms -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.Bedrooms, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.Bedrooms, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.Bedrooms, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- MaxOcc -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.MaxOcc, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.MaxOcc, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.MaxOcc, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- Parking -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.Parking, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.Parking, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.Parking, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- MonthlyRent -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.MonthlyRent, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.MonthlyRent, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.MonthlyRent, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- SecurityDeposit -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.SecurityDeposit, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.SecurityDeposit, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.SecurityDeposit, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- BookingGuidelines -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.BookingGuidelines, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextAreaFor(model => model.BookingGuidelines, new { @class = "form-control input-sm" + @ViewBag.ViewClass })
+                    @Html.ValidationMessageFor(model => model.BookingGuidelines, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- BeltDesignation -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.BeltDesignation, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.DropDownListFor(model => model.BeltDesignation, ListProvider.BeltDesignationList, new { @class = "form-control input-sm" + @ViewBag.ViewClass })
+                    @Html.ValidationMessageFor(model => model.BeltDesignation, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-3">
+            <!-- StreamlineHomeName -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.StreamlineHomeName, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.StreamlineHomeName, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.StreamlineHomeName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- PropertyStatus -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.PropertyStatus, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.DropDownListFor(model => model.PropertyStatus, ListProvider.PropertyList, new { @class = "form-control input-sm" + @ViewBag.ViewClass })
+                    @Html.ValidationMessageFor(model => model.PropertyStatus, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- Market -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.Market, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.DropDownListFor(model => model.Market, ListProvider.MarketList, new { @class = "form-control input-sm" + @ViewBag.ViewClass })
+                    @Html.ValidationMessageFor(model => model.Market, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- State -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.State, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- Inactive -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.Inactive, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(m => m.Inactive, new { @class = "app-simple-datepicker" + @ViewBag.ViewClass, @Value = "" })
+                    @Html.ValidationMessageFor(model => model.Inactive, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- Bathrooms -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.Bathrooms, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.Bathrooms, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.Bathrooms, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- StdOcc -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.StdOcc, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.StdOcc, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.StdOcc, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- Pool -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.Pool, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.DropDownListFor(model => model.Pool, ListProvider.YesNotList, new { @class = "form-control input-sm" + @ViewBag.ViewClass })
+                    @Html.ValidationMessageFor(model => model.Pool, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- DailyRent -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.DailyRent, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.DailyRent, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.DailyRent, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- SquareFootage -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.SquareFootage, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.SquareFootage, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.SquareFootage, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- Ownership -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.Ownership, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.Ownership, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.Ownership, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- AirbnbiCalexportlink -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.AirbnbiCalexportlink, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.AirbnbiCalexportlink, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.AirbnbiCalexportlink, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- AirBnb Post -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.AirBnb, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.AirBnb, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.AirBnb, "", new { @class = "text-danger" })
+                </div>
+            </div>
+       </div>
+        <div class="col-xs-3">
+            <!-- StreamlineUnitID -->
+            <div class="form-group">
+                @Html.LabelFor(model => model.StreamlineUnitID, htmlAttributes: new { @class = "control-label" })
+                <div>
+                    @Html.TextBoxFor(model => model.StreamlineUnitID, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.StreamlineUnitID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- Address -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.Address, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- Area -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.Area, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.DropDownListFor(model => model.Area, ListProvider.AreaList, new { @class = "form-control input-sm" + @ViewBag.ViewClass })
+                    @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- Zipcode -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.Zipcode, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.Zipcode, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.Zipcode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- PendingContractDate -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.PendingContractDate, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.PendingContractDate, new { htmlAttributes = new { @class = "app-simple-datepicker" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.PendingContractDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- BedsDescription -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.BedsDescription, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.BedsDescription, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.BedsDescription, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- Elevator -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.Elevator, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.DropDownListFor(model => model.Elevator, ListProvider.YesNoNotAvailableList, new { @class = "form-control input-sm" + @ViewBag.ViewClass })
+                    @Html.ValidationMessageFor(model => model.Elevator, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- WiFiNetwork -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.WiFiNetwork, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.WiFiNetwork, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.WiFiNetwork, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- CleaningFees -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.CleaningFees, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.CleaningFees, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.CleaningFees, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- Amenities -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.Amenities, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.Amenities, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.Amenities, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- AIrBnBID -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.AIrBnBID, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.AIrBnBID, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.AIrBnBID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- GoogleDrivePicturesLink -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.GoogleDrivePicturesLink, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.GoogleDrivePicturesLink, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.GoogleDrivePicturesLink, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- FlipKey -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.FlipKey, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.FlipKey, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.FlipKey, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-3">
+            <!-- Account -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.Account, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    <div class="input-group" id="AccountMultiSelect">
+                        @Html.DropDownListFor(x => x.Account, (IEnumerable<SelectListItem>)ViewBag.Accounts, new { @class = "select-autocomplete" + @ViewBag.ViewClass })
+                        @Html.ValidationMessageFor(model => model.Account, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <!-- NeedsOwnerApproval -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.NeedsOwnerApproval, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.DropDownListFor(model => model.NeedsOwnerApproval, ListProvider.NoolBoolList, new { @class = "form-control input-sm" + @ViewBag.ViewClass })
+                    @Html.ValidationMessageFor(model => model.NeedsOwnerApproval, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- Neighborhood -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.Neighborhood, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.DropDownListFor(model => model.Neighborhood, ListProvider.NeighborhoodList, new { @class = "form-control input-sm" + @ViewBag.ViewClass })
+                    @Html.ValidationMessageFor(model => model.Neighborhood, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- Owner -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.Owner, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.Owner, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.Owner, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- PendingOnboardingDate -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.PendingOnboardingDate, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.PendingOnboardingDate, new { htmlAttributes = new { @class = "app-simple-datepicker" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.PendingOnboardingDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- Floor -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.Floor, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.Floor, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.Floor, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- A_C -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.A_C, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.A_C, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.A_C, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- WiFiPassword -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.WiFiPassword, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.WiFiPassword, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.WiFiPassword, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- Currency -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.Currency, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.DropDownListFor(model => model.Currency, ListProvider.CurrencyList, new { @class = "form-control input-sm" + @ViewBag.ViewClass })
+                    @Html.ValidationMessageFor(model => model.Currency, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- CheckInType -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.CheckInType, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.CheckInType, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.CheckInType, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- OldListingTitle -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.OldListingTitle, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.OldListingTitle, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.OldListingTitle, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- HomeAway Post -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.HomeAway, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.HomeAway, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.HomeAway, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- Expedia -->
+            <div class="form-group">
+                <div>@Html.LabelFor(model => model.Expedia, htmlAttributes: new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(model => model.Expedia, new { htmlAttributes = new { @class = "form-control input-sm" + @ViewBag.ViewClass } })
+                    @Html.ValidationMessageFor(model => model.Expedia, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+
+        <!-- Action buttons -->
+        <div class="app-action-panel">
+            <div class="form-group">
+                <div class="col-md-offset-2 col-xs-10">
+                    @if (@ViewBag.Title == "View Property")
+                    {
+                        <input id="propertyCancel" type="button" value="Close" class="btn btn-warning" />
+                    }
+                    else
+                    {
+                        <input id="propertySave" type="submit" value="@ViewBag.ButtonText" class="btn btn-success btn-default" />
+                        <input id="propertyCancel" type="button" value="Cancel" class="btn btn-warning" />
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- back link -->
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-10">
+                @Html.ActionLink("Back to Availalbe Properties List", "Index")
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/app/property.js")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            DojoWeb.PropertyForm.init('PropertyEntryForm');
+        });
+    </script>
+}

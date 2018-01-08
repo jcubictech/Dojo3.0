@@ -1,0 +1,51 @@
+﻿@using Senstay.Dojo.Data.Providers
+
+@{
+    ViewBag.App = "SenStay Dojo App";
+    ViewBag.Title = "SenStay Dojo Home";
+    ViewBag.PageHint = "Home";
+}
+
+<div class="app-page-content">
+    <div class="ss-page-title ss-h2">@ViewBag.Title</div>
+    <div class="ss-article-title-divider"></div>
+    <div class="ss-simple-box" style="margin:10px;">
+        <div class="ss-h4 text-success">
+            @if (AuthorizationProvider.NoRoleAssignment())
+            {
+                <span>
+                    You have successfully associated your social media account with @ViewBag.App.
+                    We will notify you when we complete the final registration step for your account.
+                </span>
+            }
+            else if (!AuthorizationProvider.IsAuthenticated())
+            {
+                <div><span>Please sign-in to access @ViewBag.App.</span></div>
+            }
+            else
+            {
+                <div style="font-size:20px;">
+                    <span>Please use menu above to start your Dojo day.</span>
+                    <div style="padding-top:10px;">
+                        <b>Do you know...</b> that you can set your favorite page as the start page by
+                        clicking the <i class="fa fa-heart-o"></i> icon when it appears on the menu of a page?
+                    </div>
+                </div>
+            }
+        </div >
+    </div >
+</div >
+
+@section CustomFormStyle
+{
+    <style type="text/css">
+        body {
+            overflow: hidden;
+        }
+    </style>
+}
+
+@section styles
+{
+        <link rel="Stylesheet" href="@Href("~/content/app/appform.css")" />
+}

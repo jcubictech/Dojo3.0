@@ -1,0 +1,46 @@
+﻿@model Senstay.Dojo.Models.View.SendCodeViewModel
+@{
+    ViewBag.Title = "Send";
+}
+
+<div class="ss-page-content ss-page-form-720">
+    <div class="ss-page-title ss-h2"> @ViewBag.Title</div>
+    <div class="ss-article-title-divider"></div>
+    <div class="ss-simple-box">
+        @using (Html.BeginForm("SendCode", "Account", new { ReturnUrl = Model.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("rememberMe", @Model.RememberMe)
+            <div class="ss-h4">Send verification code from @ViewBag.AppName Site :</div>
+
+            <div class="signin-section">
+                <div class="form-group">
+                    <div class="col-xs-6 control-group">
+                        <div class="control-label">Select Two-Factor Authentication Provider:</div>
+                        <div class="input-group">
+                            <div class="input-group-addon"><span class="fa fa-database"><span>Provider</span></span></div>
+                            @Html.DropDownListFor(model => model.SelectedProvider, Model.Providers)
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-xs-6 ss-section-spacing-top">
+                        <input type="submit" value="Submit" class="btn btn-default lead-width" />
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/appform.css")" />
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

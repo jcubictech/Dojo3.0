@@ -1,0 +1,58 @@
+﻿@model Senstay.Dojo.Models.View.VerifyCodeViewModel
+@{
+    ViewBag.Title = "Verify";
+}
+
+<div class="ss-page-content ss-page-form-720">
+    <div class="ss-page-title ss-h2"> @ViewBag.Title</div>
+    <div class="ss-article-title-divider"></div>
+    <div class="ss-simple-box">
+        @using (Html.BeginForm("VerifyCode", "Account", new { ReturnUrl = Model.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("provider", @Model.Provider)
+            @Html.Hidden("rememberMe", @Model.RememberMe)
+            <h4>Enter verification code</h4>
+            <div class="ss-h4">Enter verification code for @ViewBag.AppName Site :</div>
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+
+            <div class="signin-section">
+                <div class="form-group">
+                    <div class="col-xs-6 control-group">
+                        <div class="input-group">
+                            <div class="input-group-addon lead-width"><span class="fa fa-barcode"><span>Code</span></span></div>
+                            @Html.TextBoxFor(m => m.Code, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-6 control-group">
+                    <div class="checkbox no-left-margin">
+                        @Html.CheckBoxFor(m => m.RememberBrowser)
+                        @Html.LabelFor(m => m.RememberBrowser)
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-6 ss-section-spacing-top">
+                    <input type="submit" value="Submit" class="btn btn-default lead-width" />
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        }
+    </div>
+</div>
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/appform.css")" />
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

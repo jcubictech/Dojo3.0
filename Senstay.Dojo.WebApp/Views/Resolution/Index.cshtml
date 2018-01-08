@@ -1,0 +1,81 @@
+﻿@using Senstay.Dojo.Data.Providers
+@using Senstay.Dojo.Models
+@using Heroic.Web.IoC
+
+@{
+    ViewBag.App = "SenStay Dojo App";
+    ViewBag.Title = "Revenue - Resolutions";
+    ViewBag.PageHint = "Revenue";
+
+    var dbContext = Context.GetContainer().GetInstance<DojoDbContext>();
+    var provider = new PropertyProvider(dbContext);
+    var propertyCodeList = provider.StatementPropertyCodes();
+    var defaultMonth = DateTime.Today.AddMonths(-1).ToString("MMMM yyyy");
+}
+
+<div class="revenue-page">
+    <div class="revenue-h2">@ViewBag.Title <span id="dataCount"></span></div>
+    <div class="row">
+        <div class="revenue-filters">
+            <div class="float-left statement-filter-item300 statement-filter-margin">
+                <div class="control-group">
+                    <div class="input-group revenue-input-item">
+                        <div class="input-group-addon"><span class="fa fa-calendar"><span> Month</span></span></div>
+                        <input id="revenueMonth" value="@defaultMonth" title="Revenue Month" />
+                    </div>
+                </div>
+            </div>
+            <div id="orphanNotice" class="float-left hide" style="margin-top:3px;">
+                <span></span>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+    <!-- action alert when there is internal error -->
+    <div id="revenue-alert"></div>
+
+    <div class="revenue-data-grid">
+        <div id="revenueGrid" class="revenue-grid @ViewBag.ReviewerClass @ViewBag.ApproverClass @ViewBag.FinalizerClass @ViewBag.AdminClass @ViewBag.EditClass"></div>
+    </div>
+
+    <!-- slding out alert messaging -->
+    <div id="actionAlert" class="alert-container"></div>
+</div >
+
+@Html.Partial("_DialogPartial")
+
+@Html.Partial("_ConfirmationDialog")
+
+@section CustomFormStyle
+{
+    <style type="text/css">
+        body {overflow:hidden;}
+        #formDialog input.input-sm { margin-bottom: 0px !important; }
+        .dialog-page-content { padding:0px 0px 20px 20px; }
+        html .k-grid tr:hover { background: transparent; }
+        html .k-grid tr.k-alt:hover { background: #f1f1f1; }
+        .k-grid-content .k-detail-cell .k-grid {width:700px;}
+        .k-grid-content {height:auto;}
+        .k-grid tbody .k-button { min-width:0px; }
+        .k-button.k-button-icontext.k-grid-delete span.k-icon.k-i-close:before { content: "\e10c" }
+    </style>
+}
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/revenue.css")" />
+}
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/app/revenueWorkflow.js")
+    @Scripts.Render("~/Scripts/app/confirmationCodePicker.js")
+    @Scripts.Render("~/Scripts/app/resolutionRevenue.js")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            DojoWeb.ResolutionRevenue.init('revenueGrid');
+        });
+    </script>
+}

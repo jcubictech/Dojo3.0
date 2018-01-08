@@ -1,0 +1,34 @@
+﻿@{
+    ViewBag.Title = "Properties List Upload";
+    ViewBag.SubmenuHint = "properties";
+}
+
+@if (ViewBag.UploadMessage != null)
+{
+    <div class="alert alert-success" role="alert">@ViewBag.UploadMessage. You can view @Html.ActionLink("CPL now", "Index")</div>
+}
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger" role="alert">@ViewBag.ErrorMessage</div>
+}
+
+<div class="ss-page-content">
+    <div class="ss-page-title ss-h2">@ViewBag.Title</div>
+    <div class="ss-article-title-divider bottom-margin-15"></div>
+
+    <div class="alert alert-info" role="alert">This operation updates all existing properties and uploads new from csv file</div>
+
+    <div class="ss-simple-box">
+        @using (Html.BeginForm("Upload", "CPL", FormMethod.Post, new { @id = "UploadForm", @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Partial("_FileUploadPartial")
+        }
+    </div>
+</div>
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/appform.css")" />
+}
+

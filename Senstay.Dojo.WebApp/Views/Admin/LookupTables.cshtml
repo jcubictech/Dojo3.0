@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.AppName = "SenStay Dojo";
+    ViewBag.Title = "SenStay Dojo Dropdown List Management";
+    ViewBag.PageHint = "Administration";
+}
+
+<div class="ss-page-content ss-grid-full">
+    <div class="ss-page-title ss-h2">@ViewBag.Title</div>
+    <div class="ss-article-title-divider"></div>
+
+    <div id="ss-user-alert" class="alert-container" style="margin-top:10px;"></div>
+
+    <div class="ss-grid-container">
+        @Html.AntiForgeryToken()
+
+        <div class="row lookup-table-group">
+            <span class="looup-table-item">Select a dropdown list to edit: </span>
+            <span class="looup-table-item"><input type="radio" name="Lookup-table" id="lookup-table" value="SenStayAccount" onclick="DojoWeb.LookupEditor.rebind('SenStayAccount')" /> SenStay Account</span>
+            <span class="looup-table-item"><input type="radio" name="Lookup-table" id="lookup-table" value="Cause" onclick="DojoWeb.LookupEditor.rebind('Cause')" /> Cause</span>
+            <span class="looup-table-item"><input type="radio" name="Lookup-table" id="lookup-table" value="Product" checked="checked" onclick="DojoWeb.LookupEditor.rebind('Vertical')" /> Product</span>
+            <span class="looup-table-item"><input type="radio" name="Lookup-table" id="lookup-table" value="Market" onclick="DojoWeb.LookupEditor.rebind('Market')" /> Market</span>
+            <span class="looup-table-item"><input type="radio" name="Lookup-table" id="lookup-table" value="Channel" onclick="DojoWeb.LookupEditor.rebind('Channel')" /> Channel</span>
+            <span class="looup-table-item"><input type="radio" name="Lookup-table" id="lookup-table" value="City" onclick="DojoWeb.LookupEditor.rebind('City')" /> City</span>
+            <span class="looup-table-item"><input type="radio" name="Lookup-table" id="lookup-table" value="State" onclick="DojoWeb.LookupEditor.rebind('AbbreviatedState')" /> State</span>
+            <span class="looup-table-item"><input type="radio" name="Lookup-table" id="lookup-table" value="Area" onclick="DojoWeb.LookupEditor.rebind('Area')" /> Area</span>
+            <span class="looup-table-item"><input type="radio" name="Lookup-table" id="lookup-table" value="Neighborhood" onclick="DojoWeb.LookupEditor.rebind('Neighborhood')" /> Neighborhood</span>
+            @*<span class="looup-table-item"><input type="radio" name="Lookup-table" id="lookup-table" value="PaymentMethod" onclick="DojoWeb.LookupEditor.rebind('PaymentMethod')" /> Payment Method</span>*@
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="lookup-table-editor">
+            <div id="lookupGrid" class="ss-grid-900"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+@section CustomFormStyle
+{
+    <style type="text/css">
+        body {overflow:hidden;}
+    </style>
+}
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/appform.css")" />
+}
+
+@section Scripts
+{
+    @Scripts.Render("~/Scripts/app/lookupEditor.js")
+
+    <script>
+        $(function () { // will trigger when the document is ready
+            $(document).ready(function () {
+                DojoWeb.LookupEditor.init('lookupGrid', 'Vertical');
+            });
+        });
+    </script>
+}

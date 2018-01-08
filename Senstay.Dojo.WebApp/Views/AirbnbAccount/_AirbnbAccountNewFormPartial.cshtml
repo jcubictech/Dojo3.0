@@ -1,0 +1,236 @@
+﻿@model Senstay.Dojo.Models.AirbnbAccount
+@using Senstay.Dojo.Data.Providers
+@using Senstay.Dojo.Models
+@using Heroic.Web.IoC
+
+@{
+    ViewBag.ViewClass = ViewBag.Title == "View Airbnb Account" ? " app-form-view" : "";
+    ViewBag.SubmenuHint = "accounts";
+    var dbContext = Context.GetContainer().GetInstance<DojoDbContext>();
+    var verticalList = new LookupProvider(dbContext).GetLookupList(LookupType.Vertical);
+}
+
+@using (Ajax.BeginForm("ModalEdit", "AirbnbAccount", new AjaxOptions
+            {
+                HttpMethod = "POST",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "account-ajax-target",
+                LoadingElementId = "account-ajax-wait",
+                OnSuccess = "DojoWeb.AirbnbAccountForm.refresh",
+                OnFailure = "DojoWeb.AirbnbAccountForm.serverError"
+            },
+            new { @id = "AirbnbAccountNewForm", @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div id="account-ajax-target">
+        <div id="account-ajax-wait" style="display:none">
+            Loading...<img src="~/content/Images/ajax-loader.gif" />
+        </div>
+
+        <div class="clearfix"></div>
+        <div class="dialog-page-content" style="padding:15px 0px 30px 0px;">
+            <!-- contact info -->
+            <div class="col-xs-3">
+                <div class="control-group">
+                    <div>@Html.LabelFor(model => model.Email, new { @class = "control-label" }) *</div>
+                    <div>
+                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control input-sm" + @ViewBag.ViewClass })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="control-group">
+                    <div>@Html.LabelFor(model => model.Gmailpassword, new { @class = "control-label" })</div>
+                    <div>
+                        @Html.TextBoxFor(model => model.Gmailpassword, new { @class = "form-control input-sm" + @ViewBag.ViewClass })
+                        @Html.ValidationMessageFor(model => model.Gmailpassword, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-3">
+                <div class="control-group">
+                    <div>@Html.LabelFor(model => model.SecondaryAccountEmail, new { @class = "control-label" })</div>
+                    <div>
+                        @Html.TextBoxFor(model => model.SecondaryAccountEmail, new { @class = "form-control input-sm" + @ViewBag.ViewClass })
+                        @Html.ValidationMessageFor(model => model.SecondaryAccountEmail, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="control-group">
+                    <div>@Html.LabelFor(model => model.DateAdded, new { @class = "control-label" })</div>
+                    <div>
+                        @Html.TextBoxFor(model => model.DateAdded, new { @class = "app-simple-datepicker" + @ViewBag.ViewClass, width = "104%" })
+                        @Html.ValidationMessageFor(model => model.DateAdded, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <!-- owner info -->
+            <div class="col-xs-3">
+                <div class="control-group">
+                    <div>@Html.LabelFor(model => model.Owner_Company, new { @class = "control-label" })</div>
+                    <div>
+                        @Html.TextBoxFor(model => model.Owner_Company, new { @class = "form-control input-sm" + @ViewBag.ViewClass })
+                        @Html.ValidationMessageFor(model => model.Owner_Company, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="control-group">
+                    <div>@Html.LabelFor(model => model.Name, new { @class = "control-label" })</div>
+                    <div>
+                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control input-sm" + @ViewBag.ViewClass })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-3">
+                <div class="control-group">
+                    <div>@Html.LabelFor(model => model.PhoneNumber1, new { @class = "control-label" })</div>
+                    <div>
+                        @Html.TextBoxFor(model => model.PhoneNumber1, new { @class = "form-control input-sm" + @ViewBag.ViewClass })
+                        @Html.ValidationMessageFor(model => model.PhoneNumber1, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="control-group">
+                    <div>@Html.LabelFor(model => model.PhoneNumberOwner, new { @class = "control-label" })</div>
+                    <div>
+                        @Html.TextBoxFor(model => model.PhoneNumberOwner, new { @class = "form-control input-sm" + @ViewBag.ViewClass })
+                        @Html.ValidationMessageFor(model => model.PhoneNumberOwner, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <!-- listing info -->
+            <div class="col-xs-3">
+                <div class="control-group">
+                    <div>@Html.LabelFor(model => model.DOB1, new { @class = "control-label" })</div>
+                    <div>
+                        @Html.TextBoxFor(model => model.DOB1, new { @class = "app-simple-datepicker" + @ViewBag.ViewClass, width = "104%" })
+                        @Html.ValidationMessageFor(model => model.DOB1, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="control-group">
+                    <div>@Html.LabelFor(model => model.Vertical, new { @class = "control-label" })</div>
+                    <div>
+                        @Html.DropDownListFor(model => model.Vertical, verticalList, "Select an option...", new { @class = "form-control input-sm shared-dropdown-field" + @ViewBag.ViewClass })
+                        @Html.ValidationMessageFor(model => model.Vertical, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-3">
+                <div class="control-group">
+                    <div>@Html.LabelFor(model => model.Status, new { @class = "control-label" })</div>
+                    <div>
+                        @Html.DropDownListFor(model => model.Status, ListProvider.StatusList, "Select an option...", new { @class = "form-control input-sm shared-dropdown-field" + @ViewBag.ViewClass })
+                        @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="control-group">
+                    <div>@Html.LabelFor(model => model.Payout_Method, new { @class = "control-label" })</div>
+                    <div>
+                        @Html.TextBoxFor(model => model.Payout_Method, new { @class = "form-control input-sm" + @ViewBag.ViewClass })
+                        @Html.ValidationMessageFor(model => model.Payout_Method, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <!-- personal info -->
+            <div class="col-xs-3">
+                <div class="control-group">
+                    <div>@Html.LabelFor(model => model.PointofContact, new { @class = "control-label" })</div>
+                    <div>
+                        @Html.TextBoxFor(model => model.PointofContact, new { @class = "form-control input-sm" + @ViewBag.ViewClass })
+                        @Html.ValidationMessageFor(model => model.PointofContact, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="control-group">
+                    <div>@Html.LabelFor(model => model.DOB2, new { @class = "control-label" })</div>
+                    <div>
+                        @Html.TextBoxFor(model => model.DOB2, new { @class = "app-simple-datepicker" + @ViewBag.ViewClass, width = "100%" })
+                        @Html.ValidationMessageFor(model => model.DOB2, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-3">
+                <div class="control-group">
+                    <div>@Html.LabelFor(model => model.PhoneNumber2, new { @class = "control-label" })</div>
+                    <div>
+                        @Html.TextBoxFor(model => model.PhoneNumber2, new { @class = "form-control input-sm" + @ViewBag.ViewClass })
+                        @Html.ValidationMessageFor(model => model.PhoneNumber2, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="control-group">
+                    <div>@Html.LabelFor(model => model.EmailAddress, new { @class = "control-label" })</div>
+                    <div>
+                        @Html.TextBoxFor(model => model.EmailAddress, new { @class = "form-control input-sm" +  @ViewBag.ViewClass })
+                        @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <!-- others -->
+            <div class="col-xs-3">
+                <div class="control-group">
+                    <div>@Html.LabelFor(model => model.ProxyIP, new { @class = "control-label" })</div>
+                    <div>
+                        @Html.TextBoxFor(model => model.ProxyIP, new { @class = "form-control input-sm" + @ViewBag.ViewClass })
+                        @Html.ValidationMessageFor(model => model.ProxyIP, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+            </div>
+            <div class="col-xs-3">
+                <div class="control-group">
+                    <div>@Html.LabelFor(model => model.C2ndProxyIP, new { @class = "control-label" })</div>
+                    <div>
+                        @Html.TextBoxFor(model => model.C2ndProxyIP, new { @class = "form-control input-sm" + @ViewBag.ViewClass })
+                        @Html.ValidationMessageFor(model => model.C2ndProxyIP, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <!-- action buttons -->
+            @if (string.IsNullOrEmpty(ViewBag.EditClass))
+            {
+                <div class="app-action-panel" style="padding: 0 0 60px 15px;">
+                    <div class="control-group">
+                        <div class="col-xs-offset-2 col-xs-10" style="margin-top:20px;padding-left:0px;">
+                            @if (@ViewBag.Title == "View Account")
+                            {
+                                <input id="AirbnbAccountCancel" type="button" value="Close" class="btn btn-warning" />
+                            }
+                            else
+                            {
+                                <input id="AirbnbAccountSave" type="button" value="@ViewBag.ButtonText" class="btn btn-success btn-default" />
+                                <input id="AirbnbAccountCancel" type="button" value="Cancel" class="btn btn-warning" />
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @Html.Hidden("Id", Model.Id);
+        </div>
+    </div>
+}

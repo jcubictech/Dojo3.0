@@ -1,0 +1,111 @@
+﻿.revenue-page {margin-top:0px;padding:0px 20px 0px 20px;min-height:400px;}
+.revenue-page-title {padding-bottom:20px;}
+.revenue-h2 {font-size:24px;padding:20px 10px;font-weight:bold;}
+.revenue-input-item {width:100%;}
+.revenue-data-grid {margin-top:20px;}
+.grid-cell-align-right {text-align:right;}
+.grid-cell-align-center {text-align:center;}
+.grid-cell-align-left {text-align:left;}
+.dojo-center {padding:0px 0px !important;}
+.dojo-pointer {cursor:pointer;}
+.icon-gap {margin-right:10px;}
+.btn.round {border-radius:18px; padding:0px 12px 3px 12px;}
+.btn.review {color: #fff; background-color: #428bca; border-color: #357ebd;}
+.revenue-form-col {width:33%;padding-top:0px;padding-bottom:0px;}
+.revenue-form-width {padding-top:0px;padding-bottom:0px;}
+.revenue-form-leftcol {padding-left:0px;}
+.revenue-form-rightcol {padding-right:0px;}
+.revenue-form-field {width:250px;padding-right:30px;padding-bottom:15px;}
+.revenue-form-single-field {width:320px;padding-right:30px;padding-bottom:15px;}
+.revenue-form-split-field {width:380px;padding-right:30px;padding-bottom:15px;}
+.revenue-form-field {width:250px;padding-right:30px;padding-bottom:15px;}
+.revenue-form-field3 {width:810px;padding-left:0px;}
+.revenue-form-field2 {width:530px;padding-left:0px;}
+.revenue-form-field1 {width:250px;margin-left:30px;padding-bottom:15px;}
+.revenue-form-combobox1 {width:260px;margin-right:20px;}
+.revenue-confirmation-width {width:260px;}
+.revenue-money-width {width:100px;}
+.revenue-money-textbox {border:1px solid #ccc;width:80px;text-align:right;}
+.revenue-note-textbox {border:1px solid #ccc;margin-left:20px;width:90%;}
+.revenue-note-label {margin-left:20px;width:90%;float:left;text-align:left;}
+.revenue-left {float:left;}
+.revenue-right {float:right;text-align:right;}
+.revenue-acton-icon {width:20px;cursor:pointer;text-align:center;vertical-align:middle;border:0;}
+.btn-spacing {margin-right:10px;}
+.showReservationInfo, .showResolutionInfo {cursor:pointer;color:navy;}
+.showReservationInfo:hover, .showResolutionInfo:hover {text-decoration:underline;}
+.expense-tree-node {line-height:16px;padding:3px;}
+.combine-expenses-action {margin-top:15px;margin-bottom:10px;}
+.combine-expenses-tip {font-size:16px;padding-top:5px 15px 15px 10px;color:darkorange;}
+.statement-filter-margin {padding-left:20px;}
+.statement-filter-item100 {width:100px;}
+.statement-filter-item300 {width:300px;}
+.statement-filter-item400 {width:400px;}
+.statement-filter-item500 {width:500px;}
+.statement-filter-item600 {width:600px;}
+.statement-filter-item700 {width:700px;}
+.statement-filter-item800 {width:800px;}
+.statement-filters {padding:0px 20px 10px 20px;}
+/*.expense-tree-node:before {content: "\f09d";font-family:FontAwesome;left:-5px;position:absolute;top:5px;}*/
+
+.split-form-field {width:150px;padding-right:30px;padding-bottom:15px;}
+.split-form-field1 {width:150px;}
+.split-form-field11 {width:170px;}
+
+#paidPayoutAmount {padding-left:10px;line-height:36px;font-size:16px;font-weight:bold;}
+#discrepancyPayout {margin-left:20px;margin-top:5px;}
+#discrepancyPayout span {padding-left:10px;}
+#IsFinalized {margin-right:10px;}
+.revenue-button {padding-left:10px;padding-right:10px;text-decoration:none;}
+.revenue-button a {text-decoration:none;}
+
+/* pauout method / payment */
+.payout-payment-view, .rebalance-view {margin-top:20px;padding:0px 20px 0px 0px;max-height:640px;overflow:auto;font-weight:normal;font-size:16px;font-family:Arial, Helvetica, sans-serif;}
+.payout-payment-table, .rebalance-table {border:2px solid gray;}
+.payment-row, .rebalance-row {height:28px;border:1px solid gray;}
+.payment-row td, .payment-header td, .rebalance-row td, .rebalance-header td {padding:5px 10px 5px 5px;}
+.payout-payment-col-1 {border:1px solid gray;width:290px;text-align:left;}
+.payout-payment-col-2 {border-bottom:1px solid gray;border-right:1px solid gray;width:150px;text-align:right;}
+.payout-payment-col-3 {border-bottom:1px solid gray;border-right:1px solid gray;width:120px;text-align:right;}
+.payment-header {border-bottom:2px solid gray;font-weight:bold;height:28px;border:1px solid gray;border-bottom:2px solid gray;}
+.payment-item, .rebalance-item {border-width:0px;border:none;width:150px;text-align:right;}
+.payment-edit-color, .rebalance-edit-color {background-color:#fcf0e2;}
+.payment-edit-text-color, .rebalance-edit-text-color {color:#e48c21;font-weight:bold;}
+.payment-actionbar {padding:0 0 5px 0;}
+.rebalance-col-1 {border:1px solid gray;width:150px;text-align:left;}
+.rebalance-col-2 {border-bottom:1px solid gray;border-right:1px solid gray;width:150px;text-align:right;}
+.rebalance-col-3 {border-bottom:1px solid gray;border-right:1px solid gray;width:150px;text-align:right;}
+.rebalance-header {border-bottom:2px solid gray;height:28px;border:1px solid gray;border-bottom:2px solid gray;}
+.rebalance-actionbar {padding:0 0 10px 0;}
+.balanceTotal {padding-top:10px;font-weight:bold;}
+.payment-actionbar a, .rebalance-actionbar a {text-decoration:none;}
+
+.rebalance-form-field {width:280px;padding-right:30px;padding-bottom:15px;}
+.rebalance-note {padding-bottom:5px;font-size:16px;}
+.rebalance-note span {margin-left:10px;}
+.remove-rebalance {padding-bottom:5px;}
+#rebalanceResult {margin-bottom:20px;margin-top:10px;}
+.removeRebalance {cursor:pointer;}
+
+.k-window-title {font-weight:bold;font-size:20px;}
+
+/* centres the image */
+.k-grid .k-button-icontext .k-icon {}
+
+/* make font awesome icon show up in kendo button */
+.k-button .fa {
+        font-size: inherit;
+        line-height: inherit;
+        width: auto;
+        height: auto;
+        margin-left: 0;
+    }
+
+/* changes default width of the button
+.k-grid tbody .k-button {
+    -moz-min-width:32px;
+    -ms-min-width:32px;
+    o-min-width:32px;
+    -webkit-min-width:32px;
+    min-width:32px;width:32px;
+}*/

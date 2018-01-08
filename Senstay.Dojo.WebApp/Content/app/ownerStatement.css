@@ -1,0 +1,96 @@
+﻿.statement-logo img {height:40px;width:100px;}
+.owner-statement-page {min-height:600px;}
+.pull-left {float:left;}
+.pull-right {float:right;}
+.right {text-align:right;}
+.spacing-top-10 {padding-top:10px;}
+.spacing-top-30 {padding-top:30px;}
+.spacing-bottom-20 {padding-bottom:20px;}
+.spacing-bottom-10 {padding-bottom:10px;}
+.gap-top-15 {margin-top:15px;}
+.gap-right-10 {margin-right:10px;}
+.statement-h2 {font-size:24px;padding:20px 25px;font-weight:bold;}
+/* owner summary */
+.owner-summary-view {margin-top:30px;padding:0px 20px 0px 20px;width:1740px;}
+.statement-banner {height:100px;border:2px solid black;margin-bottom:10px;padding:10px;}
+.statement-title {height:40px;font-weight:bold;font-size:32px;color:black;background-color:white;}
+div.statement-text {font-size:16px;font-weight:normal;line-height:60px;vertical-align:bottom;}
+.statement-container {border:2px solid black;font-family:Arial, Helvetica, sans-serif;}
+.statement-notes-container {border:2px solid black;font-family:Arial, Helvetica, sans-serif;margin-top:10px;}
+.statement-content {width:100%;}
+.summary-title {line-height:44px;font-weight:bold;font-size:24px;vertical-align:middle;color:white;background-color:#e48c21;padding-left:10px;border-bottom:1px solid black;}
+.summary-header {font-size:16px;font-weight:bold;background-color:white;line-height:16px;height:44px;}
+.statement-header {font-size:16px;font-weight:bold;background-color:white;line-height:16px;height:28px;}
+.statement-row {font-size:16px;font-weight:normal;padding-left:10px;}
+.statement-summary-row {font-size:16px;border-top:2px solid black;border-bottom:2px solid black;height:28px;font-weight:bold;}
+.statement-total-row {font-weight:bold;font-size:20px;}
+.statement-col-1 {width:130px;padding-left:10px;}
+.statement-col-2 {width:280px;}
+.statement-col-3 {width:150px;text-align:right;}
+.statement-col-4 {width:150px;text-align:right;}
+.statement-col-5 {width:100px;text-align:right;}
+.statement-col-6 {width:130px;text-align:right;}
+.statement-col-7 {width:120px;text-align:right;}
+.statement-col-8 {width:130px;text-align:right;}
+.statement-col-9 {width:145px;text-align:right;}
+.statement-col-10 {width:150px;text-align:right;}
+.statement-col-11 {width:150px;text-align:right;}
+.statement-col-12 {width:100px;text-align:right;}
+.statement-col-13 {width:120px;text-align:right;padding-right:10px;}
+.statement-col-1-1 {width:145px;padding-left:10px;}
+.statement-col-2-1 {width:295px;}
+.statement-col-3-1 {width:165px;text-align:right;}
+.statement-col-4-1 {width:165px;text-align:right;}
+.statement-col-5-1 {width:115px;text-align:right;}
+.statement-col-6-1 {width:145px;text-align:right;}
+.statement-col-7-1 {width:100px;text-align:right;}
+.statement-col-8-1 {width:130px;text-align:right;}
+.statement-col-9-1 {width:145px;text-align:right;}
+.statement-col-10-1 {width:165px;text-align:right;}
+.statement-col-11-1 {width:135px;text-align:right;}
+.statement-col-13-1 {width:130px;text-align:right;padding-right:10px;}
+.statement-col-nowrap {padding-top:30px;}
+.statement-col-right {text-align:right; padding-right:10px;}
+/* statement summary */
+.owner-statementSummary-view {margin-top:30px;padding:0px 20px 0px 20px;width:1100px;}
+.statementSummary-col-1 {width:400px;padding-left:10px;}
+.statementSummary-col-2 {width:200px;text-align:right;padding-right:10px;}
+.statementSummary-payout-row {font-size:16px;border-top:2px solid black;font-weight:bold;height:32px;}
+.statementSummary-summary-row {font-size:16px;border-top:2px solid black;font-weight:bold;height:32px;}
+.statementSummary-action {width:456px;text-align:center;cursor:pointer;padding-left:5px;}
+.statementSummary-note {border:2px solid black;}
+.summary-note-title {text-align:left;line-height:44px;font-weight:bold;font-size:24px;color:white;background-color:#e48c21;padding-left:10px;width:446px;margin-left:1px;border-bottom:1px solid black;}
+.statementSummary-note-body {text-align:left;height:219px;}
+.stateSummary-finalize-row {padding-right:10px; padding-bottom:5px;height:100px;}
+.statementSummary-note-text {padding-right:10px;padding-top:9px;font-size:16px;border:none;}
+#finalize-text {font-size:16px;font-weight:bold;}
+/* reservations */
+.owner-reservations-view {margin-top:30px;padding:0px 20px 0px 20px;width:1810px;}
+.reservations-col-1 {width:200px;padding-left:10px;}
+.reservations-col-2 {width:205px;}
+.reservations-col-3 {width:150px;}
+.reservations-col-4 {width:150px;}
+.reservations-col-5 {width:150px;text-align:right;}
+.reservations-col-6 {width:200px;text-align:right;padding-right:10px;}
+.reservations-summary-row {font-size:16px;margin-top:20px;border-top:2px solid black;height:32px;font-weight:bold;}
+.reservations-note-title {height:48px;font-size:20px;vertical-align:middle;padding-left:10px;border-bottom:1px solid black;}
+.reservations-note {width:700px;padding-left:10px;}
+/* advance payments */
+.owner-advancePayments-view {margin-top:30px;padding:0px 20px 0px 20px;width:1100px;}
+.advancePayments-col-1 {width:700px;padding-left:10px;}
+.advancePayments-col-2 {width:150px;}
+.advancePayments-col-3 {width:200px;text-align:right;padding-right:10px;}
+.advancePayments-summary-row {font-size:16px;border-top:2px solid black;height:32px;font-weight:bold;}
+/* unit expenses */
+.owner-unitExpenses-view {margin-top:30px;padding:0px 20px 0px 20px;width:1100px;}
+.unitExpenses-col-1 {width:600px;padding-left:10px;}
+.unitExpenses-col-2 {width:250px;}
+.unitExpenses-col-3 {width:200px;text-align:right;}
+.unitExpenses-summary-row {font-size:16px;border-top:2px solid black;height:32px;font-weight:bold;}
+/* statement footnote */
+.owner-footnote-view {margin-top:20px;padding:0px 20px 0px 20px;width:1100px;}
+.statement-footnote-row {font-size:12px;font-weight:normal;}
+.footnote-item {padding-left:10px;}
+/* statement banner */
+.owner-banner-view {margin-top:30px;padding:0px 20px 0px 20px;width:1100px;}
+.statementView {margin-top:20px;}

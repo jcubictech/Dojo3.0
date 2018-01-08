@@ -1,0 +1,75 @@
+﻿@using Senstay.Dojo.Data.Providers
+@{
+    ViewBag.Release = System.Configuration.ConfigurationManager.AppSettings["ReleaseVersion"];
+    ViewBag.Release = string.IsNullOrEmpty(ViewBag.Release) ? ViewBag.Release : "2017";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=deviss-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/app")
+</head>
+<body>
+    <!-- wait animation div -->
+    <div id="waitAnimation"><i class="fa fa-spinner fa-pulse"></i></div>
+
+    <div class="container">
+        @Html.Partial("_MenuViewPartial")
+
+        <div class="app-page-container">
+            <!-- client side alert -->
+            <div id="postback-alert" class="alert-container"></div>
+
+            @RenderBody()
+            @Html.Partial("_FooterPartial")
+            @Html.Partial("_NewFeaturePartial")
+        </div>
+    </div>
+
+    @*<span id="top-link-block" class="hidden">
+        <a class="well well-sm" onclick="$('html,body').animate({scrollTop:0},'slow');return false;">
+            <i class="glyphicon glyphicon-chevron-up"></i> Back to Top
+        </a>
+    </span>*@
+
+    <!-- server side alert -->
+    @Html.Partial("_Alerts")
+
+    <link rel="Stylesheet" href="@Href("~/content/app/site.css?r=" + ViewBag.Release)" />
+
+    @RenderSection("styles", required: false)
+    @RenderSection("scripts", required: false)
+
+    @if (IsSectionDefined("CustomFormStyle"))
+    {
+        @RenderSection("CustomFormStyle");
+    }
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ($('.actionBar').length == 0) {
+                $('.app-page-container').css('top', '100px');
+            }
+            // add site indicator text to banner for non-production site
+            var testSiteIP = '@System.Web.Configuration.WebConfigurationManager.AppSettings["DevElasticIP"]';
+            var pageUrl = window.location.href.toLowerCase();
+            if (pageUrl.indexOf(testSiteIP) > 0) {
+                $('.dojosite-text').html('*** TEST Site ***');
+            }
+            else if (pageUrl.indexOf('localhost') > 0) {
+                $('.dojosite-text').html('*** Local Dev Site ***');
+            }
+        });
+    </script>
+</body>
+</html>

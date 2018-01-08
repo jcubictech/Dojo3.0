@@ -1,0 +1,18 @@
+﻿<div id="newFeature-dialog">
+    <div class="col-xs-12 no-left-padding dialog-instruction"></div>
+    <div class="recent-features">
+        <!-- TODO: these options will be generated dynamically in script when the releases grow -->
+        @*<ul>
+            <li>Recent features:</li>
+            <li id="feature-1" class="selected-feature"><a href="javascript:DojoWeb.NewFeature.recentFeature('feature-1', '04/08/2017')">Current</a></li>
+            <li id="feature-2"><a href="javascript:DojoWeb.NewFeature.recentFeature('feature-2','03/25/2017')">03/25</a></li>
+        </ul>*@
+    </div>
+    <div class="col-xs-12 new-feature-btn dialog-ok">Got it</div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        DojoWeb.NewFeature.init();
+    });
+</script>

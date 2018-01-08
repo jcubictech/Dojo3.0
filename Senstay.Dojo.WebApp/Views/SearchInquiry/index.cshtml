@@ -1,0 +1,28 @@
+﻿@model Senstay.Dojo.Models.View.InquiryViewModel
+
+@{
+    ViewBag.AppName = "SenStay Dojo App";
+    ViewBag.Title = "SearchInquiry";
+    ViewBag.PageHint = "searchInquiry";
+}
+
+<div class="navbar navbar-fixed-top actionBar-fixed-top">
+    @Html.Partial("_SearchActionBarPartial")
+</div>
+
+<div id="InquiryList" class="app-page-content">
+    <div id="inquiryGrid" class="app-grid"></div>
+</div>
+
+<div><span id="inquiryNotification" style="display:none;"></span></div>
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/app/searchInquiry.js?r=" + ViewBag.Release)
+
+    <script>
+        $(document).ready(function () {
+            DojoWeb.SearchInquiry.init('inquiryGrid');
+        });
+    </script>
+}

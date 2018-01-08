@@ -1,0 +1,46 @@
+﻿@{
+    Layout = null;
+    ViewBag.PageHint = "Home";
+}
+@model Senstay.Dojo.Models.View.MaintenanceViewModel
+
+@section CustomFormStyle
+{
+    <style type="text/css">
+        body {
+            overflow: hidden;
+        }
+    </style>
+}
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/Content/app/site.css")" />
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SenStay Dojo Web Application - Maintenance</title>
+    @Styles.Render("~/Content/css")
+</head>
+<body>
+    <div style="padding:50px;float:left;">
+        <table cellpadding="0" cellspacing="0" width=""100%">
+            <tr>
+                <td><div style="float-left"><img src="~/Content/dojo-icon.png" /></div></td>
+                <td style="padding-left:30px;">
+                    <div>
+                        <h1>SenStay Dojo Web Application is offline for maintenance.</h1>
+                        <h2>The maintenance is expected to end at @Model.EstimatedOnLineTime.ToString("hh:mm tt dddd, MMMM d, yyyy")</h2>
+                    </div>
+                </td>
+            </tr>
+        </table>     
+    </div>
+</body>
+</html>
+

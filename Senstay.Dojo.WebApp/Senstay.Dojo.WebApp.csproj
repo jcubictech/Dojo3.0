@@ -1,0 +1,849 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2DACBC9F-F71F-4306-8F31-153CE1F15307}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Senstay.Dojo</RootNamespace>
+    <AssemblyName>Senstay.Dojo</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort>
+    </IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AutoMapper, Version=4.2.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.2.0\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AWSSDK, Version=2.3.55.2, Culture=neutral, PublicKeyToken=9f476d3089b52be3, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.2.3.55.2\lib\net45\AWSSDK.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.1.0\lib\net40\EPPlus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Google.Apis, Version=1.27.1.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.1.27.1\lib\net45\Google.Apis.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Google.Apis.Auth, Version=1.27.1.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Auth.1.27.1\lib\net45\Google.Apis.Auth.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Google.Apis.Auth.PlatformServices, Version=1.27.1.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Auth.1.27.1\lib\net45\Google.Apis.Auth.PlatformServices.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Google.Apis.Core, Version=1.27.1.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Core.1.27.1\lib\net45\Google.Apis.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Google.Apis.Drive.v3, Version=1.27.1.886, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Drive.v3.1.27.1.886\lib\net45\Google.Apis.Drive.v3.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Google.Apis.PlatformServices, Version=1.27.1.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.1.27.1\lib\net45\Google.Apis.PlatformServices.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Google.Apis.Sheets.v4, Version=1.27.1.883, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Sheets.v4.1.27.1.883\lib\net45\Google.Apis.Sheets.v4.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Google.GData.Client, Version=2.2.0.0, Culture=neutral, PublicKeyToken=04a59ca9b0273830, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.GData.Client.2.2.0.0\lib\Google.GData.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Google.GData.Extensions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=0b4c5df2ebf20876, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.GData.Extensions.2.2.0.0\lib\Google.GData.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Google.GData.Spreadsheets, Version=2.2.0.0, Culture=neutral, PublicKeyToken=3f77feb76ff0d9a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.GData.Spreadsheets.2.2.0.0\lib\Google.GData.Spreadsheets.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Heroic.AutoMapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Heroic.AutoMapper.2.0.0\lib\net45\Heroic.AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Heroic.Web.IoC, Version=4.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Heroic.Web.IoC.4.1.2\lib\net45\Heroic.Web.IoC.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Mvc, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mvc2Futures.2.0.50217.0\lib\Microsoft.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.3.10\lib\net45\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="StructureMap, Version=4.0.1.318, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\structuremap.4.0.1.318\lib\net40\StructureMap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="StructureMap.Net4, Version=4.0.1.318, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\structuremap.4.0.1.318\lib\net40\StructureMap.Net4.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.SqlServer.Compact.4.0.8876.1\lib\net40\System.Data.SqlServerCe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.1.0\lib\net40\WebActivatorEx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.3.0.1\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.3.0.1\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter">
+      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.3.0.1\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
+      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.3.0.1\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AppResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_Start\AutoMapperConfig.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\LogConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\StructureMapConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AirbnbAccountController.cs" />
+    <Compile Include="Controllers\ImportController.cs" />
+    <Compile Include="Controllers\ExpenseController.cs" />
+    <Compile Include="Controllers\PropertyEntityController.cs" />
+    <Compile Include="Controllers\PropertyCodeController.cs" />
+    <Compile Include="Controllers\PropertyTitleController.cs" />
+    <Compile Include="Controllers\PropertyFeeController.cs" />
+    <Compile Include="Controllers\PropertyAccountController.cs" />
+    <Compile Include="Controllers\PayoutMethodController.cs" />
+    <Compile Include="Controllers\OwnerPaymentController.cs" />
+    <Compile Include="Controllers\OwnerStatementController.cs" />
+    <Compile Include="Controllers\OtherRevenueController.cs" />
+    <Compile Include="Controllers\StatementReportController.cs" />
+    <Compile Include="Controllers\ResolutionController.cs" />
+    <Compile Include="Controllers\ReservationController.cs" />
+    <Compile Include="Controllers\OwnerPayoutController.cs" />
+    <Compile Include="Controllers\NewFeatureController.cs" />
+    <Compile Include="Controllers\ProxyController.cs" />
+    <Compile Include="Controllers\InquiryController.cs" />
+    <Compile Include="Controllers\PropertyController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\ExportDbController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MenuController.cs" />
+    <Compile Include="Controllers\AppLogController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\LookupController.cs" />
+    <Compile Include="Controllers\RoleManagerController.cs" />
+    <Compile Include="Controllers\UserManagerController.cs" />
+    <Compile Include="Controllers\UserInvitationController.cs" />
+    <Compile Include="Controllers\UserRoleMasnagerController.cs" />
+    <Compile Include="Data\AWS\AwsConstants.cs" />
+    <Compile Include="Data\AWS\AwsFile.cs" />
+    <Compile Include="Data\GoogleDrive\ResolutionProvider.cs" />
+    <Compile Include="Data\GoogleDrive\ReservationProvider.cs" />
+    <Compile Include="Data\GoogleDrive\OwnerPayoutProvider.cs" />
+    <Compile Include="Data\Providers\AirbnbImportProvider.cs" />
+    <Compile Include="Data\Providers\AuthorizationProvider.cs" />
+    <Compile Include="Data\Providers\AirbnbAccountProvider.cs" />
+    <Compile Include="Data\Providers\CrudProvider.cs" />
+    <Compile Include="Data\Providers\PropertyAccountProvider.cs" />
+    <Compile Include="Data\Providers\PropertyBalanceImportProvider.cs" />
+    <Compile Include="Data\Providers\PropertyCodeProvider.cs" />
+    <Compile Include="Data\Providers\PropertyTitleProvider.cs" />
+    <Compile Include="Data\Providers\FutureRevenueProvider.cs" />
+    <Compile Include="Data\Providers\StatementCompletionProvider.cs" />
+    <Compile Include="Data\Providers\StatementReportProvider.cs" />
+    <Compile Include="Data\Providers\PropertyFeeProvider.cs" />
+    <Compile Include="Data\Providers\PropertyEntityProvider.cs" />
+    <Compile Include="Data\Providers\RebalanceProvider.cs" />
+    <Compile Include="Data\Providers\OwnerPaymentProvider.cs" />
+    <Compile Include="Data\Providers\PropertyBalanceProvider.cs" />
+    <Compile Include="Data\Providers\PayoutMethodProvider.cs" />
+    <Compile Include="Data\Providers\PayoutPaymentProvider.cs" />
+    <Compile Include="Data\Providers\PropertyTitleHistoryProvider.cs" />
+    <Compile Include="Data\Providers\PropertyFeeImportProvider.cs" />
+    <Compile Include="Data\Providers\ResolutionRevenueProvider.cs" />
+    <Compile Include="Data\Providers\JobCostImportProvider.cs" />
+    <Compile Include="Data\Providers\OffAirbnbImportProvider.cs" />
+    <Compile Include="Data\Providers\InquiryProvider.cs" />
+    <Compile Include="Data\Providers\CustomFilterProvider.cs" />
+    <Compile Include="Data\Providers\ClaimProvider.cs" />
+    <Compile Include="Data\Providers\LookupProvider.cs" />
+    <Compile Include="Data\Providers\NewFeatureProvider.cs" />
+    <Compile Include="Data\Providers\ExpenseRevenueProvider.cs" />
+    <Compile Include="Data\Providers\OtherRevenueProvider.cs" />
+    <Compile Include="Data\Providers\OwnerStatementProvider.cs" />
+    <Compile Include="Data\Providers\PropertyProvider.cs" />
+    <Compile Include="Data\GoogleDrive\StreamlineProvider.cs" />
+    <Compile Include="Data\GoogleDrive\ExpenseProvider.cs" />
+    <Compile Include="Data\Providers\OwnerPayoutRevenueProvider.cs" />
+    <Compile Include="Data\Providers\OtherRevenueTableProvider.cs" />
+    <Compile Include="Data\Providers\ReservationRevenueProvider.cs" />
+    <Compile Include="Data\SeedData.cs" />
+    <Compile Include="Helpers\ClaimHelper.cs" />
+    <Compile Include="Helpers\GoogleServiceHelper.cs" />
+    <Compile Include="Helpers\GoogleDriveHelper.cs" />
+    <Compile Include="Helpers\LogHelper.cs" />
+    <Compile Include="Infrastructure\ModelMetadata\ClaimsAuthorizationAttribute.cs" />
+    <Compile Include="Infrastructure\ModelMetadata\LayoutInjecterAttribute.cs" />
+    <Compile Include="Data\Providers\IDataProvider.cs" />
+    <Compile Include="Data\Providers\MenuContentProvider.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\HelperClass\Approver.cs" />
+    <Compile Include="Models\HelperClass\ProcessResult.cs" />
+    <Compile Include="Models\HelperClass\SqlResult.cs" />
+    <Compile Include="Models\Grid\ResolutionRevenueModel.cs" />
+    <Compile Include="Models\Grid\ExpenseRevenueModel.cs" />
+    <Compile Include="Models\Grid\OtherRevenueModel.cs" />
+    <Compile Include="Models\Grid\OwnerPayoutRevenueModel.cs" />
+    <Compile Include="Models\Grid\ReservationRevenueModel.cs" />
+    <Compile Include="Models\HelperClass\ImportFile.cs" />
+    <Compile Include="Data\Providers\ListProvider.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\NLogExtension.cs" />
+    <Compile Include="Infrastructure\DojoActionFilterRegistry.cs" />
+    <Compile Include="Infrastructure\ActionResults\StandardJsonResult.cs" />
+    <Compile Include="Infrastructure\Alerts\Alert.cs" />
+    <Compile Include="Infrastructure\Alerts\AlertDecoratorResult.cs" />
+    <Compile Include="Infrastructure\Alerts\AlertExtensions.cs" />
+    <Compile Include="Infrastructure\AppBaseController.cs" />
+    <Compile Include="Infrastructure\ConfigurationRegistry.cs" />
+    <Compile Include="Infrastructure\HandleErrorExtension.cs" />
+    <Compile Include="Infrastructure\HtmlHelpers\BootstrapHelpers.cs" />
+    <Compile Include="Infrastructure\HtmlHelpers\HtmlHelperExtensions.cs" />
+    <Compile Include="Infrastructure\HtmlHelpers\JavaScriptHelper.cs" />
+    <Compile Include="Infrastructure\Mappings\IAppCustomMappings.cs" />
+    <Compile Include="Infrastructure\Mappings\RegistrationMappings.cs" />
+    <Compile Include="Infrastructure\ModelMetadata\DisallowHtmlValidationProvider.cs" />
+    <Compile Include="Infrastructure\ModelMetadata\ExtensibleModelMetadataProvider.cs" />
+    <Compile Include="Infrastructure\ModelMetadata\Filters\LabelConventionFilter.cs" />
+    <Compile Include="Infrastructure\ModelMetadata\Filters\ReadOnlyTemplateSelectorFilter.cs" />
+    <Compile Include="Infrastructure\ModelMetadata\Filters\TextAreaByNameFilter.cs" />
+    <Compile Include="Infrastructure\ModelMetadata\Filters\UserIDDropDownByNameFilter.cs" />
+    <Compile Include="Infrastructure\ModelMetadata\Filters\WatermarkConventionFilter.cs" />
+    <Compile Include="Infrastructure\ModelMetadata\IModelMetadataFilter.cs" />
+    <Compile Include="Infrastructure\ModelMetadata\SenstayEmailAttribute.cs" />
+    <Compile Include="Infrastructure\ModelMetadata\ModelMetadataRegistry.cs" />
+    <Compile Include="Infrastructure\ModelMetadata\RenderAttribute.cs" />
+    <Compile Include="Infrastructure\Tasks\IRunAfterEachRequest.cs" />
+    <Compile Include="Infrastructure\Tasks\IRunAtInit.cs" />
+    <Compile Include="Infrastructure\Tasks\IRunAtStartup.cs" />
+    <Compile Include="Infrastructure\Tasks\IRunOnEachRequest.cs" />
+    <Compile Include="Infrastructure\Tasks\IRunOnError.cs" />
+    <Compile Include="Infrastructure\Tasks\TaskRegistry.cs" />
+    <Compile Include="Infrastructure\TransactionPerRequest.cs" />
+    <Compile Include="Infrastructure\UserStoreRegistry.cs" />
+    <Compile Include="Models\View\AccountViewModels.cs" />
+    <Compile Include="Models\View\ActionBarViewModel.cs" />
+    <Compile Include="Models\View\AirbnbAccountViewModel.cs" />
+    <Compile Include="Models\View\AirbnbImportViewModel.cs" />
+    <Compile Include="Models\View\DownloadViewModel.cs" />
+    <Compile Include="Models\View\InquiryInfoViewModel.cs" />
+    <Compile Include="Models\View\MaintenanceViewModel.cs" />
+    <Compile Include="Models\View\ManageViewModels.cs" />
+    <Compile Include="Models\View\MenuViewModel.cs" />
+    <Compile Include="Models\View\AppLogViewModel.cs" />
+    <Compile Include="Models\View\InquiryViewModel.cs" />
+    <Compile Include="Models\View\ImportViewModel.cs" />
+    <Compile Include="Models\View\FutureRevenueViewModel.cs" />
+    <Compile Include="Models\View\StatementReportViewModel.cs" />
+    <Compile Include="Models\View\RebalanceEditModel.cs" />
+    <Compile Include="Models\View\PayoutMethodPaymentEditModel.cs" />
+    <Compile Include="Models\View\PayoutMethodPaymentViewModel.cs" />
+    <Compile Include="Models\View\OwnerStatementSummaryModel.cs" />
+    <Compile Include="Models\View\ResolutionViewModel.cs" />
+    <Compile Include="Models\View\ReservationViewModel.cs" />
+    <Compile Include="Models\View\PropertyViewModel.cs" />
+    <Compile Include="Models\View\OwnerPayoutViewModel.cs" />
+    <Compile Include="Models\View\OwnerStatementViewModel.cs" />
+    <Compile Include="Models\View\UploadViewModel.cs" />
+    <Compile Include="Models\View\UserInvitationViewModel.cs" />
+    <Compile Include="Models\View\PropertyAccountViewModel.cs" />
+    <Compile Include="Models\View\UserRoleManagementViewModel.cs" />
+    <Compile Include="Models\View\UserManagementViewModel.cs" />
+    <Compile Include="Models\View\RoleManagementViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\app\ownerStatement.css" />
+    <Content Include="Content\app\import.css" />
+    <Content Include="Content\app\report.css" />
+    <Content Include="Content\app\revenue.css" />
+    <Content Include="Content\app\appform.css" />
+    <Content Include="Content\app\site.css" />
+    <Content Include="Content\bootstrap-multiselect.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Bootstrap\editor.png" />
+    <Content Include="Content\Bootstrap\imagebrowser.png" />
+    <Content Include="Content\Bootstrap\indeterminate.gif" />
+    <Content Include="Content\Bootstrap\loading-image.gif" />
+    <Content Include="Content\Bootstrap\loading.gif" />
+    <Content Include="Content\Bootstrap\loading_2x.gif" />
+    <Content Include="Content\Bootstrap\markers.png" />
+    <Content Include="Content\Bootstrap\markers_2x.png" />
+    <Content Include="Content\Bootstrap\slider-h.gif" />
+    <Content Include="Content\Bootstrap\slider-v.gif" />
+    <Content Include="Content\Bootstrap\sprite.png" />
+    <Content Include="Content\Bootstrap\sprite_2x.png" />
+    <Content Include="Content\Bootstrap\sprite_kpi.png" />
+    <Content Include="Content\Bootstrap\sprite_kpi_2x.png" />
+    <Content Include="Content\dojo-icon.png" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\images\icon\attach.png" />
+    <Content Include="Content\images\icon\eraser.png" />
+    <Content Include="Content\images\senstay_logo.png" />
+    <Content Include="Content\images\senstay_logo2.png" />
+    <Content Include="Content\kendo.bootstrap.min.css" />
+    <Content Include="Content\kendo.common.min.css" />
+    <Content Include="Content\kendo.default.min.css" />
+    <Content Include="Content\searchable.multiselect.css" />
+    <Content Include="Content\themes\base\accordion.css" />
+    <Content Include="Content\themes\base\all.css" />
+    <Content Include="Content\themes\base\autocomplete.css" />
+    <Content Include="Content\themes\base\base.css" />
+    <Content Include="Content\themes\base\button.css" />
+    <Content Include="Content\themes\base\core.css" />
+    <Content Include="Content\themes\base\datepicker.css" />
+    <Content Include="Content\themes\base\dialog.css" />
+    <Content Include="Content\themes\base\draggable.css" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\menu.css" />
+    <Content Include="Content\themes\base\progressbar.css" />
+    <Content Include="Content\themes\base\resizable.css" />
+    <Content Include="Content\themes\base\selectable.css" />
+    <Content Include="Content\themes\base\selectmenu.css" />
+    <Content Include="Content\themes\base\slider.css" />
+    <Content Include="Content\themes\base\sortable.css" />
+    <Content Include="Content\themes\base\spinner.css" />
+    <Content Include="Content\themes\base\tabs.css" />
+    <Content Include="Content\themes\base\theme.css" />
+    <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Scripts\app\AirbnbAccount.js" />
+    <Content Include="Scripts\app\actionDashboard.js" />
+    <Content Include="Scripts\app\confirmationCodePicker.js" />
+    <Content Include="Scripts\app\airbnbImport.js" />
+    <Content Include="Scripts\app\futureRevenue.js" />
+    <Content Include="Scripts\app\propertyCode.js" />
+    <Content Include="Scripts\app\statementReport.js" />
+    <Content Include="Scripts\app\ownerPayment.js" />
+    <Content Include="Scripts\app\resolutionRevenue.js" />
+    <Content Include="Scripts\app\expense.js" />
+    <Content Include="Scripts\app\import.js" />
+    <Content Include="Scripts\app\ownerSummary.js" />
+    <Content Include="Scripts\app\ownerStatement.js" />
+    <Content Include="Scripts\app\ownerPayout.js" />
+    <Content Include="Scripts\app\inquiry.js" />
+    <Content Include="Scripts\app\otherRevenue.js" />
+    <Content Include="Scripts\app\resolutionReport.js" />
+    <Content Include="Scripts\app\reservationReport.js" />
+    <Content Include="Scripts\app\ownerPayoutReport.js" />
+    <Content Include="Scripts\app\property.js" />
+    <Content Include="Scripts\app\dojoCommon.js" />
+    <Content Include="Scripts\app\kendo.all.js" />
+    <Content Include="Scripts\app\report.js" />
+    <Content Include="Scripts\app\ownerPayoutRevenue.js" />
+    <Content Include="Scripts\app\reservationRevenue.js" />
+    <Content Include="Scripts\app\revenueWorkflow.js" />
+    <Content Include="Scripts\app\services\bootstrapAlerts.js" />
+    <Content Include="Scripts\app\appLog.js" />
+    <Content Include="Scripts\app\reportchart.js" />
+    <Content Include="Scripts\app\lookupEditor.js" />
+    <Content Include="Scripts\app\propertyAccount.js" />
+    <Content Include="Scripts\app\userManager.js" />
+    <Content Include="Scripts\bootstrap-multiselect.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="NLog.config" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\PublishProfiles\Jcubic Dojo Dev Web Deployment.pubxml" />
+    <None Include="Properties\PublishProfiles\Local Dojo 2.0 Web Deployment.pubxml" />
+    <None Include="Properties\PublishProfiles\Senstay Dojo Dev Web Deployment.pubxml" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\datejs.js" />
+    <Content Include="Scripts\formsScrits.js" />
+    <Content Include="Scripts\inputmask\bindings\inputmask.binding.js" />
+    <Content Include="Scripts\inputmask\bindings\inputmask.binding.min.js" />
+    <Content Include="Scripts\inputmask\dependencyLibs\inputmask.dependencyLib.jqlite.js" />
+    <Content Include="Scripts\inputmask\dependencyLibs\inputmask.dependencyLib.jqlite.min.js" />
+    <Content Include="Scripts\inputmask\dependencyLibs\inputmask.dependencyLib.jquery.js" />
+    <Content Include="Scripts\inputmask\dependencyLibs\inputmask.dependencyLib.jquery.min.js" />
+    <Content Include="Scripts\inputmask\dependencyLibs\inputmask.dependencyLib.js" />
+    <Content Include="Scripts\inputmask\dependencyLibs\inputmask.dependencyLib.min.js" />
+    <Content Include="Scripts\inputmask\global\document.js" />
+    <Content Include="Scripts\inputmask\global\document.min.js" />
+    <Content Include="Scripts\inputmask\global\window.js" />
+    <Content Include="Scripts\inputmask\global\window.min.js" />
+    <Content Include="Scripts\inputmask\inputmask.date.extensions.js" />
+    <Content Include="Scripts\inputmask\inputmask.date.extensions.min.js" />
+    <Content Include="Scripts\inputmask\inputmask.extensions.js" />
+    <Content Include="Scripts\inputmask\inputmask.extensions.min.js" />
+    <Content Include="Scripts\inputmask\inputmask.js" />
+    <Content Include="Scripts\inputmask\inputmask.min.js" />
+    <Content Include="Scripts\inputmask\inputmask.numeric.extensions.js" />
+    <Content Include="Scripts\inputmask\inputmask.numeric.extensions.min.js" />
+    <Content Include="Scripts\inputmask\inputmask.phone.extensions.js" />
+    <Content Include="Scripts\inputmask\inputmask.phone.extensions.min.js" />
+    <Content Include="Scripts\inputmask\inputmask.regex.extensions.js" />
+    <Content Include="Scripts\inputmask\inputmask.regex.extensions.min.js" />
+    <Content Include="Scripts\inputmask\jquery.inputmask.js" />
+    <Content Include="Scripts\inputmask\jquery.inputmask.min.js" />
+    <Content Include="Scripts\inputmask\phone-codes\phone-be.js" />
+    <Content Include="Scripts\inputmask\phone-codes\phone-be.min.js" />
+    <Content Include="Scripts\inputmask\phone-codes\phone-nl.js" />
+    <Content Include="Scripts\inputmask\phone-codes\phone-nl.min.js" />
+    <Content Include="Scripts\inputmask\phone-codes\phone-ru.js" />
+    <Content Include="Scripts\inputmask\phone-codes\phone-ru.min.js" />
+    <Content Include="Scripts\inputmask\phone-codes\phone-uk.js" />
+    <Content Include="Scripts\inputmask\phone-codes\phone-uk.min.js" />
+    <Content Include="Scripts\inputmask\phone-codes\phone.js" />
+    <Content Include="Scripts\inputmask\phone-codes\phone.min.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui-1.11.4.js" />
+    <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
+    <Content Include="Scripts\jquery.blockUI.js" />
+    <Content Include="Scripts\jquery.cookie-1.4.1.min.js" />
+    <Content Include="Scripts\jquery.cookie.js" />
+    <Content Include="Scripts\jquery.inputmask.bundle.js" />
+    <Content Include="Scripts\jquery.inputmask.bundle.min.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jszip.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\TableScroll.js" />
+    <Content Include="Scripts\underscore.js" />
+    <Content Include="Scripts\underscore.min.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Views\OwnerPayout\_NewReservationPartial.cshtml" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DatetTime.cshtml" />
+    <Content Include="Views\ExportDb\Index.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\SendCode.cshtml" />
+    <Content Include="Views\Account\VerifyCode.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Shared\_AcknowledgeDialog.cshtml" />
+    <Content Include="Views\Shared\_Alerts.cshtml" />
+    <Content Include="Views\Shared\_ConfirmationDialog.cshtml" />
+    <Content Include="Views\Error\Application.cshtml" />
+    <Content Include="Views\Error\Route.cshtml" />
+    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
+    <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Manage\ManageLogins.cshtml" />
+    <Content Include="Views\Manage\SetPassword.cshtml" />
+    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Home\Maintenance.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\RoleManagement.cshtml" />
+    <Content Include="Views\Admin\UserManagement.cshtml" />
+    <Content Include="Views\Admin\UserRoleManagement.cshtml" />
+    <Content Include="Views\Shared\_MenuViewPartial.cshtml" />
+    <Content Include="Scripts\underscore.min.map" />
+    <Content Include="Views\Admin\AppLog.cshtml" />
+    <Content Include="Views\Inquiry\index.cshtml" />
+    <Content Include="Views\Shared\_FileUploadPartial.cshtml" />
+    <Content Include="Views\ExportDb\DownloadTable.cshtml" />
+    <Content Include="Views\Property\Index.cshtml" />
+    <Content Include="Views\Property\Edit.cshtml" />
+    <Content Include="Views\Shared\_FooterPartial.cshtml" />
+    <Content Include="Views\Inquiry\EditPartial.cshtml" />
+    <Content Include="Views\Inquiry\ApprovePartial.cshtml" />
+    <Content Include="Views\Inquiry\InfoPartial.cshtml" />
+    <Content Include="Views\AirbnbAccount\Edit.cshtml" />
+    <Content Include="Views\AirbnbAccount\Index.cshtml" />
+    <Content Include="Views\Inquiry\Upload.cshtml" />
+    <Content Include="Views\Report\AirbnbAccount.cshtml" />
+    <Content Include="Views\Report\Inquiry.cshtml" />
+    <Content Include="Views\Report\Property.cshtml" />
+    <Content Include="Views\Report\_ReportChartViewPartial.cshtml" />
+    <Content Include="Views\Property\_PropertyFormPartial.cshtml" />
+    <Content Include="Views\Shared\_DialogPartial.cshtml" />
+    <Content Include="Views\AirbnbAccount\_AirbnbAccountEditFormPartial.cshtml" />
+    <Content Include="Views\Proxy\Save.cshtml" />
+    <Content Include="Views\AirbnbAccount\_AirbnbAccountNewFormPartial.cshtml" />
+    <Content Include="Views\Admin\UserInvitation.cshtml" />
+    <Content Include="Views\Account\Accept.cshtml" />
+    <Content Include="Views\Inquiry\_InquiryActionBarPartial.cshtml" />
+    <Content Include="Views\Admin\LookupTables.cshtml" />
+    <Content Include="Views\Shared\_NewFeaturePartial.cshtml" />
+    <Content Include="Views\Inquiry\PropertyPartial.cshtml" />
+    <Content Include="Views\Property\DetailsPartial.cshtml" />
+    <Content Include="Views\Property\_PropertyActionBarPartial.cshtml" />
+    <Content Include="Views\AirbnbAccount\_AccountActionBarPartial.cshtml" />
+    <Content Include="Views\Report\_ReportActionBarPartial.cshtml" />
+    <Content Include="Views\Admin\GoogleConnection.cshtml" />
+    <Content Include="Views\OwnerPayout\Import.cshtml" />
+    <Content Include="Views\OwnerPayout\TestOwnerPayoutImport.cshtml" />
+    <Content Include="Views\OwnerPayout\OwnerPayoutActionBar.cshtml" />
+    <Content Include="Views\OwnerPayout\OwnerPayoutReport.cshtml" />
+    <Content Include="Views\Reservation\Index.cshtml" />
+    <Content Include="Views\Reservation\ReservationActionBar.cshtml" />
+    <Content Include="Views\Reservation\ReservationReport.cshtml" />
+    <Content Include="Views\Resolution\ResolutionActionBar.cshtml" />
+    <Content Include="Views\Resolution\ResolutionReport.cshtml" />
+    <Content Include="Views\Reservation\_ReservationEditPartial.cshtml" />
+    <Content Include="Views\OwnerPayout\Index.cshtml" />
+    <Content Include="Views\OwnerPayout\_OwnerPayoutEditPartial.cshtml" />
+    <Content Include="Views\Import\ActionDashboard.cshtml" />
+    <Content Include="Views\OtherRevenue\Index.cshtml" />
+    <Content Include="Views\OwnerStatement\OwnerSummary.cshtml" />
+    <Content Include="Views\OwnerStatement\_SummaryPartial.cshtml" />
+    <Content Include="Views\OwnerStatement\_ReservationsPartial.cshtml" />
+    <Content Include="Views\OwnerStatement\_AdvancePaymentsPartial.cshtml" />
+    <Content Include="Views\OwnerStatement\_UnitExpensesPartial.cshtml" />
+    <Content Include="Views\OwnerStatement\_StatementPartial.cshtml" />
+    <Content Include="Views\OwnerStatement\OwnerStatement.cshtml" />
+    <Content Include="Views\OwnerStatement\_FootnotePartial.cshtml" />
+    <Content Include="Views\OwnerStatement\_BannerPartial.cshtml" />
+    <Content Include="Views\Expense\Index.cshtml" />
+    <Content Include="Views\Expense\_CombineExpensesPartial.cshtml" />
+    <Content Include="Views\Expense\_CombineExpensesPartial2.cshtml" />
+    <Content Include="Views\Import\NonAirbnb.cshtml" />
+    <Content Include="Views\Resolution\Index.cshtml" />
+    <Content Include="Views\Shared\_Print.cshtml" />
+    <Content Include="Views\OwnerStatement\PrintStatement.cshtml" />
+    <Content Include="Views\OwnerStatement\PrintSummary.cshtml" />
+    <Content Include="Views\OwnerStatement\_StatementSummaryPartial.cshtml" />
+    <Content Include="Views\OwnerStatement\_ResolutionsPartial.cshtml" />
+    <Content Include="Views\Shared\_PropertyLegendPartial.cshtml" />
+    <Content Include="Views\OwnerStatement\_PayoutHistoryPartial.cshtml" />
+    <Content Include="Views\OwnerPayout\OwnerPayoutForId.cshtml" />
+    <Content Include="Views\OwnerPayout\OwnerPayoutView.cshtml" />
+    <Content Include="Views\OwnerStatement\OwnerSummaryView.cshtml" />
+    <Content Include="Views\Resolution\_ResolutionEditPartial.cshtml" />
+    <Content Include="Views\Reservation\_ReservationTetrisPartial.cshtml" />
+    <Content Include="Views\OwnerPayment\Index.cshtml" />
+    <Content Include="Views\OwnerStatement\Import.cshtml" />
+    <Content Include="Views\OwnerPayment\_PayoutMethodPaymentPartial.cshtml" />
+    <Content Include="Views\OwnerPayment\_RebalancePartial.cshtml" />
+    <Content Include="Views\Reservation\_ReservationSplitPartial.cshtml" />
+    <Content Include="Views\OwnerStatement\_RebalancePartial.cshtml" />
+    <Content Include="Views\PropertyAccount\Index.cshtml" />
+    <Content Include="Views\StatementReport\index.cshtml" />
+    <Content Include="Views\OwnerStatement\_RedistributionPartial.cshtml" />
+    <Content Include="Views\Import\AirbnbStatistics.cshtml" />
+    <Content Include="Views\Import\_AirbnbImportPartial.cshtml" />
+    <Content Include="Views\Import\AirbnbImport.cshtml" />
+    <Content Include="Views\Import\AirbnbImportLog.cshtml" />
+    <Content Include="Views\PropertyCode\Index.cshtml" />
+    <Content Include="Views\Report\FutureRevenue.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\uploads\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Senstay.Dojo.Airbnb.Import\Senstay.Dojo.Airbnb.Import.csproj">
+      <Project>{08258612-076f-487e-a63d-e6eb602d8426}</Project>
+      <Name>Senstay.Dojo.Airbnb.Import</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Senstay.Dojo.FtpClient\Senstay.Dojo.FtpClient.csproj">
+      <Project>{d098a446-bc54-4a5a-a5f0-ac09f110c689}</Project>
+      <Name>Senstay.Dojo.FtpClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Senstay.Dojo.Helpers\Senstay.Dojo.Helpers.csproj">
+      <Project>{aa18879a-241d-44f0-9237-718c85494dab}</Project>
+      <Name>Senstay.Dojo.Helpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Senstay.Dojo.Models\Senstay.Dojo.Models.csproj">
+      <Project>{6e729b62-2b93-47eb-91a7-e1fbb6a70018}</Project>
+      <Name>Senstay.Dojo.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AppResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>2551</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:22618/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

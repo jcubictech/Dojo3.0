@@ -1,0 +1,258 @@
+﻿@using Senstay.Dojo.Data.Providers
+@using Senstay.Dojo.Models
+@using Heroic.Web.IoC
+
+@{
+    var dbContext = Context.GetContainer().GetInstance<DojoDbContext>();
+    var NewFeatureProvider = new NewFeatureProvider(dbContext);
+    var favoriteIconClass = ClaimProvider.GetFavoriteIcon(dbContext, Request.Url.AbsoluteUri);
+    var favoriteIconNote = (favoriteIconClass == "fa-heart-o") ? "Set as my start page" : "This is my start page";
+}
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-header">
+        <!-- logo -->
+        <div class="row">
+            <div class="navbar-brand">
+                <a href="@Url.Action("Index", "Home")"><img style="height:30px" src="~/Content/dojo-icon.png" /> SenStay Dojo</a>
+            </div>
+            <!-- site identification text to easily recognize the site -->
+            @if (ViewBag.IsOffline)
+            {
+                <div class="col-xs-4 maintenance-text"> *** Maintenance Mode ***</div>
+            }
+            else
+            {
+                <div class="col-xs-3 dojosite-text"></div>
+            }
+        </div>
+
+        <!-- menu bar -->
+        <nav class="row">
+            <ul class="nav navbar-nav">
+                <!-- operation -->
+                @if (AuthorizationProvider.HasRole())
+                {
+                    <!-- property -->
+                    <li>
+                        <div class="vertical-align">
+                            @Html.ActionLink("Property", "Index", "Property")
+                            @if (ViewBag.PageHint == "property")
+                            {
+                                <i class="navbar-active fa fa-caret-up"></i>
+                            }
+                        </div>
+                    </li>
+
+                    <!-- account -->
+                    <li>
+                        <div class="vertical-align">
+                            @Html.ActionLink("Airbnb Account", "Index", "AirbnbAccount")
+                            @if (ViewBag.PageHint == "AirbnbAccount")
+                            {
+                                <i class="navbar-active fa fa-caret-up"></i>
+                            }
+                        </div>
+                    </li>
+
+                    <!-- inquiry -->
+                    <li>
+                        <div class="vertical-align">
+                            @Html.ActionLink("Inquiry", "Index", "Inquiry")
+                            @if (ViewBag.PageHint == "inquiry")
+                            {
+                                <i class="navbar-active fa fa-caret-up"></i>
+                            }
+                        </div>
+                    </li>
+
+                    <!-- report -->
+                    <li class="dropdown">
+                        <div class="vertical-align">
+                            <a href="#" data-toggle="dropdown" class="dropdown-toggle">Report <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Properties", "Property", "Report")</li>
+                                <li>@Html.ActionLink("Airbnb Accounts", "AirbnbAccount", "Report")</li>
+                                <li>@Html.ActionLink("Inquiries", "Inquiry", "Report")</li>
+                                @if (AuthorizationProvider.CanViewRevenue())
+                                {
+                                    @*<li>@Html.ActionLink("Owner Payout Report", "OwnerPayoutReport", "OwnerPayout")</li>
+                                    <li>@Html.ActionLink("Reservation Report", "ReservationReport", "Reservation")</li>
+                                    <li>@Html.ActionLink("Resolution Report", "ResolutionReport", "Resolution")</li>*@
+                                }
+                                @if (ViewBag.PageHint == "report")
+                                {
+                                    <i class="navbar-active fa fa-caret-up"></i>
+                                }
+                        </div>
+                    </li>
+                }
+
+                <!-- revenue -->
+                @if (AuthorizationProvider.CanViewRevenue())
+                {
+                    <li class="dropdown">
+                        <div class="vertical-align">
+                            <a href="#" data-toggle="dropdown" class="dropdown-toggle">Revenue &amp; Expenses <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Owner Payout Revenue", "Index", "OwnerPayout")</li>
+                                <li>@Html.ActionLink("Reservation Revenue", "Index", "Reservation")</li>
+                                <li>@Html.ActionLink("Resolution Revenue", "Index", "Resolution")</li>
+                                @*<li>@Html.ActionLink("Additional Revenue", "Index", "OtherRevenue")</li>*@
+                                <li>@Html.ActionLink("Expenses", "Index", "Expense")</li>
+                            </ul>
+                            @if (ViewBag.PageHint == "Revenue")
+                            {
+                                <i class="navbar-active fa fa-caret-up"></i>
+                            }
+                        </div>
+                    </li>
+                }
+
+                <!-- owner statement -->
+                @if (AuthorizationProvider.CanViewStatement())
+                {
+                    <li class="dropdown">
+                        <div class="vertical-align">
+                            <a href="#" data-toggle="dropdown" class="dropdown-toggle">Owner Statements <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Owner Statement", "Statement", "OwnerStatement")</li>
+                                <li>@Html.ActionLink("Owner Summary", "Summary", "OwnerStatement")</li>
+                                @if (AuthorizationProvider.CanEditStatement())
+                                {
+                                    <li>@Html.ActionLink("Owner Payments & Balances", "Index", "OwnerPayment")</li>
+                                }
+                                @if (AuthorizationProvider.IsStatementAdmin())
+                                {
+                                    <li>@Html.ActionLink("Statement Reports", "Index", "StatementReport")</li>
+                                    <li>@Html.ActionLink("Property Relationship Management", "Index", "PropertyAccount")</li>
+                                    <li>@Html.ActionLink("Property Code Associations", "Index", "PropertyCode")</li>
+                                }
+                            </ul>
+                            @if (ViewBag.PageHint == "Statement" || ViewBag.PageHint == "Payment")
+                            {
+                                <i class="navbar-active fa fa-caret-up"></i>
+                            }
+                        </div>
+                    </li>
+                }
+
+                <!-- data import -->
+                @if (AuthorizationProvider.IsDataImporter())
+                {
+                    <li class="dropdown">
+                        <div class="vertical-align">
+                            <a href="#" data-toggle="dropdown" class="dropdown-toggle">Data Import<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Airbnb Completed Transactions Statistics", "AirbnbStatistics", "Import")</li>
+                                <li>@Html.ActionLink("Import Airbnb Transactions", "AirbnbImport", "Import")</li>
+                                <li>@Html.ActionLink("Import Expenses, Off-Airbnb, & Fees", "NonAirbnb", "Import")</li>
+                                @*<li>@Html.ActionLink("BackFill Owner Statements", "Import", "OwnerStatement")</li>*@
+                            </ul>
+                            @if (ViewBag.PageHint == "Import")
+                            {
+                                <i class="navbar-active fa fa-caret-up"></i>
+                            }
+                        </div>
+                    </li>
+                }
+
+                <!-- administration -->
+                @if (AuthorizationProvider.IsAdmin())
+                {
+                    <li class="dropdown">
+                        <div class="vertical-align">
+                            <a href = "#" data-toggle="dropdown" class="dropdown-toggle">Administration<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("User Management", "Users", "Admin")</li>
+                                @if(AuthorizationProvider.IsSuperAdmin())
+                                {
+                                    <li>@Html.ActionLink("Role Management", "Roles", "Admin")</li>
+                                }
+                                <li>@Html.ActionLink("User-Role Assignments", "UserRoles", "Admin")</li>
+                                <li>@Html.ActionLink("User Invitation", "UserInvitation", "Admin")</li>
+                                <li>@Html.ActionLink("Drop-Down Configuration", "LookupTables", "Admin")</li>
+                                <li>@Html.ActionLink("Application Log", "ApplicationLog", "Admin")</li>
+                                @*<li>@Html.ActionLink("Test Google Drive Connection", "GoogleDriveConnection", "Admin")</li>*@
+                                @*<li><div onclick="javascript: DojoWeb.Cookie.remove('DojoNewFeatureViewed'); alert('cookie removed.');" style="padding-left:20px;cursor:pointer;">Remove New Feature Cookie</div></li>*@
+                            </ul>
+                            @if (ViewBag.PageHint == "Administration")
+                            {
+                                <i class="navbar-active fa fa-caret-up"></i>
+                            }
+                        </div>
+                    </li>
+                }
+
+                @if (AuthorizationProvider.HasRole())
+                {
+                    if (!NewFeatureProvider.IsExpired())
+                    {
+                        <li id="NewFeatureAnnouncement">
+                            <div class="vertical-align">
+                                <a href="javascript:DojoWeb.NewFeature.currentFeature();">Recent Feature <i class="fa fa-flash featureIcon"></i></a>
+                            </div>
+                        </li>
+                    }
+
+                    if (ViewBag.PageHint != "Home")
+                    {
+                        <li id="UserStartPage" class="actionBar-favorite">
+                            <div class="vertical-align" title="@favoriteIconNote">
+                                <a href="javascript:DojoWeb.Favorite.setStartPage();"><i class="fa @favoriteIconClass"></i></a>
+                            </div>
+                        </li>
+                    }
+                }
+            </ul>
+        </nav>
+    </div>
+
+    <!-- user / login / logout -->
+    <div class="actionBar-login">
+        <div class="loginName">@ViewBag.UserName</div>
+        <div class="loginEmail">@ViewBag.UserEmail&nbsp;</div>
+        @if (Request.IsAuthenticated)
+        {
+            <div>@Html.ActionLink("Sign Out", "Logout", "Account")</div>
+        }
+        else
+        {
+            <div>@Html.ActionLink("Sign In", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</div>
+        }
+    </div>
+
+    <!-- search box -->
+    @*@if (AuthorizationProvider.IsViewer())
+    {
+        using (Html.BeginForm("SearchID", "Inquiry", FormMethod.Post, new { @class = "navbar-form navbar-right" }))
+        {
+            <div class="form-group actionBar-inquiry-search" style="display:none;">
+                <div class="input-group">
+                    <input type="text" id="inquiryId" name="inquiryId" class="form-control" placeholder="Search by Inquiry ID">
+                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        }
+    }*@
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // enable hover over to dropdown the submenu
+        $('ul.nav li.dropdown').hover(function () {
+            // need to move navbar-fixed-top element away to show dropdown 
+            // as navbar-fixed-top element uses 'fixed' positioning that is not part of the layout flow
+            $('.app-page-container div.navbar-fixed-top').css('top', '-110px');
+            $(this).find('.dropdown-menu').stop(true, true).delay(100).fadeIn(100);
+        }, function () {
+            $('.app-page-container div.navbar-fixed-top').css('top', '110px');
+            $(this).find('.dropdown-menu').stop(true, true).delay(100).fadeOut(100);
+        });
+
+        DojoWeb.MenuActions.install();
+    });
+</script>
+
+

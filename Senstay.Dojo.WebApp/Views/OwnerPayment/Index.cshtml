@@ -1,0 +1,105 @@
+﻿@{
+    ViewBag.App = "SenStay Dojo App";
+    ViewBag.Title = "Owner Payments";
+    ViewBag.PageHint = "Payment";
+
+    var defaultMonth = DateTime.Today.AddMonths(-1).ToString("MMMM yyyy");
+    var editDisabled = ViewBag.StatementCompleted == true ? "hide" : "";
+    var editEnabled = ViewBag.StatementCompleted == false ? "hide" : "";
+}
+
+<div class="ss-page-content">
+    <div class="revenue-page-title revenue-h2">@ViewBag.Title <span id="dataCount"></span></div>
+    <div class="row">
+        <div class="revenue-filters">
+            <div class="float-left statement-filter-item300 statement-filter-margin">
+                <div class="control-group">
+                    <div class="input-group revenue-input-item">
+                        <div class="input-group-addon"><span class="fa fa-calendar"><span> Month</span></span></div>
+                        <input id="paymentMonth" value="@defaultMonth" title="Payment Month" />
+                    </div>
+                </div>
+            </div>
+
+            @if (ViewBag.EditClass == string.Empty)
+            {
+                if (ViewBag.CanFreezeEditing == "freeze-edit")
+                {
+                    <!-- disable statement/revenue/payment editing -->
+                    <div class="float-left">
+                        <div id="disableEditButton" class="finalize-button @editDisabled">
+                            <div class="revenue-button" style="margin-left:10px;">
+                                <a id="disableEdit">&nbsp;&nbsp;<span class="finalizeText">Lock Statement/Revenue/Payment Editing</span>&nbsp;&nbsp;</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- enable statement/revenue/payment editing -->
+                    <div class="float-left">
+                        <div id="enableEditButton" class="finalize-button @editEnabled">
+                            <div class="revenue-button" style="margin-left:10px;">
+                                <a id="enableEdit">&nbsp;&nbsp;<span class="finalizeText">Unlock Statement/Revenue/Payment Editing</span>&nbsp;&nbsp;</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <!-- finalize payments -->
+                <div class="float-left">
+                    <div id="beginBalanceButton" class="finalize-button">
+                        <div class="revenue-button" style="margin-left:10px;">
+                            <a id="updateBalances">&nbsp;&nbsp;<span class="finalizeText">Create/Update Beginning Balances for Next Month</span>&nbsp;&nbsp;</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+    <!-- action alert when there is notice -->
+    <div id="payment-alert" class="alert-container"></div>
+
+    <div class="revenue-data-grid">
+        <div id="payoutMethodGrid" class="revenue-grid @ViewBag.ReviewerClass @ViewBag.ApproverClass @ViewBag.FinalizerClass @ViewBag.AdminClass @ViewBag.EditClass"></div>
+    </div>
+
+    <!-- slding out alert messaging -->
+    <div id="actionAlert" class="alert-container"></div>
+</div >
+
+@Html.Partial("_DialogPartial")
+
+@Html.Partial("_ConfirmationDialog")
+
+@section CustomFormStyle
+{
+    <style type="text/css">
+        body {overflow:hidden;}
+        #formDialog input.input-sm { margin-bottom: 0px !important; }
+        .dialog-page-content { padding:0px 0px 20px 20px; }
+        html .k-grid tr:hover { background: transparent; }
+        html .k-grid tr.k-alt:hover { background: #f1f1f1; }
+        .k-grid-content .k-detail-cell .k-grid {width:600px;}
+        /* this will remove spinner from numeric grid cell editor */
+        .k-numerictextbox .k-select { display: none; }
+        .k-numerictextbox .k-numeric-wrap { padding-right: 2px; }
+    </style>
+}
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/appForm.css")" />
+    <link rel="Stylesheet" href="@Href("~/content/app/revenue.css")" />
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/inputmask")
+    @Scripts.Render("~/Scripts/app/ownerpayment.js" + ViewBag.Release)
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            DojoWeb.PayoutMethodPayment.init('payoutMethodGrid');
+        });
+    </script>
+}

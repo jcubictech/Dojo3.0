@@ -1,0 +1,105 @@
+﻿@using Senstay.Dojo.Models.View
+@model Senstay.Dojo.Models.View.LoginViewModel
+@{
+    ViewBag.AppName = "Dojo";
+    ViewBag.Title = "Sign-In";
+}
+
+<div class="ss-page-content ss-page-form-1000">
+    <div class="ss-page-title ss-h2">@ViewBag.AppName Site @ViewBag.Title</div>
+    <div class="ss-article-title-divider"></div>
+    <div class="ss-simple-box">
+       <div class="row">
+            <div class="col-xs-7">
+                <section id="loginForm">
+                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="ss-h4 bold">Use @ViewBag.AppName App account to sign-in</div>
+                        <div class="ss-sub-title-divider"></div>
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            
+                        <div class="signin-section">
+                            <div class="form-group">
+                                <div class="col-xs-12 control-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon lead-width align-left"><span class="fa fa-user"><span>User Name</span></span></div>
+                                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control input-sm", title = "The friendly name you like to be called" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-xs-12 control-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon lead-width align-left"><span class="fa fa-envelope"><span>Email *</span></span></div>
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control input-sm", title = "The email account you register with us" })
+                                    </div>
+                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-xs-12 control-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon lead-width align-left"><span class="fa fa-key"><span>Password *</span></span></div>
+                                        @Html.TextBoxFor(m => m.Password, new { @class = "form-control input-sm", type = "password" })
+                                    </div>
+                                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-xs-12 control-group">
+                                    <div class="checkbox">
+                                        @Html.CheckBoxFor(m => m.RememberMe)
+                                        @Html.LabelFor(m => m.RememberMe)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-xs-12">
+                                    <input type="submit" value="Sign In" class="btn btn-default lead-width" />
+                                </div>
+                            </div>
+
+                            <p class="ss-text hide">
+                                @Html.ActionLink("Register as a new user", "Register")
+                            </p>
+                            @* Enable this once you have account confirmation enabled for password reset functionality*@
+                            <p class="ss-text">
+                                @Html.ActionLink("Forgot your password?", "ForgotPassword")
+                            </p>
+                        </div>
+                    }
+                </section>
+            </div>
+            <div class="col-xs-5">
+                <section id="socialLoginForm">
+                    @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                </section>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+@section CustomFormStyle
+{
+    <style type="text/css">
+        body {
+            overflow: hidden;
+        }
+    </style>
+}
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/appform.css")" />
+}
+
+@section scripts 
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

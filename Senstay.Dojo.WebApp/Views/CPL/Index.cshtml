@@ -1,0 +1,112 @@
+﻿@using GridMvc.Html;
+@using Senstay.Dojo.Data.Providers;
+@model IQueryable<Senstay.Dojo.Models.CPL>
+
+@{
+    ViewBag.Title = "Properties";
+    ViewBag.SubmenuHint = "properties";
+}
+
+<h3>Properties 
+@if (AuthorizationProvider.IsEditor())
+{
+    <a class="btn btn-primary" href="@Url.Action("Add", "CPL")" role="button">+ Add new property</a>
+}
+</h3>
+   
+@if (Request.QueryString["grid-dir"] != null | Request.QueryString["grid-filter"] != null)
+{
+<a id = "resetButton" href = "@Url.Action("Index", "CPL")" class="btn btn-default btn-xs" role="button">Clear filters and sorting</a>
+}
+    <div style="font-size : 12px; margin-left : 0;">
+
+        @Html.Grid(Model).Columns(columns =>
+        {
+        columns.Add()
+              .Encoded(false)
+              .Sanitized(false)
+              .SetWidth(30)
+              .RenderValueAs(d =>
+    @<b>
+        @Html.ActionLink("Edit", "Edit", new { id = d.PropertyCode })
+    </b>);
+            columns.Add(o => o.PropertyCode).Titled("Property Code");
+            columns.Add(o => o.Address).Titled("Address");
+            columns.Add(o => o.PropertyStatus).Titled("Property Status");
+            columns.Add(o => o.Vertical).Titled("Vertical");
+            columns.Add(o => o.Owner).Titled("Owner").Sortable(true).Filterable(true);
+            columns.Add(o => o.NeedsOwnerApproval).Titled("Require Owner Approval?");
+            columns.Add(o => o.ListingStartDate).Titled("Listing Start Date")
+                   .Format("{0:MM/dd/yyyy}");
+            columns.Add(o => o.AirBnBHomeName).Titled("Airbnb Listing Title");
+            columns.Add(o => o.StreamlineHomeName).Titled("Streamline Listing Title");
+            columns.Add(o => o.StreamlineUnitID).Titled("StreamLine Unit ID");
+            columns.Add(o => o.Account).Titled("Airbnb Account").Sanitized(false).Encoded(false)
+                   .RenderValueAs(d => Html.Raw("<a target=\"_blank\" href= " + "mailto:" + @d.Account + ">" + @d.Account + "</a>"));
+            columns.Add(o => o.City).Titled("City");
+            columns.Add(o => o.Market).Titled("Market");
+            columns.Add(o => o.State).Titled("State");
+            columns.Add(o => o.Area).Titled("Area");
+            columns.Add(o => o.Neighborhood).Titled("Neighborhood");
+            //columns.Add(o => o.ListingStatus).Titled("Listing Status");
+            columns.Add(o => o.BookingGuidelines).Titled("Booking Guidelines").Sanitized(false).Encoded(false).RenderValueAs(d=>String.IsNullOrWhiteSpace(d.BookingGuidelines)? "": d.BookingGuidelines.Substring(0, Math.Min(d.BookingGuidelines.Length, 250))+"...");
+            //columns.Add(o => o.Quarantine).Titled("Quarantine");
+            columns.Add(o => o.Floor).Titled("Floor");
+            columns.Add(o => o.Bedrooms).Titled("Bedrooms");
+            columns.Add(o => o.Bathrooms).Titled("Bathrooms");
+            columns.Add(o => o.BedsDescription).Titled("Beds Description");
+            columns.Add(o => o.MaxOcc).Titled("Max Occ");
+            columns.Add(o => o.StdOcc).Titled("Std Occ");
+            columns.Add(o => o.Elevator).Titled("Elevator");
+            columns.Add(o => o.A_C).Titled("A/C");
+            columns.Add(o => o.Parking).Titled("Parking");
+            columns.Add(o => o.Pool).Titled("Pool");
+            columns.Add(o => o.WiFiNetwork).Titled("WiFi Network");
+            columns.Add(o => o.WiFiPassword).Titled("WiFi Password");
+            columns.Add(o => o.Ownership).Titled("Ownership");
+            columns.Add(o => o.MonthlyRent).Titled("Monthly Rent");
+            columns.Add(o => o.DailyRent).Titled("Daily Rent");
+            columns.Add(o => o.CleaningFees).Titled("Cleaning Fees");
+            columns.Add(o => o.Currency).Titled("Currency");
+            columns.Add(o => o.AirbnbiCalexportlink)
+                   .Titled("Airbnb iCal").Sanitized(false).Encoded(false)
+                   .RenderValueAs(d => Html.Raw("<a target=\"_blank\" href=" + @d.AirbnbiCalexportlink + ">" + @d.AirbnbiCalexportlink + "</a>"));
+            columns.Add(o => o.Amenities).Titled("Amenities").Sanitized(false).Encoded(false)
+                   .RenderValueAs(d => Html.Raw("<a target=\"_blank\" href=" + @d.Amenities + ">" + @d.Amenities + "</a>"));
+            columns.Add(o => o.Zipcode).Titled("Zipcode");
+            columns.Add(o => o.CheckInType).Titled("Check-In Type");
+            columns.Add(o => o.OldListingTitle).Titled("Old Listing Title");
+            columns.Add(o => o.GoogleDrivePicturesLink).Titled("Google Drive Pics")
+            .Sanitized(false).Encoded(false).RenderValueAs(d => Html.Raw("<a target=\"_blank\" href=" + @d.GoogleDrivePicturesLink + ">" + @d.GoogleDrivePicturesLink + "</a>"));
+            columns.Add(o => o.SquareFootage).Titled("Square Footage");
+            //columns.Add(o => o.Password).Titled("Password");
+            //columns.Add(o => o.RevTeam2xApproval).Titled("Rev Team 2x Approval");
+            columns.Add(o => o.PendingContractDate).Titled("Pending Contract Date");
+            columns.Add(o => o.PendingOnboardingDate).Titled("Pending Onboarding Date");
+            columns.Add(o => o.SecurityDeposit).Titled("Security Deposit");
+            columns.Add(o => o.HomeAway).Titled("HomeAway")
+            .Sanitized(false).Encoded(false).RenderValueAs(d => Html.Raw("<a target=\"_blank\" href=" + @d.HomeAway + ">" + @d.HomeAway + "</a>"));
+            columns.Add(o => o.AirBnb).Titled("Airbnb Link")
+            .Sanitized(false).Encoded(false).RenderValueAs(d => Html.Raw("<a target=\"_blank\" href=" + @d.AirBnb + ">" + @d.AirBnb + "</a>"));
+            columns.Add(o => o.FlipKey).Titled("FlipKey Link")
+                .Sanitized(false).Encoded(false).RenderValueAs(d => Html.Raw("<a target=\"_blank\" href=" + @d.FlipKey + ">" + @d.FlipKey + "</a>"));
+            columns.Add(o => o.Expedia).Titled("Expedia Link")
+            .Sanitized(false).Encoded(false).RenderValueAs(d => Html.Raw("<a target=\"_blank\" href=" + @d.Expedia + ">" + @d.Expedia + "</a>"));
+            columns.Add(o => o.Inactive).Format("{0:MM/dd/yyyy}").Titled("Inactive");
+            columns.Add(o => o.BeltDesignation).Titled("Belt Designation");
+        }
+
+      ).WithPaging(100).Sortable(true).Filterable(true)
+    </div>
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/gridmvc.js");
+    @Scripts.Render("~/Scripts/TableScroll.js");
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+        });
+    </script>
+}
+

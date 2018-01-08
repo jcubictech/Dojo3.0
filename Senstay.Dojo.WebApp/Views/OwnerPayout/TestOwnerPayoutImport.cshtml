@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.AppName = "SenStay Dojo";
+    ViewBag.Title = "Test Owner Payout Import";
+}
+
+<div class="ss-page-content">
+    <div class="ss-page-title ss-h2">@ViewBag.AppName Developer Test Dashboard</div>
+    <div class="ss-article-title-divider"></div>
+
+    <div id="ownerPayout-alert" class="alert-container"></div>
+
+    <div class="ss-simple-box owner-payout-height">
+        <div class="ownerPayout-section">
+            <!-- action buttons -->
+            <div class="control-group">
+                <div class="col-xs-2">
+                    <input id="ownerPayoutImport" type="button" value="Import Airbnb Payout Excel" class="btn btn-default btn-success dojo-test-button" />
+                </div>
+                <div class="col-xs-2">
+                    <input id="futureOwnerPayoutImport" type="button" value="Import Airbnb Future Excel" class="btn btn-default btn-success dojo-test-button" />
+                </div>
+                <div class="col-xs-2">
+                    <input id="ownerPayoutCsvImport" type="button" value="Import Airbnb Payout Csv" class="btn btn-default btn-success dojo-test-button" />
+                </div>
+                <div class="col-xs-2">
+                    <input id="futureOwnerPayoutCsvImport" type="button" value="Import Airbnb Future Csv" class="btn btn-default btn-success dojo-test-button" />
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/appform.css")" />
+}
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/app/ownerPayout.js")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            DojoWeb.OwnerPayoutUtil.init(); 
+        });
+    </script>
+}

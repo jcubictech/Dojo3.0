@@ -1,0 +1,244 @@
+﻿@model Senstay.Dojo.Models.CPL
+
+<div class="dialog-page-content inquiry-info-content">
+    <div role="tabpanel" class="tab-pane" id="panel">
+        <table cellpadding="0" cellspacing="10" width="100%">
+            <tr class="dialog-row">
+                <td class="dialog-3-cells dialog-left-cell">
+                    <div class="control-group">
+                        <div>
+                            @Html.LabelFor(model => model.PropertyStatus, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div>
+                            @Html.EditorFor(model => model.PropertyStatus, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                </td>
+                <td class="dialog-3-cells dialog-left-cell dialog-right-cell">
+                    <div class="control-group">
+                        <div>
+                            @Html.LabelFor(model => model.Vertical, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div>
+                            @Html.EditorFor(model => model.Vertical, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                </td>
+                <td class="dialog-3-cells dialog-right-cell">
+                    <div class="control-group">
+                        <div>
+                            @Html.LabelFor(model => model.Market, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div>
+                            @Html.EditorFor(model => model.Market, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr class="dialog-row">
+                <td class="dialog-3-cells dialog-left-cell">
+                    <div class="control-group">
+                        <div>
+                            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div>
+                            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                </td>
+                <td class="dialog-3-cells dialog-left-cell dialog-right-cell">
+                    <div class="control-group">
+                        <div>
+                            @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div>
+                            @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                </td>
+                <td class="dialog-3-cells dialog-right-cell">
+                    <div class="control-group">
+                        <div>
+                            @Html.LabelFor(model => model.Zipcode, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div>
+                            @Html.EditorFor(model => model.Zipcode, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr class="dialog-row">
+                <td class="dialog-3-cells dialog-left-cell">
+                    <div class="control-group">
+                        <div>
+                            @Html.LabelFor(model => model.BookingGuidelines, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div>
+                            @Html.TextAreaFor(model => model.BookingGuidelines, new { @class = "form-control", @readonly = "readonly", rows = "4" })
+                        </div>
+                    </div>
+                </td>
+                <td class="dialog-3-cells dialog-left-cell dialog-right-cell">
+                    <div class="control-group">
+                        <div>
+                            <label class="control-label">Operations Contact</label>
+                        </div>
+                        <div>
+                            @Html.TextAreaFor(model => model.AirbnbiCalexportlink, new { @class = "form-control", @readonly = "readonly", rows = "4" })
+                        </div>
+                    </div>
+                </td>
+                <td class="dialog-3-cells dialog-right-cell">
+                    <div class="control-group">
+                        <div>
+                            @Html.LabelFor(model => model.CrossStreets, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div>
+                            @Html.TextAreaFor(model => model.CrossStreets, new { @class = "form-control", @readonly = "readonly", rows = "4" })
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr class="dialog-row">
+                <td class="dialog-3-cells dialog-left-cell">
+                    <div class="control-group">
+                        <div>
+                            @Html.LabelFor(model => model.Bedrooms, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div>
+                            @Html.EditorFor(model => model.Bedrooms, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                </td>
+                <td class="dialog-3-cells dialog-left-cell dialog-right-cell">
+                    <div class="control-group">
+                        <div>
+                            @Html.LabelFor(model => model.BedsDescription, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div>
+                            @Html.EditorFor(model => model.BedsDescription, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                </td>
+                <td class="dialog-3-cells dialog-right-cell">
+                    <div class="control-group">
+                        <div>
+                            @Html.LabelFor(model => model.Bathrooms, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div>
+                            @Html.EditorFor(model => model.Bathrooms, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr class="dialog-row">
+                <td class="dialog-3-cells dialog-left-cell">
+                    <div class="control-group">
+                        <div>
+                            @Html.LabelFor(model => model.Floor, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div>
+                            @Html.EditorFor(model => model.Floor, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                </td>
+                <td class="dialog-3-cells dialog-left-cell dialog-right-cell">
+                    <div class="control-group">
+                        <div>
+                            @Html.LabelFor(model => model.StdOcc, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div>
+                            @Html.EditorFor(model => model.StdOcc, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                </td>
+                <td class="dialog-3-cells dialog-right-cell">
+                    <div class="control-group">
+                        <div>
+                            @Html.LabelFor(model => model.MaxOcc, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div>
+                            @Html.EditorFor(model => model.MaxOcc, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr class="dialog-row">
+                <td class="dialog-3-cells dialog-left-cell">
+                    <div class="control-group">
+                        <div>
+                            @Html.LabelFor(model => model.Elevator, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div>
+                            @Html.EditorFor(model => model.Elevator, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                </td>
+                <td class="dialog-3-cells dialog-left-cell dialog-right-cell">
+                    <div class="control-group">
+                        <div>
+                            @Html.LabelFor(model => model.A_C, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div>
+                            @Html.EditorFor(model => model.A_C, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                </td>
+                <td class="dialog-3-cells dialog-right-cell">
+                    <div class="control-group">
+                        <div>
+                            @Html.LabelFor(model => model.Parking, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div>
+                            @Html.EditorFor(model => model.Parking, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr class="dialog-row">
+                <td class="dialog-3-cells dialog-left-cell">
+                    <div class="control-group">
+                        <div>
+                            @Html.LabelFor(model => model.WiFiNetwork, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div>
+                            @Html.EditorFor(model => model.WiFiNetwork, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                </td>
+                <td class="dialog-3-cells dialog-left-cell dialog-right-cell">
+                    <div class="control-group">
+                        <div>
+                            @Html.LabelFor(model => model.WiFiPassword, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div>
+                            @Html.EditorFor(model => model.WiFiPassword, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                </td>
+                <td class="dialog-3-cells dialog-right-cell">
+                    <div class="control-group">
+                        <div>
+                            @Html.LabelFor(model => model.BeltDesignation, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div>
+                            @Html.EditorFor(model => model.BeltDesignation, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr class="dialog-row">
+                <td colspan="3" class="dialog-3-cells">
+                    <div class="control-group">
+                        <div>
+                            @Html.LabelFor(model => model.Amenities, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div>
+                            <a href="@Model.Amenities">@Model.Amenities</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.AppName = "SenStay Dojo";
+    ViewBag.Title = "Property Code Associations";
+    ViewBag.PageHint = "Statement";
+}
+
+<div class="ss-page-content">
+    <div class="ss-page-title ss-h2">@ViewBag.Title</div>
+    <div class="ss-article-title-divider"></div>
+
+    <div id="ss-account-alert" class="alert-container"></div>
+
+    <div class="ss-grid-container">
+        @Html.AntiForgeryToken()
+        <div id="propertyCode" class="property-account-editor">
+            <div id="propertyCodeGrid" class="ss-data-grid"></div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+@section CustomFormStyle
+{
+    <!-- need to hide overflow to prevent grid content to spill over; set width so that the grid won't take the whole page width; -->
+    <!-- need to hide overflow on body to prevent grid scrolling to scroll the browser page -->
+    <style type="text/css">
+        body {overflow:hidden;}
+        #propertyCode {overflow:hidden; width:1500px !important}
+        .no-scrollbar .k-grid-header {padding: 0 !important;}
+        .no-scrollbar .k-grid-content {overflow-y: auto;}
+    </style>
+}
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/appform.css")" />
+}
+
+@section Scripts
+{
+    @Scripts.Render("~/Scripts/app/propertyCode.js")
+
+    <script>
+        $(function () { // will trigger when the document is ready
+            $(document).ready(function () {
+                DojoWeb.PropertyCodeEditor.init('propertyCode');
+            });
+        });
+    </script>
+}

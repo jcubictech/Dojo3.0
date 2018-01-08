@@ -1,0 +1,160 @@
+﻿@model Senstay.Dojo.Models.Grid.ReservationRevenueModel
+@using Senstay.Dojo.Data.Providers
+@using Senstay.Dojo.Models
+@using Heroic.Web.IoC
+@{
+    ViewBag.PageHint = "Revenue";
+    var dbContext = Context.GetContainer().GetInstance<DojoDbContext>();
+    var channelList = new LookupProvider(dbContext).GetLookupList(LookupType.Channel);
+    var booleanList = new LookupProvider(dbContext).GetLookupList(LookupType.Boolean);
+}
+
+<div class="dialog-page-content">
+    @using (Ajax.BeginForm("EditRevenue", "Reservation", new AjaxOptions
+        {
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "edit-ajax-target",
+            LoadingElementId = "edit-ajax-wait",
+            OnSuccess = "DojoWeb.ReservationForm.refresh",
+            OnFailure = "DojoWeb.ReservationForm.serverError"
+        },
+        new { @id = "ReservationEntryForm", @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <table id="revenueTable" cellpadding="20" cellspacing="20">
+            <tr>
+                <!-- property code -->
+                <td class="revenue-form-col revenue-form-leftcol">
+                    <div class="form-input-item">
+                        <div class="control-group">
+                            <div>@Html.LabelFor(m => m.ConfirmationCode, new { @class = "control-label" })</div>
+                            <div>
+                                @Html.TextBoxFor(m => m.ConfirmationCode, new { @class = "form-control input-sm" + @ViewBag.EditClass })
+                                @Html.ValidationMessageFor(m => m.ConfirmationCode, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-input-item">
+                        <div class="control-group">
+                            <div> @Html.LabelFor(m => m.GuestName, new { @class = "control-label" }) *</div>
+                            <div>
+                                @Html.TextBoxFor(m => m.GuestName, new { @class = "form-control input-sm" + @ViewBag.EditClass })
+                                @Html.ValidationMessageFor(m => m.GuestName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-input-item">
+                        <div class="control-group">
+                            <div>@Html.LabelFor(m => m.Channel, new { @class = "control-label" }) *</div>
+                            <div>
+                                @Html.DropDownListFor(m => m.Channel, channelList, new { @class = "form-control input-sm" + @ViewBag.EditClass })
+                                @Html.ValidationMessageFor(m => m.Channel, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <!-- confirmation code -->
+                <td class="revenue-form-col">
+                    <div class="form-input-item">
+                        <div class="control-group">
+                            <div>
+                                <div>@Html.LabelFor(m => m.PayoutDate, new { @class = "control-label" }) *</div>
+                            </div>
+                            <div>
+                                @if (@ViewBag.EditClass != " app-field-readonly")
+                                {
+                                    @Html.TextBoxFor(m => m.PayoutDate, new { @class = "app-simple-datepicker" + @ViewBag.EditClass })
+                                    @Html.ValidationMessageFor(m => m.PayoutDate, "", new { @class = "text-danger" })
+                                }
+                                else
+                                {
+                                    @Html.TextBox("Payout Date", Model.PayoutDate.Value.ToString("MM/dd/yyyy"), new { @class = "form-control input-sm" + @ViewBag.EditClass })
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-input-item">
+                        <div class="control-group">
+                            <div>@Html.LabelFor(m => m.CheckinDate, new { @class = "control-label" }) *</div>
+                            <div>
+                                @if (@ViewBag.EditClass != " app-field-readonly")
+                                {
+                                    @Html.TextBoxFor(m => m.CheckinDate, new { @class = "app-simple-datepicker" + @ViewBag.EditClass })
+                                    @Html.ValidationMessageFor(m => m.CheckinDate, "", new { @class = "text-danger" })
+                                }
+                                else
+                                {
+                                    @Html.TextBox("Checkin Date", Model.CheckinDate.Value.ToString("MM/dd/yyyy"), new { @class = "form-control input-sm" + @ViewBag.EditClass })
+                               }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-input-item">
+                        <div class="control-group">
+                            <div>@Html.LabelFor(m => m.IncludeOnStatement, new { @class = "control-label" })</div>
+                            <div>
+                                @Html.DropDownListFor(m => m.IncludeOnStatement, booleanList, "Select an option...", new { @class = "form-control input-sm" + @ViewBag.EditClass })
+                                @Html.ValidationMessageFor(m => m.IncludeOnStatement, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <!-- total revenue -->
+                <td class="revenue-form-col revenue-form-rightcol" style="vertical-align:top;">
+                    <div class="form-input-item">
+                        <div class="control-group">
+                            <div>@Html.LabelFor(m => m.TotalRevenue, new { @class = "control-label" }) *</div>
+                            <div>
+                                <div class="input-group decorated-field">
+                                    <div class="input-group-addon">$</div>
+                                    @Html.TextBoxFor(m => m.TotalRevenue, new { @class = "form-control input-sm" + @ViewBag.EditClass })
+                                </div>
+                                @Html.ValidationMessageFor(m => m.TotalRevenue, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-input-item">
+                        <div class="control-group">
+                            <div>@Html.LabelFor(m => m.Nights, new { @class = "control-label" }) *</div>
+                            <div>
+                                @Html.TextBoxFor(m => m.Nights, new { @class = "form-control input-sm" + @ViewBag.EditClass })
+                                @Html.ValidationMessageFor(m => m.Nights, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-input-item">
+                        <div class="control-group">
+                            <div>@Html.LabelFor(m => m.IsTaxed, new { @class = "control-label" })?</div>
+                            <div>
+                                @Html.DropDownListFor(m => m.IsTaxed, booleanList, "Select an option...", new { @class = "form-control input-sm" + @ViewBag.EditClass })
+                                @Html.ValidationMessageFor(m => m.IsTaxed, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Action buttons -->
+        if (string.IsNullOrEmpty(ViewBag.EditClass))
+        {
+            <div class="form-action-button">
+                <input id="RevenueSave" type="button" value="@ViewBag.ButtonText" class="btn btn-success btn-default btn-spacing" />
+                <input id="RevenueCancel" type="button" value="Cancel" class="btn btn-warning" />
+            </div>
+        }
+
+        @Html.HiddenFor(m => m.PropertyCode)
+        @Html.HiddenFor(m => m.ReservationId)
+        @Html.HiddenFor(m => m.OwnerPayoutId)
+        @Html.HiddenFor(m => m.InputSource)
+        @Html.HiddenFor(m => m.IsFutureBooking)
+        @Html.HiddenFor(m => m.Source)
+    }
+</div>
+
+
+

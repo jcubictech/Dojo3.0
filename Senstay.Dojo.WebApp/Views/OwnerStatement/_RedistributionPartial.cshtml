@@ -1,0 +1,90 @@
+﻿@model Senstay.Dojo.Models.View.OverpaymentRedistributionModel
+@{
+    ViewBag.PageHint = "Statement";
+    var propertyBalancesJson = new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Model.PropertyBalances);
+}
+
+<div class="dialog-page-content">
+    @using (Ajax.BeginForm("SummaryRebalance", "OwnerStatement", new AjaxOptions
+        {
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "edit-ajax-target",
+            LoadingElementId = "edit-ajax-wait",
+            OnSuccess = "DojoWeb.ReblanceForm.refresh",
+            OnFailure = "DojoWeb.RebalanceForm.serverError"
+        },
+        new { @id = "RebalanceEntryForm", @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <!-- from and to property -->
+        <div class="revenue-form-width">
+            <!-- from property -->
+            <div class="form-input-item rebalance-form-field pull-left">
+                <div class="control-group">
+                    <div>* @Html.LabelFor(m => m.FromProperty, new { @class = "control-label" })  <span id="fromBalance"></span></div>
+                    <div class="noBackspace">
+                        @Html.DropDownListFor(m => m.FromProperty, Model.SummaryProperties, "Select a property...", new { @class = "form-control input-sm" + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(m => m.FromProperty, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <!-- to property -->
+            <div class="form-input-item rebalance-form-field pull-left">
+                <div class="control-group">
+                    <div>* @Html.LabelFor(m => m.ToProperty, new { @class = "control-label" })  <span id="toBalance"></span></div>
+                    <div class="noBackspace">
+                        @Html.DropDownListFor(m => m.ToProperty, Model.SummaryProperties, "Select a property...", new { @class = "form-control input-sm" + @ViewBag.EditClass })
+                        @Html.ValidationMessageFor(m => m.ToProperty, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <!-- rebalance amount -->
+        <div class="revenue-form-width">
+            <!-- redistribution amount -->
+            <div class="form-input-item rebalance-form-field pull-left">
+                <div class="control-group">
+                    <div>* @Html.LabelFor(m => m.RedistributionAmount, new { @class = "control-label" })</div>
+                    <div>
+                        <div class="input-group decorated-field">
+                            <div class="input-group-addon">$</div>
+                            @Html.TextBoxFor(m => m.RedistributionAmount, new { @class = "form-control input-sm" + @ViewBag.EditClass, @Readonly = "Readonly" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <!-- rebalance result --> 
+        <div id="rebalanceResult" class="revenue-form-width"></div>
+
+        <!-- action buttons -->
+        if (string.IsNullOrEmpty(ViewBag.EditClass))
+        {
+            <div class="form-action-button">
+                <input id="RebalanceAdd" type="button" value="Add Rebalance" class="btn btn-primary btn-default btn-spacing" />
+                <input id="RebalanceSave" type="button" value="Save Rebalances" class="btn btn-success btn-spacing" />
+                <input id="RebalanceCancel" type="button" value="Cancel" class="btn btn-warning" />
+            </div>
+        }
+        else
+        {
+            <input id="RebalanceDone" type="button" value="Close" class="btn btn-warning" />
+        }
+
+        @Html.HiddenFor(m => m.PayoutMethod)
+        @Html.HiddenFor(m => m.PayoutMonth)
+        @Html.HiddenFor(m => m.PayoutYear)
+        @Html.HiddenFor(m => m.PropertyBalances)
+        @Html.Hidden("PropertyBalancesJson", propertyBalancesJson)
+    }
+</div>
+
+
+

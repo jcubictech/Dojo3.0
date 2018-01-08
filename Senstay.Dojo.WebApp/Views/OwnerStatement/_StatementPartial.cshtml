@@ -1,0 +1,36 @@
+﻿@model Senstay.Dojo.Models.View.OwnerStatementViewModel
+
+<!-- approval summary section -->
+@if (Model.IsPrint == false)
+{
+    <div id="approval-alert"></div>
+    <div id="ApprovalAlert" class="hide">@Model.ApprovalSummary</div>
+    if (@Model.IsModified == true)
+    {
+        <div id="ModifyAlert" class="hide">The owner statement has been modified since last time it was finalized. Please re-finalize the statement.</div>
+    }
+    else
+    {
+        <div id="ModifyAlert" class="hide"></div>
+    }
+}
+
+<!-- statement banner section -->
+@Html.Partial("_BannerPartial", Model)
+
+<!-- statement summary section -->
+@Html.Partial("_StatementSummaryPartial", Model)
+
+<!-- statement reservations section -->
+@Html.Partial("_ReservationsPartial", Model)
+
+<!-- statement advance payments section -->
+@Html.Partial("_AdvancePaymentsPartial", Model)
+
+<!-- statement unit expenses section -->
+@Html.Partial("_UnitExpensesPartial", Model)
+
+<!-- statement footer section -->
+@Html.Partial("_FootnotePartial", Model)
+
+@Html.HiddenFor(model => model.IsEditFreezed)

@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.AppName = "SenStay Dojo";
+    ViewBag.Title = "Resolution Report";
+}
+
+<div class="navbar navbar-fixed-top actionBar-fixed-top">
+    @Html.Partial("ResolutionActionBar")
+</div>
+
+<div id="dojo-alert" class="alert-container"></div>
+
+<div id="AirbnbAccountReport" class="app-page-content">
+    <div id="ResolutionReportGrid" class="app-grid"></div>
+</div>
+
+<div><span id="reportNotification" style="display:none;"></span></div>
+
+@Html.Partial("_ConfirmationDialog")
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/datejs.js")
+    @Scripts.Render("~/Scripts/jszip.min.js")
+    @Scripts.Render("~/Scripts/app/resolutionReport.js")
+
+    <script>
+        $(document).ready(function () {
+            // default to 3 months
+            var beginDate = new Date(2017, 5, 1); // the first date of data available; this will get the entire records
+            var endDate = Date.today();
+            DojoWeb.ResolutionReportBar.install(beginDate, endDate);
+
+            DojoWeb.ResolutionReport.init('ResolutionReportGrid');
+        });
+    </script>
+}

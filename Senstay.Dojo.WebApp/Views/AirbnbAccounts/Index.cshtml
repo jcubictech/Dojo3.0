@@ -1,0 +1,42 @@
+﻿@using GridMvc.Html;
+@using Senstay.Dojo.Data.Providers;
+@model List<Senstay.Dojo.Models.AirbnbAccount>
+
+@{
+    ViewBag.Title = "Airbnb Accounts";
+    ViewBag.SubmenuHint = "accounts";
+}
+
+<h3>Airbnb Accounts 
+@if (AuthorizationProvider.IsEditor())
+{
+    <a class="btn btn-primary" href="@Url.Action("Add", "AirbnbAccounts")" role="button">+ Add new account</a>
+}
+</h3>
+
+@if (Request.QueryString["grid-dir"] != null | Request.QueryString["grid-filter"] != null)
+{
+    <a id="resetButton" href="@Url.Action("Index", "AirbnbAccounts")" class="btn btn-default btn-xs" role="button">Clear filters and sorting</a>
+}
+<div style="font-size : 12px; margin-left : 0px;">
+
+    @Html.Grid(Model).Columns(columns =>
+{
+columns.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(d =>
+    @<b>
+        @Html.ActionLink("Edit", "Edit", new { id = d.Id })
+         @Html.ActionLink("Delete", "Delete", new { id = d.Id }, new { onclick = "return confirm('Are you sure want to delete AirBnB Account?')" })
+    </b>);
+}).AutoGenerateColumns().Filterable().Sortable().WithPaging(100).WithMultipleFilters()
+    </div>
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/gridmvc.js");
+    @Scripts.Render("~/Scripts/TableScroll.js");
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+        });
+    </script>
+}

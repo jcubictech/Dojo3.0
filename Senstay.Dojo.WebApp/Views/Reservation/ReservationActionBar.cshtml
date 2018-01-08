@@ -1,0 +1,44 @@
+﻿<div id="DojoActionBar" class="actionBar vertical-align small">
+    <!-- page title -->
+    <div id="actionBarTitle" class="actionBar-item actionBar-text">
+        <i class="fa fa-university"></i> <span style="font-size:larger;font-weight:bold">@ViewBag.Title <span id="gridDataCount"></span></span>
+    </div>
+    <div class="section-indicator"></div>
+
+    <!-- export to Excel -->
+    <div id="actionBarExport" class="actionBar-link actionBar-text">
+        <i class="fa fa-file-excel-o"></i> Excel Export
+    </div>
+    <div class="section-indicator"></div>
+    @*<div id="actionBarDownload" class="actionBar-link actionBar-text">
+        <i class="fa fa-download"></i> Download DB to csv
+    </div>
+    <div class="section-indicator"></div>*@
+   
+    <!-- Date range -->
+    <div id="actionBarDateRange">
+        <div id="app-date-begin" class="actionBar-item">
+            <div>
+                <div>From</div>
+                <input id="beginDatePicker" class="app-actionBar-date" name="Date Begin" required="required" />
+            </div>
+            <span data-for='Date Begin' class='k-invalid-msg'></span>
+        </div>
+        <div class="actionBar-item-alt">
+            —
+        </div>
+        <div id="app-date-end" class="actionBar-item">
+            <div>
+                <div>To</div>
+                <input id="endDatePicker" class="app-actionBar-date" name="Date End" required="required"
+                        data-greaterdate-field="Date Begin"
+                        data-greaterdate-msg='End Date should be after Begin Date' />
+            </div>
+            <span data-for='Date End' class='k-invalid-msg'></span>
+        </div>
+    </div>
+    <div class="actionBar-item-alt">
+        <button id="actionBarGo" class="btn btn-xs btn-primary"> GO </button>
+    </div>
+</div>
+

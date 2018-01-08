@@ -1,0 +1,57 @@
+﻿@model Senstay.Dojo.Models.View.ResevationTetrisModel
+@using Senstay.Dojo.Data.Providers
+@using Senstay.Dojo.Models
+@using Heroic.Web.IoC
+@{
+    ViewBag.PageHint = "Revenue";
+    var dbContext = Context.GetContainer().GetInstance<DojoDbContext>();
+    var propertyCodeList = new PropertyProvider(dbContext).GetPropertyCodeWithAddress("Reservation");
+}
+
+<div class="dialog-page-content">
+    @using (Ajax.BeginForm("TetrisRevenue", "Reservation", new AjaxOptions
+        {
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "edit-ajax-target",
+            LoadingElementId = "edit-ajax-wait",
+        },
+        new { @id = "TetrisReservationEntryForm", @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <div class="form-input-item">
+            <div class="control-group">
+                <div>@Html.LabelFor(m => m.OldPropertyCode, new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(m => m.OldPropertyCode, new { @class = "form-control input-sm revenue-form-field2", @readonly = "readonly" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-input-item">
+            <div class="control-group">
+                <div>@Html.LabelFor(m => m.NewPropertyCode, new { @class = "control-label" })</div>
+                <div>
+                    @Html.TextBoxFor(m => m.NewPropertyCode, new { @class = "revenue-form-field2" + @ViewBag.EditClass })
+                    @Html.ValidationMessageFor(m => m.NewPropertyCode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <!-- Action buttons -->
+        if (string.IsNullOrEmpty(ViewBag.EditClass))
+        {
+            <div class="form-action-button">
+                <input id="RevenueChange" type="button" value="Change Reservation Property Code" class="btn btn-success btn-default btn-spacing" />
+                <input id="RevenueCancel" type="button" value="Cancel" class="btn btn-warning" />
+            </div>
+        }
+
+        @Html.HiddenFor(m => m.ReservationId)
+    }
+</div>
+
+
+

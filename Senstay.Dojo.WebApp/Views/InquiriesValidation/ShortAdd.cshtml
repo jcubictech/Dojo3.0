@@ -1,0 +1,173 @@
+﻿@model Senstay.Dojo.Models.InquiriesValidation
+@using Senstay.Dojo.Data.Providers
+
+@{
+    ViewBag.Title = "New Inquiry";
+    ViewBag.SubmenuHint = "inquiries";
+    ViewBag.Release = System.Configuration.ConfigurationManager.AppSettings["ReleaseVersion"];
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="ss-page-content ss-page-bk-gray">
+        <div class="ss-page-title ss-h2">@ViewBag.Title</div>
+        <div class="ss-article-title-divider"></div>
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="row ss-top-margin40 ss-left-margin5">
+            <div class="col-md-6">
+                <!-- guest name -->
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.GuestName, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.GuestName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.GuestName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <!-- inquiry team -->
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.InquiryTeam, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.InquiryTeam, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.InquiryTeam, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <!-- property code -->
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div>@Html.LabelFor(model => model.PropertyCode, htmlAttributes: new { @class = "control-label" })</div>
+                        @Html.DropDownListFor(x => x.PropertyCode, (IEnumerable<SelectListItem>)ViewBag.Properties, new { @class = "form-control select-autocomplete" })
+                        @Html.ValidationMessageFor(model => model.PropertyCode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <!-- channel -->
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Channel, htmlAttributes: new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.Channel, ListProvider.ChanelList, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Channel, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <!-- total payout -->
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.TotalPayout, htmlAttributes: new { @class = "control-label" })
+                        <div class="input-group">
+                            <div class="input-group-addon">$</div>
+                            @Html.EditorFor(model => model.TotalPayout, new { htmlAttributes = new { @id = "totalPayout", @class = "form-control", @style = "width:336px" } })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.TotalPayout, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <!-- check-in date -->
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Check_inDate, htmlAttributes: new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.Check_inDate, new
+                   {
+                       @class = "form-control datepicker",
+                       @Value = (Model.Check_inDate != null ? Model.Check_inDate.Value.ToString("d") : null)
+                   })
+                        @Html.ValidationMessageFor(model => model.Check_inDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <!-- check-out date -->
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Check_outDate, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Check_outDate, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control datepicker",
+                           @Value = (Model.Check_outDate != null ? Model.Check_outDate.Value.ToString("d") : null)
+                       }
+                   })
+                        @Html.ValidationMessageFor(model => model.Check_outDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <!-- orphan date -->
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Weekdayorphandays, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Weekdayorphandays, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Weekdayorphandays, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <!-- additional info -->
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AdditionalInfo_StatusofInquiry, htmlAttributes: new { @class = "control-label" })
+                        @Html.TextAreaFor(model => model.AdditionalInfo_StatusofInquiry, new { @class = "form-control", rows = "6" })
+                        @Html.ValidationMessageFor(model => model.AdditionalInfo_StatusofInquiry, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 ss-top-margin20">
+            <!-- submit action -->
+            <div class="col-md-12">
+                <input id="inquirySave" type="submit" value="Create" class="btn btn-success btn-default" />
+                <input id="inquiryCancel" type="button" value="Cancel" class="btn btn-warning" />
+            </div>
+
+            <!-- back link -->
+            <div class="col-md-12 ss-back-link">
+                @Html.ActionLink("Back to Inquiries List", "Index")
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section styles
+{
+    @if (string.IsNullOrEmpty(ViewBag.Release))
+    {
+        <link rel="Stylesheet" href="@Href("~/content/bootstrap-datepicker3.css")" />
+        <link rel="Stylesheet" href="@Href("~/content/app/appform.css")" />
+    }
+    else
+    {
+        <link rel="Stylesheet" href="@Href("~/content/bootstrap-datepicker3.css")" />
+        <link rel="Stylesheet" href="@Href("~/content/app/appform.css?r=" + ViewBag.Release)" />
+    }
+}
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
+    @Scripts.Render("~/Scripts/gridmvc.js")
+    @Scripts.Render("~/Scripts/select2.min.js")
+    @Scripts.Render("~/Scripts/shortformScript.js")
+
+    <script type="text/javascript">
+        var ActionPar = "@Url.Action("Search")"; // for searchable selection list
+
+        $(document).ready(function () {
+            $('#inquiryCancel').click(function () {
+                window.location.href = '/InquiriesValidation';
+            });
+
+            DojoWeb.Plugin.initDatePicker();
+            DojoWeb.Plugin.initSearchableList();
+        });
+    </script>
+}
+

@@ -1,0 +1,129 @@
+﻿@model Senstay.Dojo.Models.InquiriesValidation
+@using Senstay.Dojo.Data.Providers
+@using Senstay.Dojo.Controllers
+@using Senstay.Dojo.Models
+@using Heroic.Web.IoC
+
+@{
+    ViewBag.Title = "Inquiry Approval";
+    ViewBag.SubmenuHint = "inquiries";
+    //var userRoleManager = DependencyResolver.Current.GetService<UserRoleManagerController>();
+    var dbContext = Context.GetContainer().GetInstance<DojoDbContext>();
+    var lookupProvider = new LookupProvider(dbContext);
+    var approvalList = lookupProvider.GetLookupList(LookupType.Approval);
+    var decisionList = lookupProvider.GetLookupList(LookupType.PriceDecision);
+
+    // TODO: get approver list from approver roles
+    //var ApproverList = userRoleManager.GetApproverList();
+    var ApproverList = ListProvider.AproverList;
+}
+
+<div class="dialog-page-content">
+    @using (Ajax.BeginForm("Approve", "Inquiry", new AjaxOptions
+        {
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "edit-ajax-target",
+            LoadingElementId = "edit-ajax-wait",
+            OnSuccess = "DojoWeb.InquiryForm.refreshApproveForm",
+            OnFailure = "DojoWeb.InquiryForm.serverError"
+        },
+        new { @id = "InquiryApproveForm", @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+
+        if (Model.OwnerApprovalNeeded == "YES")
+        {
+            <div class="form-input-item">
+                @Html.LabelFor(model => model.OwnerApprovalNeeded, htmlAttributes: new { @class = "alert alert-warning" })
+            </div>
+        }
+
+        <!-- approval status -->
+        <div class="form-input-item">
+            <div class="control-group">
+                <div>
+                    @Html.LabelFor(model => model.ApprovedbyOwner, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div>
+                    @Html.DropDownListFor(model => model.ApprovedbyOwner, approvalList, new { @class = "form-control ss-input-width-full" + @ViewBag.EditClass })
+                    @Html.ValidationMessageFor(model => model.ApprovedbyOwner, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <!-- pricing approver -->
+        <div class="form-input-item">
+            @if (Model.CPL.BeltDesignation == "Black belt")
+            {
+            <div class="control-group">
+                <div>
+                    @Html.LabelFor(model => model.PricingApprover1, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div>
+                    @Html.TextBoxFor(model => model.PricingApprover1, new { @class = "form-control", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.PricingApprover1, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="control-group hide">
+                <div>
+                    @Html.LabelFor(model => model.PricingApprover2, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div>
+                    @Html.DropDownListFor(model => model.PricingApprover2, ApproverList, "Select an option...", new { @class = "form-control ss-input-width-full" + @ViewBag.EditClass })
+                    @Html.ValidationMessageFor(model => model.PricingApprover2, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            }
+            else
+            {
+            <div class="control-group">
+                <div>
+                    @Html.LabelFor(model => model.PricingApprover1, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div>
+                    @Html.TextBoxFor(model => model.PricingApprover1, new { @class = "form-control", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.PricingApprover1, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            }
+        </div>
+
+        <!-- pricing decision -->
+        <div class="form-input-item">
+            <div class="control-group">
+                <div>
+                    @Html.LabelFor(model => model.PricingDecision1, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div>
+                    @Html.DropDownListFor(model => model.PricingDecision1, decisionList, "Select an option...", new { @class = "form-control ss-input-width-full" + @ViewBag.EditClass })
+                    @Html.ValidationMessageFor(model => model.PricingDecision1, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <!-- pricing reason -->
+        <div class="form-input-item">
+            <div class="control-group">
+                <div>
+                    @Html.LabelFor(model => model.PricingReason1, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div>
+                    @Html.TextAreaFor(model => model.PricingReason1, new { @class = "form-control form-multiline-text" + @ViewBag.EditClass, @rows = 8 })
+                    @Html.ValidationMessageFor(model => model.PricingReason1, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <!-- submit action -->
+        if (string.IsNullOrEmpty(ViewBag.EditClass))
+        {
+            <div class="form-action-button">
+                <input id="inquirySave" type="button" value="@ViewBag.ButtonText" class="btn btn-success btn-default" onclick="DojoWeb.InquiryForm.saveApproveForm()" />
+                <input id="inquiryCancel" type="button" value="Cancel" class="btn btn-warning form-cancel" onclick="DojoWeb.InquiryForm.cancel()" />
+            </div>
+        }
+
+        @Html.HiddenFor(model => model.Id);
+    }
+</div>

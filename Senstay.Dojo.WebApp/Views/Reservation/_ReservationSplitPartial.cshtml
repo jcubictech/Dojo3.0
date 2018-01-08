@@ -1,0 +1,78 @@
+﻿@model Senstay.Dojo.Models.View.ResevationSplitModel
+@using Senstay.Dojo.Data.Providers
+@using Senstay.Dojo.Models
+@using Heroic.Web.IoC
+@{
+    ViewBag.PageHint = "Revenue";
+    var dbContext = Context.GetContainer().GetInstance<DojoDbContext>();
+    var propertyCodeList = new PropertyProvider(dbContext).GetPropertyCodes();
+}
+
+<div class="dialog-page-content">
+    @using (Ajax.BeginForm("SplitRevenue", "Reservation", new AjaxOptions
+        {
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "edit-ajax-target",
+            LoadingElementId = "edit-ajax-wait",
+        },
+        new { @id = "SplitReservationEntryForm", @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <div class="revenue-form-width">
+            <!-- source property code -->
+            <div class="form-input-item split-form-field pull-left">
+                <div class="control-group">
+                    <div> @Html.LabelFor(m => m.PropertyCode, new { @class = "control-label" })</div>
+                    <div>
+                        @Html.TextBoxFor(m => m.PropertyCode, new { @class = "form-control input-sm split-form-field1", @readonly = "readonly" })
+                    </div>
+                </div>
+            </div>
+            <!-- source confirmation code -->
+            <div class="form-input-item split-form-field pull-left">
+                <div class="control-group">
+                    <div> @Html.LabelFor(m => m.ConfirmationCode, new { @class = "control-label" })</div>
+                    <div>
+                        @Html.TextBoxFor(m => m.ConfirmationCode, new { @class = "form-control input-sm split-form-field1", @readonly = "readonly" })
+                    </div>
+                </div>
+            </div>
+            <!-- source reservation amount -->
+            <div class="form-input-item split-form-field pull-left">
+                <div class="control-group">
+                    <div> @Html.LabelFor(m => m.ReservationAmount, new { @class = "control-label" })</div>
+                    <div>
+                        @Html.TextBoxFor(m => m.ReservationAmount, new { @class = "form-control input-sm split-form-field11", @readonly = "readonly", Value = String.Format("{0:C2}", Model.ReservationAmount) })
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="form-input-item">
+            <div class="control-group">
+                <div>@Html.Label("Target Property Codes", new { @class = "control-label" }) *</div>
+                <div class="splitted-property">
+                    @Html.DropDownList("splittedProperties", propertyCodeList, new { @class = @ViewBag.EditClass })
+                </div>
+            </div>
+        </div>
+
+        <!-- Action buttons -->
+        if (string.IsNullOrEmpty(ViewBag.EditClass))
+        {
+            <div class="form-action-button">
+                <input id="RevenueChange" type="button" value="Split Reservation Revenue" class="btn btn-success btn-default btn-spacing" />
+                <input id="RevenueCancel" type="button" value="Cancel" class="btn btn-warning" />
+            </div>
+        }
+
+        @Html.HiddenFor(m => m.ReservationId)
+    }
+</div>
+
+
+

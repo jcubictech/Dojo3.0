@@ -1,0 +1,33 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+<div class="ss-simple-box ss-simple-box-error" style="min-height:220px;">
+    <div class="col-xs-12 route-error">
+        <div class="col-xs-1 bug-margin"><i class="fa fa-bug fa-5x"></i></div>
+        <div class="col-xs-11">
+            <h3>We have received an error while trying to resolve your URL...</h3>
+            <h4>It seems like the URL you are requesting is not available from SenStay site. We will be redirecting you to the home page.</h4>
+            <h5>If the redirection does not happen in 10 seconds, please click the link below to manually go back to the home page.</h5>
+
+            <div class="back-to-home col-xs-12"><a href="/"><h4><i class="fa fa-university fa-2x"></i> SenStay Home</h4></a></div>
+        </div>
+    </div>
+</div>
+<div class="bug-margin clearfix"></div>
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/appform.css")" />
+}
+
+@section scripts
+{
+    <script>
+        $(function () { // will trigger when the document is ready
+            $(document).ready(function () {
+                setTimeout(function () {
+                    window.location.replace('@Url.Action("Index", "Home")');
+                }, 10000);
+            });
+        });
+    </script>
+}
