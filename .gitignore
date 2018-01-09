@@ -3,3 +3,19 @@
 ################################################################################
 
 /App.ValidateAirbnbTransaction/obj/Debug
+/Senstay.Dojo.Airbnb.Import/obj/Debug
+/Senstay.Dojo.FtpClient/obj/Debug
+/Senstay.Dojo.Helpers/obj/Debug
+/Senstay.Dojo.Models/obj/Debug
+/App.DojoAirbnbImport/obj/Debug
+/App.DojoAirbnbImport/bin/Debug
+/App.ValidateAirbnbTransaction/bin/Debug
+/Senstay.Dojo.Airbnb.Import/bin/Debug
+/Senstay.Dojo.DbTools/bin/Debug
+/Senstay.Dojo.DbTools/obj/Debug
+/Senstay.Dojo.FtpClient/bin/Debug
+/Senstay.Dojo.Helpers/bin/Debug
+/Senstay.Dojo.Models/bin/Debug
+/Senstay.Dojo.WebApp/bin
+/Senstay.Dojo.WebApp/obj/Debug
+/packages
