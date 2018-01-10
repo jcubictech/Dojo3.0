@@ -19,3 +19,6 @@
 /Senstay.Dojo.WebApp/bin
 /Senstay.Dojo.WebApp/obj/Debug
 /packages
+/.vs/config/applicationhost.config
+/Senstay.Dojo.DbTools/Senstay.Dojo.DbTools.sqlproj.user
+/.vs/Senstay.DojoApp/v14/.suo
