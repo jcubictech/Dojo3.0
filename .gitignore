@@ -1,0 +1,24 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/config/applicationhost.config
+/.vs/Senstay.DojoApp/v14/.suo
+/App.DojoAirbnbImport/bin/Debug
+/App.DojoAirbnbImport/obj/Debug
+/App.ValidateAirbnbTransaction/bin/Debug
+/App.ValidateAirbnbTransaction/obj/Debug
+/Senstay.Dojo.WebApp/bin
+/Senstay.Dojo.WebApp/obj/Debug
+/Senstay.Dojo.Models/bin/Debug
+/Senstay.Dojo.Models/obj/Debug
+/Senstay.Dojo.Helpers/bin/Debug
+/Senstay.Dojo.Helpers/obj/Debug
+/Senstay.Dojo.FtpClient/bin/Debug
+/Senstay.Dojo.FtpClient/obj/Debug
+/Senstay.Dojo.DbTools/bin/Debug
+/Senstay.Dojo.DbTools/obj/Debug
+/Senstay.Dojo.DbTools/Senstay.Dojo.DbTools.sqlproj.user
+/Senstay.Dojo.Airbnb.Import/bin/Debug
+/Senstay.Dojo.Airbnb.Import/obj/Debug
+/packages
