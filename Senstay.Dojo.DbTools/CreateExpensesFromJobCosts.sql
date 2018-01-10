@@ -43,7 +43,7 @@ BEGIN
 	-- initialize data
 	SET @ErrorCount = 0
 	SET @InsertCount = 0
- 	SET @CreatedDate = Convert(date, getdate())
+ 	SET @CreatedDate = getdate()
 	SET @ModifiedDate = @CreatedDate
 
 	-- Get the latest ID to start
@@ -105,7 +105,7 @@ BEGIN
 
 	-- set ParentId to ExpenseId to have no grouping for expenses
 	UPDATE [dbo].[Expense] SET [ParentId] = [ExpenseId]
-	WHERE Convert(Date, [ExpenseDate]) >= @StartDate and Convert(Date, [ExpenseDate]) <= @EndDate
+	WHERE Convert(Date, [ExpenseDate]) >= @StartDate and Convert(Date, [ExpenseDate]) <= @EndDate and [ExpenseId] > @StartExpenseId
 
 	-- ===========================================================================================================
 	--		GROUP EXPENSES
