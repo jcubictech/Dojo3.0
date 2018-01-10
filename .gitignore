@@ -22,3 +22,5 @@
 /.vs/config/applicationhost.config
 /Senstay.Dojo.DbTools/Senstay.Dojo.DbTools.sqlproj.user
 /.vs/Senstay.DojoApp/v14/.suo
+/Senstay.Dojo.DbTools/Senstay.Dojo.DbTools.jfm
+/Senstay.Dojo.DbTools/Senstay.Dojo.DbTools.dbmdl

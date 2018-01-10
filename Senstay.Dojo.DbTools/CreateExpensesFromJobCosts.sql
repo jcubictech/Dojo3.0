@@ -173,6 +173,8 @@ BEGIN
 				SET @GroupCategory = 'Maintenance'
 			ELSE IF (@AccountNumber = 518)
 				SET @GroupCategory = 'Utilities'
+			ELSE IF (@AccountNumber = 519)
+				SET @GroupCategory = 'Housewares'
 			ELSE
 				SET @GroupCategory = 'Other'
 

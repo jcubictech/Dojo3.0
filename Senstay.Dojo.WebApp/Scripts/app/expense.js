@@ -743,6 +743,7 @@ DojoWeb.Expense = function () {
     return {
         init: init,
         getData: getData,
+        getExpenses: getExpenses,
         renderComamnd: renderComamnd,
         moveTo: moveTo,
         getPropertyCode: getPropertyCode,
@@ -787,7 +788,7 @@ DojoWeb.CombineExpenses = function () {
                             $('#formDialog').data('kendoWindow').close();
                         });
 
-                        getExpenses($month, $property);
+                        getData($month, $property);
                     }
                 },
                 error: function (jqXHR, status, errorThrown) {
