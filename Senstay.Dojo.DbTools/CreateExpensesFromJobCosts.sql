@@ -1,6 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[CreateExpensesFromJobCosts]
 	@StartDate DateTime,
-	@EndDate DateTime
+	@EndDate DateTime,
+	@StartJobCostId int = 0 -- exclusive
 AS
 BEGIN
 
@@ -36,13 +37,17 @@ BEGIN
 		@ApprovedBy nvarchar(100) = null,
 		@ApprovedDate datetime = null,
 		@IsDeleted int = 0,
-		@IncludeOnStatement int = 1
+		@IncludeOnStatement int = 1,
+		@StartExpenseId int = 0
 
 	-- initialize data
 	SET @ErrorCount = 0
 	SET @InsertCount = 0
- 	SET @CreatedDate = Convert(date, getdate())
+ 	SET @CreatedDate = getdate()
 	SET @ModifiedDate = @CreatedDate
+
+	-- Get the latest ID to start
+	SELECT @StartExpenseId = Max([ExpenseId]) FROM [dbo].[Expense]
 
 	-- ===========================================================================================================
 	--		CONVERT JOBCOSTs TO EXPENSES
@@ -52,7 +57,7 @@ BEGIN
 		SELECT [JobCostId], [PropertyCode], [JobCostPayoutTo], [JobCostType], [JobCostDate], [JobCostNumber],
 			   [JobCostSource], [JobCostMemo], [JobCostAccount], [JobCostClass], [JobCostAmount], [JobCostBalance]
 		FROM [dbo].[JobCost]
-		WHERE [PropertyCode] = [OriginalPropertyCode] and [JobCostBillable] = 1 and 
+		WHERE [PropertyCode] = [OriginalPropertyCode] and [JobCostBillable] = 1 and [JobCostId] > @StartJobCostId and
 			  Convert(date, [JobCostDate]) >= @StartDate and Convert(date, [JobCostDate]) <= @EndDate
 
 	OPEN ConvertCursor
@@ -100,7 +105,7 @@ BEGIN
 
 	-- set ParentId to ExpenseId to have no grouping for expenses
 	UPDATE [dbo].[Expense] SET [ParentId] = [ExpenseId]
-	WHERE Convert(Date, [ExpenseDate]) >= @StartDate and Convert(Date, [ExpenseDate]) <= @EndDate
+	WHERE Convert(Date, [ExpenseDate]) >= @StartDate and Convert(Date, [ExpenseDate]) <= @EndDate and [ExpenseId] > @StartExpenseId
 
 	-- ===========================================================================================================
 	--		GROUP EXPENSES
@@ -126,8 +131,8 @@ BEGIN
 
 	DECLARE GroupCursor CURSOR FOR 
 		SELECT distinct [PropertyCode], [Category] FROM [dbo].[Expense] 
-		WHERE [PropertyCode] IS NOT NULL AND [Category] IS NOT NULL and Convert(Date, [CreatedDate]) >= Convert(Date, @GroupDate) and
-			  [Category] not like 'Rebalance%'
+		WHERE [PropertyCode] IS NOT NULL AND [Category] IS NOT NULL and [Category] not like 'Rebalance%' and
+			  Convert(Date, [CreatedDate]) >= Convert(Date, @GroupDate)	and [ExpenseId] > @StartExpenseId	  
 		ORDER BY [PropertyCode], [Category]
 
 	OPEN GroupCursor
@@ -139,7 +144,7 @@ BEGIN
 
 		BEGIN TRY
 
-			SET @LineCount = @LineCount+ 1
+			SET @LineCount = @LineCount + 1
 
 			-- determine group category based on rules provided by Excel file
 			Select top 1 @AccountCode = [Value] from [dbo].[SplitString](@Category, '·') order by [Value]
@@ -168,6 +173,8 @@ BEGIN
 				SET @GroupCategory = 'Maintenance'
 			ELSE IF (@AccountNumber = 518)
 				SET @GroupCategory = 'Utilities'
+			ELSE
+				SET @GroupCategory = 'Other'
 
 			SELECT Top 1 @ExpenseId = [ExpenseId] FROM [dbo].[Expense] 
 			WHERE [ExpenseId] = [ParentId] and [PropertyCode] = @PropertyCode and [ApprovedNote] = @PrimaryAccount and Convert(Date, [CreatedDate]) >= Convert(Date, @GroupDate)
@@ -204,11 +211,7 @@ BEGIN
 
 		BEGIN CATCH
 			SET @ErrorCount = @ErrorCount + 1
-
-			--SELECT   
-			--	ERROR_NUMBER() AS ErrorNumber  
-			--   ,ERROR_MESSAGE() AS ErrorMessage
-
+			SELECT ERROR_NUMBER() AS ErrorNumber, ERROR_MESSAGE() AS ErrorMessage
 		END CATCH
 
 		FETCH NEXT FROM GroupCursor INTO @PropertyCode, @Category
@@ -218,6 +221,6 @@ BEGIN
 	CLOSE GroupCursor 
 	DEALLOCATE GroupCursor
 
-	Select 'Count' = @ErrorCount
+	Select 'New Expense Count' = @InsertCount, 'Error Count' = @ErrorCount
 
 END

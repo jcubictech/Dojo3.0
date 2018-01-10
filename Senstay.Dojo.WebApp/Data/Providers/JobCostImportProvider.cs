@@ -54,7 +54,7 @@ namespace Senstay.Dojo.Data.Providers
             string currentProperty = string.Empty;
             string currentPayee = string.Empty;
             string inputSource = "Job Cost Excel";
-            int totalCols = newVersion ? 25: 23;
+            int totalCols = newVersion ? 25 : 23;
             int billingStatusOffset = newVersion ? 0 : -2;
             _costSkip10Col += billingStatusOffset;
             _costAmountCol += billingStatusOffset;
@@ -150,19 +150,21 @@ namespace Senstay.Dojo.Data.Providers
             return errorCount == 0 ? jobCosts.Count * 10000 : -errorCount;
         }
 
-        public int CreateExpenses(int month, int year)
+        public int CreateExpenses(int month, int year, int startJobCostId)
         {
             try
             {
                 DateTime startDate = new DateTime(year, month, 1);
                 DateTime endDate = new DateTime(year, month, DateTime.DaysInMonth(year, month));
 
-                SqlParameter[] sqlParams = new SqlParameter[2];
+                SqlParameter[] sqlParams = new SqlParameter[3];
                 sqlParams[0] = new SqlParameter("@StartDate", SqlDbType.DateTime);
                 sqlParams[0].Value = startDate;
                 sqlParams[1] = new SqlParameter("@EndDate", SqlDbType.DateTime);
                 sqlParams[1].Value = endDate;
-                var result = _context.Database.SqlQuery<SqlResult>("CreateExpensesFromJobCosts @StartDate, @EndDate", sqlParams).FirstOrDefault();
+                sqlParams[2] = new SqlParameter("@StartJobCostId", SqlDbType.Int);
+                sqlParams[2].Value = startJobCostId;
+                var result = _context.Database.SqlQuery<SqlResult>("CreateExpensesFromJobCosts @StartDate, @EndDate, @StartJobCostId", sqlParams).FirstOrDefault();
                 if (result != null)
                     return result.Count;
                 else

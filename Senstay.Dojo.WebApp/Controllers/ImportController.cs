@@ -2,6 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web;
 using Newtonsoft.Json;
@@ -326,11 +327,11 @@ namespace Senstay.Dojo.Controllers
                         //string sortableDate = importService.ParseDateFromTransactionFileUrl(importFile.Id);
                         //if (string.Compare(sortableDate, mostRecentDateString) > 0)
                         //{
-                            // download file from ftp site
-                            string csvFileUrl = importFile.Id;
-                            localFile = Path.Combine(tempFolder, importFile.Name);
-                            ftpService.Download(csvFileUrl, localFile);
-                            var count = importService.ImportGrossEarningTransactions(localFile, importDate.ToString("yyyy-MM-dd"));
+                        // download file from ftp site
+                        string csvFileUrl = importFile.Id;
+                        localFile = Path.Combine(tempFolder, importFile.Name);
+                        ftpService.Download(csvFileUrl, localFile);
+                        var count = importService.ImportGrossEarningTransactions(localFile, importDate.ToString("yyyy-MM-dd"));
 
                         if (count == -1)
                             result.Skip++;
@@ -407,11 +408,12 @@ namespace Senstay.Dojo.Controllers
                 _dbContext.Configuration.AutoDetectChangesEnabled = false;
                 _dbContext.Configuration.ValidateOnSaveEnabled = false;
 
+                int startJobCostId = _dbContext.JobCosts.Max(x => x.JobCostId); // expense creation will start from this JobCostId
                 var dataProvider = new JobCostImportProvider(_dbContext);
                 int result = dataProvider.ImportExcel(dataStream, newVersion);
                 if (result > 0) // JobCost import successes; create and group expenses from it
                 {
-                    dataProvider.CreateExpenses(importDate.Month, importDate.Year);
+                    dataProvider.CreateExpenses(importDate.Month, importDate.Year, startJobCostId);
                 }
                 return result;
             }
