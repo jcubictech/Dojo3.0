@@ -327,11 +327,11 @@ namespace Senstay.Dojo.Controllers
                         //string sortableDate = importService.ParseDateFromTransactionFileUrl(importFile.Id);
                         //if (string.Compare(sortableDate, mostRecentDateString) > 0)
                         //{
-                            // download file from ftp site
-                            string csvFileUrl = importFile.Id;
-                            localFile = Path.Combine(tempFolder, importFile.Name);
-                            ftpService.Download(csvFileUrl, localFile);
-                            var count = importService.ImportGrossEarningTransactions(localFile, importDate.ToString("yyyy-MM-dd"));
+                        // download file from ftp site
+                        string csvFileUrl = importFile.Id;
+                        localFile = Path.Combine(tempFolder, importFile.Name);
+                        ftpService.Download(csvFileUrl, localFile);
+                        var count = importService.ImportGrossEarningTransactions(localFile, importDate.ToString("yyyy-MM-dd"));
 
                         if (count == -1)
                             result.Skip++;

@@ -54,7 +54,7 @@ namespace Senstay.Dojo.Data.Providers
             string currentProperty = string.Empty;
             string currentPayee = string.Empty;
             string inputSource = "Job Cost Excel";
-            int totalCols = newVersion ? 25: 23;
+            int totalCols = newVersion ? 25 : 23;
             int billingStatusOffset = newVersion ? 0 : -2;
             _costSkip10Col += billingStatusOffset;
             _costAmountCol += billingStatusOffset;
