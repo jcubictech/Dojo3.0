@@ -108,8 +108,8 @@ namespace Senstay.Dojo.Data.Providers
                 ownerStatement.UnitExpenseDetails = GetUnitExpenses(month, propertyCode, isFixedCostModel);
                 if (isFixedCostModel)
                 {
-                    fixedUnitExpenses = GetUnitExpenses(month, reservations.Count, propertyFee);
-                    if (UseGroundKeepingRule(month)) MergeGroundskeeing(ownerStatement.UnitExpenseDetails, fixedUnitExpenses);
+                    fixedUnitExpenses = GetUnitExpenses(month, GetFixedCostModelCount(reservations), propertyFee);
+                    if (UseGroundKeepingRule(month)) MergeGroundskeeping(ownerStatement.UnitExpenseDetails, fixedUnitExpenses);
                 }
                 ownerStatement.UnitExpenseDetails.AddRange(fixedUnitExpenses);
 
@@ -636,6 +636,11 @@ namespace Senstay.Dojo.Data.Providers
             return unitExpenses;
         }
 
+        private int GetFixedCostModelCount(List<ReservationStatement> reservations)
+        {
+            return reservations.Where(x => x.Type != "Maintenance").Count();
+        }
+
         private UnitExpenseStatement MakeUnitExpense(double amount, string category)
         {
             var unitExpense = new UnitExpenseStatement();
@@ -644,7 +649,7 @@ namespace Senstay.Dojo.Data.Providers
             return unitExpense;
         }
 
-        private void MergeGroundskeeing(List<UnitExpenseStatement> unitExpenseDetails, List<UnitExpenseStatement> fixedUnitExpenses)
+        private void MergeGroundskeeping(List<UnitExpenseStatement> unitExpenseDetails, List<UnitExpenseStatement> fixedUnitExpenses)
         {
             foreach (UnitExpenseStatement expense in unitExpenseDetails)
             {
