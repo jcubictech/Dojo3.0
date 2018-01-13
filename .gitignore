@@ -24,3 +24,14 @@
 /.vs/Senstay.DojoApp/v14/.suo
 /Senstay.Dojo.DbTools/Senstay.Dojo.DbTools.jfm
 /Senstay.Dojo.DbTools/Senstay.Dojo.DbTools.dbmdl
+/App.DojoAirbnbImport/obj/Release
+/App.ValidateAirbnbTransaction/obj/Release
+/Senstay.Dojo.Airbnb.Import/bin/Release
+/Senstay.Dojo.Airbnb.Import/obj/Release
+/Senstay.Dojo.FtpClient/bin/Release
+/Senstay.Dojo.FtpClient/obj/Release
+/Senstay.Dojo.Helpers/bin/Release
+/Senstay.Dojo.Helpers/obj/Release
+/Senstay.Dojo.Models/bin/Release
+/Senstay.Dojo.Models/obj/Release
+/Senstay.Dojo.WebApp/obj/Release
