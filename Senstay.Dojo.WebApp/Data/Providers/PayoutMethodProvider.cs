@@ -28,6 +28,7 @@ namespace Senstay.Dojo.Data.Providers
                 foreach (var entity in entities)
                 {
                     entity.EffectiveDate = ConversionHelper.EnsureUtcDate(entity.EffectiveDate.Date);
+                    entity.ExpiryDate = ConversionHelper.EnsureUtcDate(entity.ExpiryDate.Date);
                     if (!string.IsNullOrEmpty(entity.CurrentPropertyCodes))
                     {
                         string[] currentPropertyCodes = entity.CurrentPropertyCodes.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
@@ -106,6 +107,7 @@ namespace Senstay.Dojo.Data.Providers
             entity.PayoutMethodId = model.PayoutMethodId;
             entity.PayoutMethodName = model.PayoutMethodName;
             entity.EffectiveDate = ConversionHelper.EnsureUtcDate(model.EffectiveDate);
+            entity.ExpiryDate = ConversionHelper.EnsureUtcDate(model.ExpiryDate);
             entity.PayoutMethodType = methodType;
             entity.PayoutAccount = model.PayoutAccount;
         }

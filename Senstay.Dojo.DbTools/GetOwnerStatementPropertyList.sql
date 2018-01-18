@@ -15,7 +15,7 @@ BEGIN
 		,ROW_NUMBER() OVER(PARTITION BY m.[EffectiveDate], m.[PayoutMethodName] ORDER BY m.[EffectiveDate] desc, m.[PayoutMethodName]) 'rank'
 	INTO #Temp
 	FROM [dbo].[PayoutMethod] m 
-	WHERE m.[IsDeleted] = 0 and Convert(Date, m.[EffectiveDate]) <= @EndDate
+	WHERE m.[IsDeleted] = 0 and Convert(Date, m.[EffectiveDate]) <= @EndDate and Convert(Date, m.[ExpiryDate]) >= @StartDate
 
 	SELECT distinct
 		p.[PropertyCode]
@@ -107,7 +107,7 @@ BEGIN
 		,[ResolutionApproved]
 		,[ExpenseApproved]
 		,[OtherRevenueApproved] = 1  -- do not need workflow anymore
-		,[Empty] = case when ([Balance] is not null and [Balance] <> 0) or ([StatementBalance] is not null and [StatementBalance] <> 0) then 0 else [Empty] end
+		,[Empty] = case when ([Balance] is not null and [Balance] <> 0 and [StatementBalance] is not null and [StatementBalance] <> 0) or ([StatementBalance] is not null and [StatementBalance] <> 0) then 0 else [Empty] end
 	FROM #Temp2
 	ORDER BY [OwnerPayout], [PropertyCode], [Owner]
 

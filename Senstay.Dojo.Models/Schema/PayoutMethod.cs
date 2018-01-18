@@ -21,6 +21,8 @@ namespace Senstay.Dojo.Models
 
         public DateTime EffectiveDate { get; set; }
 
+        public DateTime ExpiryDate { get; set; } = (new DateTime(2050, 12, 31, 11, 0, 0));
+
         public bool IsDeleted { get; set; } = false;
 
         // payout method 1 - M fields

@@ -23,13 +23,13 @@
 
             @if (ViewBag.EditClass == string.Empty)
             {
-                if (ViewBag.CanFreezeEditing == "freeze-edit")
+                if (ViewBag.CanFreezeEditing == true)
                 {
                     <!-- disable statement/revenue/payment editing -->
                     <div class="float-left">
                         <div id="disableEditButton" class="finalize-button @editDisabled">
                             <div class="revenue-button" style="margin-left:10px;">
-                                <a id="disableEdit">&nbsp;&nbsp;<span class="finalizeText">Lock Statement/Revenue/Payment Editing</span>&nbsp;&nbsp;</a>
+                                <a id="disableEdit">&nbsp;&nbsp;<span class="finalizeText">Disable Statement/Revenue/Payment Editing</span>&nbsp;&nbsp;</a>
                             </div>
                         </div>
                     </div>
@@ -37,7 +37,7 @@
                     <div class="float-left">
                         <div id="enableEditButton" class="finalize-button @editEnabled">
                             <div class="revenue-button" style="margin-left:10px;">
-                                <a id="enableEdit">&nbsp;&nbsp;<span class="finalizeText">Unlock Statement/Revenue/Payment Editing</span>&nbsp;&nbsp;</a>
+                                <a id="enableEdit">&nbsp;&nbsp;<span class="finalizeText">Enable Statement/Revenue/Payment Editing</span>&nbsp;&nbsp;</a>
                             </div>
                         </div>
                     </div>

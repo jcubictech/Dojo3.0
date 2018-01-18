@@ -56,18 +56,22 @@ DojoWeb.PayoutMethodPayment = function () {
                         url: '/OwnerPayment/IsEditFreezed',
                         data: { month: kendo.toString(selectedMonth, 'MM/dd/yyyy') },
                         success: function (freeze) {
-                            if (freeze == '1') { // currently not editable
+                            if (freeze == -1) { // does not exist in db
+                                _canEdit = false;
+                                $('#enableEditButton').addClass('hide');
+                                $('#disableEditButton').addClass('hide');
+                            }
+                            else if (freeze == 1) { // currently not editable
                                 _canEdit = false;
                                 $('#enableEditButton').removeClass('hide');
                                 $('#disableEditButton').addClass('hide');
-                                getData();
                             }
                             else {
                                 _canEdit = _allowEdit ? true : false;
                                 $('#disableEditButton').removeClass('hide');
                                 $('#enableEditButton').addClass('hide');
-                                getData();
                             }
+                            getData();
                         },
                         error: function (jqXHR, status, errorThrown) { // ignore the error
                             getData();
@@ -206,6 +210,8 @@ DojoWeb.PayoutMethodPayment = function () {
 
                         var revenueSource = setupDataSource(data);
                         dataGrid.setDataSource(revenueSource);
+                        
+                        initFreezeEdit();
 
                         // for some reason, Kendo 2016/June version has 'filter' text in the background of default filter icon.
                         // we remove the 'filter' text ad-hoc here
@@ -743,6 +749,44 @@ DojoWeb.PayoutMethodPayment = function () {
                     }
                 }
             })
+        },
+
+        initFreezeEdit = function () {
+            var selectedMonth = $month.data('kendoDatePicker').value();
+            if (selectedMonth != '') {
+                var month = kendo.toString(selectedMonth, 'yyyy-MM-dd');
+                if (month < '2017-08-01') // allow update beginning balance after 08/2017
+                    $('#updateBalances').addClass('hide');
+                else
+                    $('#updateBalances').removeClass('hide');
+            }
+
+            if (requiredSelected()) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/OwnerPayment/IsEditFreezed',
+                    data: { month: kendo.toString(selectedMonth, 'MM/dd/yyyy') },
+                    success: function (freeze) {
+                        if (freeze == -1) { // does not exist in db
+                            _canEdit = false;
+                            $('#enableEditButton').addClass('hide');
+                            $('#disableEditButton').addClass('hide');
+                        }
+                        else if (freeze == 1) { // currently not editable
+                            _canEdit = false;
+                            $('#enableEditButton').removeClass('hide');
+                            $('#disableEditButton').addClass('hide');
+                        }
+                        else {
+                            _canEdit = _allowEdit ? true : false;
+                            $('#disableEditButton').removeClass('hide');
+                            $('#enableEditButton').addClass('hide');
+                        }
+                    },
+                    error: function (jqXHR, status, errorThrown) { // ignore the error
+                    }
+                });
+            }
         },
 
         updateBalances = function () {

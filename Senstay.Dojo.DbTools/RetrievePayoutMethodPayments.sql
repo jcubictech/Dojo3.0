@@ -49,7 +49,7 @@ BEGIN
 	INTO #Temp
 	FROM [dbo].[PayoutMethod] m
 	LEFT JOIN [dbo].[PayoutPayment] p on p.[PayoutMethodId] = m.[PayoutMethodId] and DATEFROMPARTS(p.[PaymentYear], p.[PaymentMonth], 1) >= @StartDate and DATEFROMPARTS(p.[PaymentYear], p.[PaymentMonth], 1) <= @EndDate
-	WHERE Convert(Date, [EffectiveDate]) <= @EndDate and m.[IsDeleted] = 0
+	WHERE Convert(Date, [EffectiveDate]) <= @EndDate and Convert(Date, [ExpiryDate]) >= @StartDate and m.[IsDeleted] = 0
 
 	SELECT [PayoutMethodId]
 		  ,[PayoutMethodName]

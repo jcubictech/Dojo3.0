@@ -44,6 +44,8 @@ namespace Senstay.Dojo.Models.View
 
         public DateTime EffectiveDate { get; set; }
 
+        public DateTime ExpiryDate { get; set; }
+
         public string CurrentPropertyCodes { get; set; }
 
         public ICollection<SelectListItem> SelectedPropertyCodes { get; set; }

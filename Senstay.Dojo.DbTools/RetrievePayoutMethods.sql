@@ -6,6 +6,7 @@ BEGIN
 		 [PayoutMethodId]
 		,[PayoutMethodName]
 		,[EffectiveDate]
+		,[ExpiryDate]
 		,[PayoutMethodType] = case when [PayoutMethodType] = 1 then 'Checking' else 'Paypal' end
 		,[PayoutAccount] = case when [PayoutAccount] is null then '' else [PayoutAccount] end
 		,'CurrentPropertyCodes' = Reverse(Stuff(Reverse((select [PropertyCode] + ',' AS 'data()'

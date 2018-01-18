@@ -9,9 +9,19 @@ namespace Senstay.Dojo.Data.Providers
     {
         private readonly DojoDbContext _context;
 
-        public StatementCompletionProvider(DojoDbContext dbContext) : base(dbContext, true)
+        public StatementCompletionProvider(DojoDbContext dbContext) : base(dbContext)
         {
             _context = dbContext;
+        }
+
+        public StatementCompletion Retrieve(DateTime month)
+        {
+            return _context.StatementCompletions.Where(x => x.Month == month.Month && x.Year == month.Year).FirstOrDefault();
+        }
+
+        public bool Exist(DateTime month)
+        {
+            return Retrieve(month) != null;
         }
 
         public bool IsCompleted(DateTime month)
@@ -24,14 +34,14 @@ namespace Senstay.Dojo.Data.Providers
         {
             // get the edit freeze flag
             bool canFreeze = AuthorizationProvider.CanFreezeEditing(); // only FinancialAdmin can do this
-            var lastMonth = DateTime.Today.AddMonths(-1);
-            bool isStatementMonth = month >= (new DateTime(lastMonth.Year, lastMonth.Month, 1));
+            //var lastMonth = DateTime.Today.AddMonths(-1);
+            //bool isStatementMonth = month >= (new DateTime(lastMonth.Year, lastMonth.Month, 1));
             if (canFreeze)
             {
-                return !isStatementMonth && IsCompleted(month);
+                return IsCompleted(month); // && !isStatementMonth
             }
             else
-                return !isStatementMonth;
+                return true;  //!isStatementMonth;
         }
 
         public int FreezeEditing(DateTime date, bool freeze)
@@ -52,6 +62,22 @@ namespace Senstay.Dojo.Data.Providers
             this.Commit();
 
             return entity.StatementCompletionId;
+        }
+
+        public void New(DateTime month)
+        {
+            var entity = Retrieve(month);
+            if (entity == null)
+            {
+                entity = new StatementCompletion
+                {
+                    Year = month.Year,
+                    Month = month.Month,
+                    Completed = false
+                };
+                Create(entity);
+                Commit();
+            }
         }
     }
 }

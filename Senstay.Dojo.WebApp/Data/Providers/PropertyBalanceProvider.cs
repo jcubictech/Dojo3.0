@@ -174,6 +174,10 @@ namespace Senstay.Dojo.Data.Providers
                 {
                     var balance = _context.PropertyBalances.Where(b => b.PropertyCode == carryover.PropertyCode && b.Month == nextMonth && b.Year == nextYear)
                                                            .FirstOrDefault();
+                    if (carryover.CarryOver != 0)
+                    {
+                        var debug = true;
+                    }
                     if (balance == null)
                     {
                         balance = new PropertyBalance();
@@ -187,21 +191,24 @@ namespace Senstay.Dojo.Data.Providers
                     }
                 }
 
-                // if there is no owner statement for this month but there is remaining balance for last month, we carry it over
-                var lastMonthBalances = _context.PropertyBalances.Where(b => b.Month == month.Month && b.Year == month.Year).ToList();
+                // we carry over those properties that are not active for next month from current month
                 var nextMonthBalances = _context.PropertyBalances.Where(b => b.Month == nextMonth && b.Year == nextYear).ToList();
-                foreach(var balance in lastMonthBalances)
+                if (nextMonthBalances != null && nextMonthBalances.Count > 0)
                 {
-                    var matchBalance = nextMonthBalances.Where(x => x.PropertyCode == balance.PropertyCode).FirstOrDefault();
-                    if (matchBalance == null)
+                    var lastMonthBalances = _context.PropertyBalances.Where(b => b.Month == month.Month && b.Year == month.Year).ToList();
+                    foreach (var balance in lastMonthBalances)
                     {
-                        var missingBalance = new PropertyBalance();
-                        missingBalance.BeginningBalance = balance.AdjustedBalance;
-                        missingBalance.AdjustedBalance = balance.AdjustedBalance;
-                        missingBalance.PropertyCode = balance.PropertyCode;
-                        missingBalance.Month = nextMonth;
-                        missingBalance.Year = nextYear;
-                        balanceProvider.Create(missingBalance);
+                        var matchBalance = nextMonthBalances.Where(x => x.PropertyCode == balance.PropertyCode).FirstOrDefault();
+                        if (matchBalance == null)
+                        {
+                            var missingBalance = new PropertyBalance();
+                            missingBalance.BeginningBalance = balance.AdjustedBalance;
+                            missingBalance.AdjustedBalance = balance.AdjustedBalance;
+                            missingBalance.PropertyCode = balance.PropertyCode;
+                            missingBalance.Month = nextMonth;
+                            missingBalance.Year = nextYear;
+                            balanceProvider.Create(missingBalance);
+                        }
                     }
                 }
 

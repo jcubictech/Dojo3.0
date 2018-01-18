@@ -34,7 +34,7 @@ namespace Senstay.Dojo.Controllers
             ViewBag.FinalizerClass = AuthorizationProvider.CanFinalizeRevenue() ? "revenue-grid-finalizer" : string.Empty;
             ViewBag.EditClass = AuthorizationProvider.CanEditStatement() ? string.Empty : " revenue-field-readonly";
             ViewBag.AdminClass = AuthorizationProvider.IsRevenueAdmin() ? "revenue-grid-remover" : string.Empty;
-            ViewBag.CanFreezeEditing = AuthorizationProvider.CanFreezeEditing() ? "freeze-edit" : string.Empty;
+            ViewBag.CanFreezeEditing = AuthorizationProvider.CanFreezeEditing() ? true : false;
             ViewBag.StatementCompleted = (new StatementCompletionProvider(_dbContext)).IsCompleted(DateTime.Today);
 
             return View();
@@ -128,8 +128,9 @@ namespace Senstay.Dojo.Controllers
             try
             {
                 // get the edit freeze flag
-                bool isEditFreezed = (new StatementCompletionProvider(_dbContext)).IsEditFreezed(month);
-                return Json(isEditFreezed ? "1" : "0", JsonRequestBehavior.AllowGet);
+                var freezeProvider = new StatementCompletionProvider(_dbContext);
+                int editFreezedFlag = !freezeProvider.Exist(month) ? -1 : freezeProvider.IsEditFreezed(month) ? 1 : 0;
+                return Json(editFreezedFlag, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -164,8 +165,18 @@ namespace Senstay.Dojo.Controllers
 
             try
             {
+                // create/update payments
                 var provider = new PayoutPaymentProvider(_dbContext);
                 provider.SavePayoutMethodPayments(payments);
+
+                // add a statement completion record for the payment month
+                if (payments != null && payments.Count > 0)
+                {
+                    var nextMonth = (new DateTime(payments[0].PaymentYear, payments[0].PaymentMonth, 1)).AddMonths(1);
+                    var completionProvider = new StatementCompletionProvider(_dbContext);
+                    completionProvider.New(nextMonth);
+                }
+
                 return Json("success", JsonRequestBehavior.AllowGet);
             }
             catch(Exception ex)

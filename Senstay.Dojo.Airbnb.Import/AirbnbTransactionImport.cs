@@ -281,7 +281,7 @@ namespace Senstay.Dojo.Airbnb.Import
                                 }
                             }
 
-                            if (payout.PayoutDate.Value.Date == payoutStartDate.Value.Date && ResolutionExist(resolution)) continue;
+                            if (payoutStartDate != null && payout.PayoutDate.Value.Date == payoutStartDate.Value.Date && ResolutionExist(resolution)) continue;
 
                             // for future payout, link to 
                             if (resolutions != null) resolutions.Add(resolution);
@@ -308,7 +308,7 @@ namespace Senstay.Dojo.Airbnb.Import
                                                        r.PropertyCode, r.ConfirmationCode, r.TotalRevenue.ToString("C2")));
                             }
 
-                            if (payout.PayoutDate.Value.Date == payoutStartDate.Value.Date && ReservationExist(r)) continue;
+                            if (payoutStartDate != null && payout.PayoutDate.Value.Date == payoutStartDate.Value.Date && ReservationExist(r)) continue;
 
                             if (reservations != null && !string.IsNullOrEmpty(r.PropertyCode))
                             {
@@ -765,7 +765,7 @@ namespace Senstay.Dojo.Airbnb.Import
                                 }
                             }
 
-                            if (payout.PayoutDate.Value.Date == payoutStartDate.Value.Date && ResolutionExist(resolution)) continue;
+                            if (payoutStartDate != null && payout.PayoutDate.Value.Date == payoutStartDate.Value.Date && ResolutionExist(resolution)) continue;
 
                             // for future payout, link to 
                             if (resolutions != null) resolutions.Add(resolution);
@@ -792,7 +792,7 @@ namespace Senstay.Dojo.Airbnb.Import
                                                        r.PropertyCode, r.ConfirmationCode, r.TotalRevenue.ToString("C2")));
                             }
 
-                            if (payout.PayoutDate.Value.Date == payoutStartDate.Value.Date && ReservationExist(r)) continue;
+                            if (payoutStartDate != null && payout.PayoutDate.Value.Date == payoutStartDate.Value.Date && ReservationExist(r)) continue;
 
                             if (reservations != null && !string.IsNullOrEmpty(r.PropertyCode))
                             {

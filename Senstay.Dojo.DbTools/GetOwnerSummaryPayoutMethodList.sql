@@ -28,6 +28,7 @@ BEGIN
 	INTO #Temp
 	FROM [dbo].[PayoutMethod] m
 	LEFT JOIN [dbo].[OwnerStatement] s on s.[PropertyCode] = m.[PayoutMethodName] and s.[Month] = @Month and s.[Year] = @Year and s.[IsSummary] = 1
+	WHERE Convert(Date, m.[ExpiryDate]) >= DATEFROMPARTS (@Year, @Month, 1) 
 	ORDER BY m.[PayoutMethodName]
 
 	SELECT 
