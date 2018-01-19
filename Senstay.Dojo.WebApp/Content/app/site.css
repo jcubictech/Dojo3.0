@@ -21,8 +21,8 @@ hr{margin-top:5px;margin-bottom:5px;}
 .navbar-nav{margin:-8px 0 0 0;padding-left:8px;}
 .navbar a, .navbar a:hover, .navbar a:visited{color:white;text-decoration: none;outline: none;}
 .nav{font-size: 17px;font-weight:lighter;margin-left:0;display:flex;}
-.nav > li > div{text-align: center;display:flex;flex-direction:column;}
-.nav > li > div {margin:0 18px;padding:8px 0 10px 0;}
+.nav > li > div {text-align: center;display:flex;flex-direction:column;}
+.nav > li > div {margin:0 10px;padding:8px 0 10px 0;}
 .navbar-nav > li > div > i {color:#00ABEC;}
 .navbar-active{font-size:1.1em;margin-bottom:-14px;line-height:15px;}
 .nav > li:hover,.nav > li:focus{background:#005b80;}

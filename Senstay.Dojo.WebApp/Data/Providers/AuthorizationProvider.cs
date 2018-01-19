@@ -84,6 +84,20 @@ namespace Senstay.Dojo.Data.Providers
 
         #endregion
 
+        #region Pricing Row
+
+        public static bool IsPricingAdmin()
+        {
+            return ClaimsPrincipal.Current.IsInRole(AppConstants.PRICING_ADMIN_ROLE);
+        }
+
+        public static bool CanEditPricing()
+        {
+            return IsPricingAdmin() || ClaimsPrincipal.Current.IsInRole(AppConstants.PRICING_EDITOR_ROLE);
+        }
+
+        #endregion
+
         #region Revenue roles
 
         public static bool IsRevenueAdmin()

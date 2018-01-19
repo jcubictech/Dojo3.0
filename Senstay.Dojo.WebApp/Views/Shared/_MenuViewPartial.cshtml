@@ -88,6 +88,20 @@
                     </li>
                 }
 
+                <!-- pricing -->
+                @if (AuthorizationProvider.CanEditPricing())
+                {
+                    <li>
+                        <div class="vertical-align">
+                            @Html.ActionLink("Pricing", "Index", "Pricing")
+                            @if (ViewBag.PageHint == "Pricing")
+                            {
+                                <i class="navbar-active fa fa-caret-up"></i>
+                            }
+                        </div>
+                    </li>
+                }
+
                 <!-- revenue -->
                 @if (AuthorizationProvider.CanViewRevenue())
                 {

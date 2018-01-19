@@ -11,6 +11,8 @@
         public const string PROPERTY_EDITOR_ROLE = "PropertyEditor";
         public const string ACCOUNT_EDITOR_ROLE = "AccountEditor";
         public const string INQUIRY_EDITOR_ROLE = "InquiryEditor";
+        public const string PRICING_ADMIN_ROLE = "PricingAdmin";
+        public const string PRICING_EDITOR_ROLE = "PricingEditor";
         public const string REVENUE_CREATOR_ROLE = "RevenueCreator";
         public const string REVENUE_VIEWER_ROLE = "RevenueViewer";
         public const string REVENUE_REVIEWER_ROLE = "RevenueReviewer";

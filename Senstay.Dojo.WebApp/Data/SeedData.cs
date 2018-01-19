@@ -45,11 +45,19 @@ namespace Senstay.Dojo.Data
             //SeedImpacts();
             //SeedChannels();
             //SeedSenstayPayoutAccounts();
-            //SeedChannels();
             //SeedCauses();
             //SeedPropertyStatuses();
-            SeedFinancialRoles();
-            SeedStatementCompletions();
+            //SeedFinancialRoles();
+            //SeedStatementCompletions();
+            SeedPricingRoles();
+        }
+
+        public void SeedPricingRoles()
+        {
+            var roleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(_dbContext));
+
+            if (!roleManager.RoleExists(AppConstants.PRICING_ADMIN_ROLE)) roleManager.Create(new ApplicationRole { Name = AppConstants.PRICING_ADMIN_ROLE });
+            if (!roleManager.RoleExists(AppConstants.PRICING_EDITOR_ROLE)) roleManager.Create(new ApplicationRole { Name = AppConstants.PRICING_EDITOR_ROLE });
         }
 
         public void SeedStatementCompletions()

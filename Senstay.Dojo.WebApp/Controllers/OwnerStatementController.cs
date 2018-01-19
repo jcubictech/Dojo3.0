@@ -27,6 +27,11 @@ namespace Senstay.Dojo.Controllers
 
         #region Owner Statement Views
 
+        public ActionResult Index()
+        {
+            return RedirectToAction("Statement", "OwnerStatement");
+        }
+
         [OutputCache(Duration = 0, NoStore = true)]
         public ActionResult Statement()
         {

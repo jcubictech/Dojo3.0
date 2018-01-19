@@ -31,7 +31,7 @@ namespace Senstay.Dojo.Controllers
 
         public ActionResult Index()
         {
-            return RedirectToAction("Airbnb", "Import");
+            return RedirectToAction("AirbnbImport", "Import");
         }
 
         [OutputCache(Duration = 0, NoStore = true)]
@@ -522,7 +522,7 @@ namespace Senstay.Dojo.Controllers
 
         private JsonResult Forbidden(object model = null)
         {
-            string message = string.Format("User '{0}' does not have permission to access thsi feature.", this.User.Identity.Name);
+            string message = string.Format("User '{0}' does not have permission to access this feature.", this.User.Identity.Name);
             DojoLogger.Warn(message, this.GetType());
             Response.StatusCode = (int)System.Net.HttpStatusCode.Forbidden;
             if (model == null)

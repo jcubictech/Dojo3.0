@@ -1,0 +1,85 @@
+﻿@model Senstay.Dojo.Models.View.AirbnbPricingViewModel
+@{
+    ViewBag.AppName = "SenStay Dojo";
+    ViewBag.Title = "Airbnb Pricing Push";
+    ViewBag.PageHint = "Pricing";
+}
+
+<div class="ss-page-content">
+    <div class="ss-page-title ss-h2">Airbnb Pricing Upload</div>
+    <div class="ss-article-title-divider"></div>
+
+    <div class="ss-simple-box owner-payout-height">
+        @using (Ajax.BeginForm("Pricing", "Index", new AjaxOptions
+        {
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "edit-ajax-target",
+            LoadingElementId = "edit-ajax-wait",
+            OnSuccess = "DojoWeb.PricingForm.refreshForm",
+            OnFailure = "DojoWeb.PricingForm.serverError"
+        },
+            new { @id = "PricingForm", @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="import-section">
+                <!-- file upload -->
+                <div class="control-group ownerPayout-field">
+                    <div class="col-xs-5 no-left-padding">
+                        @Html.LabelFor(m => m.PricingFile, htmlAttributes: new { @class = "control-label import-file-label" })
+                        @Html.TextBoxFor(m => m.PricingFile, new { @class = "form-control", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(m => m.PricingFile, "", new { @class = "text-danger" })
+                        <div id="importFileMessage" class="no-left-padding"></div>
+                    </div>
+                    <div class="col-xs-2">
+                        <img id="attachPricingFile" class="dojo-action-icon dojo-file-upload" data-field="@Html.NameFor(m => m.PricingFile)" data-upload="attachedPricingFile" src="/Content/images/icon/attach.png" />
+                        <img id="removePricingFile" class="dojo-action-icon dojo-file-remove" data-field="@Html.NameFor(m => m.PricingFile)" src="/Content/images/icon/eraser.png" />
+                        <div class="hide"><input id="attachedPricingFile" name="attachedPricingFile" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" /></div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+
+                <!-- action buttons -->
+                <div class="control-group">
+                    <div class="col-xs-2 ss-section-spacing-top no-left-padding">
+                        <input id="doPricing" type="button" value="Import Pricing File" class="btn btn-default btn-success" />
+                    </div>
+               </div>
+                <div class="clearfix"></div>
+
+                <div id="longProcessNote" class="col-xs-12 ss-process-note hide">Please wait for completion...</div>
+                <div id="import-alert" class="alert-container"></div>
+            </div>
+        }
+    </div>
+</div>
+<div class="clearfix"></div>
+
+@section CustomFormStyle
+{
+    <style type="text/css">
+        .input-group-addon span.fa { width:100px; }
+        .import-file-label {padding-bottom:5px;}
+        .import-field-item {width:300px;margin-right:20px;}
+        .import-note {line-height:32px;color:orange;}
+    </style>
+}
+
+@section styles
+{
+    <link rel="Stylesheet" href="@Href("~/content/app/appform.css")" />
+}
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/app/import.js")
+    @Scripts.Render("~/Scripts/app/pricing.js")
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            DojoWeb.PricingForm.init();
+        });
+    </script>
+}

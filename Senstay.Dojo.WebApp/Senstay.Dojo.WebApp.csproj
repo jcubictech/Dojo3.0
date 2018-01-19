@@ -282,6 +282,7 @@
     <Compile Include="Controllers\AirbnbAccountController.cs" />
     <Compile Include="Controllers\ImportController.cs" />
     <Compile Include="Controllers\ExpenseController.cs" />
+    <Compile Include="Controllers\PricingController.cs" />
     <Compile Include="Controllers\PropertyEntityController.cs" />
     <Compile Include="Controllers\PropertyCodeController.cs" />
     <Compile Include="Controllers\PropertyTitleController.cs" />
@@ -316,6 +317,7 @@
     <Compile Include="Data\GoogleDrive\ResolutionProvider.cs" />
     <Compile Include="Data\GoogleDrive\ReservationProvider.cs" />
     <Compile Include="Data\GoogleDrive\OwnerPayoutProvider.cs" />
+    <Compile Include="Data\Providers\AirbnbPricingProvider.cs" />
     <Compile Include="Data\Providers\AirbnbImportProvider.cs" />
     <Compile Include="Data\Providers\AuthorizationProvider.cs" />
     <Compile Include="Data\Providers\AirbnbAccountProvider.cs" />
@@ -412,6 +414,7 @@
     <Compile Include="Models\View\AccountViewModels.cs" />
     <Compile Include="Models\View\ActionBarViewModel.cs" />
     <Compile Include="Models\View\AirbnbAccountViewModel.cs" />
+    <Compile Include="Models\View\AirbnbPricingViewModel.cs" />
     <Compile Include="Models\View\AirbnbImportViewModel.cs" />
     <Compile Include="Models\View\DownloadViewModel.cs" />
     <Compile Include="Models\View\InquiryInfoViewModel.cs" />
@@ -518,6 +521,7 @@
     <Content Include="Scripts\app\confirmationCodePicker.js" />
     <Content Include="Scripts\app\airbnbImport.js" />
     <Content Include="Scripts\app\futureRevenue.js" />
+    <Content Include="Scripts\app\pricing.js" />
     <Content Include="Scripts\app\propertyCode.js" />
     <Content Include="Scripts\app\statementReport.js" />
     <Content Include="Scripts\app\ownerPayment.js" />
@@ -756,6 +760,7 @@
     <Content Include="Views\Import\AirbnbImportLog.cshtml" />
     <Content Include="Views\PropertyCode\Index.cshtml" />
     <Content Include="Views\Report\FutureRevenue.cshtml" />
+    <Content Include="Views\Pricing\index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />
