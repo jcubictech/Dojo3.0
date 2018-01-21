@@ -38,3 +38,9 @@
 /Senstay.Dojo.WebApp/Logs
 /Senstay.Dojo.Fantastic/bin/Debug
 /Senstay.Dojo.Fantastic/obj/Debug
+/Senstay.Dojo.Fantastic/bin/Release
+/Senstay.Dojo.Fantastic/obj/Release
+/App.DojoAirbnbImport/bin/Release
+/App.ValidateAirbnbTransaction/bin/Release
+/Senstay.Dojo.DbTools/bin/Release
+/Senstay.Dojo.DbTools/obj/Release
