@@ -9,20 +9,20 @@ using Senstay.Dojo.Fantastic.Models;
 
 namespace Senstay.Dojo.Data.Providers
 {
-    public class AirbnbPricingProvider
+    public class AirbnbCustomStayProvider
     {
         private readonly DojoDbContext _context;
         private const int _dateCol = 1;
 
-        public AirbnbPricingProvider(DojoDbContext dbContext)
+        public AirbnbCustomStayProvider(DojoDbContext dbContext)
         {
             _context = dbContext;
         }
 
-        public List<FantasticPriceModel> ImportPricing(Stream excelData)
+        public List<FantasticCustomStayModel> ImportCustomStays(Stream excelData)
         {
-            const int sheetIndex = 1;
-            var priceModels = new List<FantasticPriceModel>();
+            const int sheetIndex = 2;
+            var models = new List<FantasticCustomStayModel>();
             List<int> listingIds = null;
             try
             {
@@ -53,8 +53,8 @@ namespace Senstay.Dojo.Data.Providers
                                 {
                                     try
                                     {
-                                        var prices = ParsePriceRow(currentWorksheet.Cells, row, currentWorksheet.Dimension.End.Column, listingIds);
-                                        priceModels.AddRange(prices);
+                                        var minStays = ParseMinStayRow(currentWorksheet.Cells, row, currentWorksheet.Dimension.End.Column, listingIds);
+                                        models.AddRange(minStays);
                                     }
                                     catch
                                     {
@@ -65,93 +65,93 @@ namespace Senstay.Dojo.Data.Providers
                         }
                     }
                 }
-                return OptimizePriceModels(priceModels);
+                return OptimizePCustomStayModels(models);
             }
             catch
             {
-                throw;
+                throw;  // exit when there is input error
             }
         }
 
-        private List<FantasticPriceModel> OptimizePriceModels(List<FantasticPriceModel> models)
+        private List<FantasticCustomStayModel> OptimizePCustomStayModels(List<FantasticCustomStayModel> models)
         {
-            var optimizedModels = new List<FantasticPriceModel>();
+            var optimizedModels = new List<FantasticCustomStayModel>();
             if (models == null || models.Count == 0) return optimizedModels;
 
-            string note = "updated on " + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
             var orderedModels = models.OrderBy(x => x.ListingId).ThenBy(x => x.StartDate).ToList();
             var currentModel = orderedModels[0];
             var lastModel = currentModel;
             foreach (var model in orderedModels)
             {
-                // optimize the API call to bundle consecutive dates that has same price into one call
+                // optimize the API call to bundle consecutive dates that has same minimum stay into one call
                 if (currentModel.ListingId == model.ListingId && // same listing id 
                     (model.StartDate.Date - lastModel.StartDate.Date).Days <= 1 && // in consecutive or same date
-                    currentModel.Price == model.Price) // having same price
+                    currentModel.MinStay == model.MinStay) // having same minimum stay
                 {
                     lastModel = model;
                     continue;
                 }
-                optimizedModels.Add(new FantasticPriceModel
-                                    {
+                optimizedModels.Add(new FantasticCustomStayModel
+                {
                                         ListingId = currentModel.ListingId,
                                         StartDate = currentModel.StartDate,
                                         EndDate = lastModel.StartDate,
-                                        IsAvailable = currentModel.IsAvailable,
-                                        Price = currentModel.Price,
-                                        Note = note
+                                        MinStay = currentModel.MinStay,
                 });
                 currentModel = model;
                 lastModel = model;
             }
 
             // last one
-            optimizedModels.Add(new FantasticPriceModel
+            optimizedModels.Add(new FantasticCustomStayModel
             {
                 ListingId = currentModel.ListingId,
                 StartDate = currentModel.StartDate,
                 EndDate = lastModel.StartDate,
-                IsAvailable = currentModel.IsAvailable,
-                Price = currentModel.Price,
-                Note = note
+                MinStay = currentModel.MinStay,
             });
 
             return optimizedModels;
         }
 
-        private List<FantasticPriceModel> ParsePriceRow(ExcelRange cells, int row, int totalCols, List<int> listingIds)
+        private List<FantasticCustomStayModel> ParseMinStayRow(ExcelRange cells, int row, int totalCols, List<int> listingIds)
         {
-            var priceModels = new List<FantasticPriceModel>();
+            var models = new List<FantasticCustomStayModel>();
             DateTime startDate = new DateTime(2050, 12, 31); // arbitrary future date
             int index = 0;
-            for (int col = _dateCol; col <= totalCols; col++) // excel column index starts from 1
+            try
             {
-                if (col == _dateCol)
+                for (int col = _dateCol; col <= totalCols; col++) // excel column index starts from 1
                 {
-                    if (DateTime.TryParseExact(cells[row, col].Text, "MM/dd/yy", new CultureInfo("en-US"), DateTimeStyles.None, out startDate) == false)
-                        throw new Exception(string.Format("Input error at row {0:d} for date.", row));
-                }
-                else
-                {
-                    double price = 0;
-                    if (double.TryParse(cells[row, col].Text, out price) == true)
+                    if (col == _dateCol)
                     {
-                        var priceModel = new FantasticPriceModel
-                        {
-                            ListingId = listingIds[index++],
-                            StartDate = startDate,
-                            EndDate = startDate,
-                            IsAvailable = true,
-                            Price = price,
-                            Note = null
-                        };
-                        priceModels.Add(priceModel);
+                        if (DateTime.TryParseExact(cells[row, col].Text, "MM/dd/yy", new CultureInfo("en-US"), DateTimeStyles.None, out startDate) == false)
+                            throw new Exception(string.Format("Input error at row {0:d} for date.", row));
                     }
                     else
-                        throw new Exception(string.Format("Input error at row {0:d} for price.", row));
+                    {
+                        int minStay = 0;
+                        if (int.TryParse(cells[row, col].Text, out minStay) == true)
+                        {
+                            var model = new FantasticCustomStayModel
+                            {
+                                ListingId = listingIds[index++],
+                                StartDate = startDate,
+                                EndDate = startDate,
+                                MinStay = minStay
+                            };
+                            models.Add(model);
+                        }
+                        else
+                            throw new Exception(string.Format("Input error at row {0:d} for minimum stay.", row));
+                    }
                 }
+                return models;
             }
-            return priceModels;
+            catch
+            {
+                throw;
+            }
         }
 
         private List<string> ParsePropertyRow(ExcelRange cells, int row, int totalCols)
@@ -186,7 +186,7 @@ namespace Senstay.Dojo.Data.Providers
                 return 1157;
             else if (property == "SD012")
                 return 1158;
-            else
+            else // no matching listing Id
                 return 0;
         }
 

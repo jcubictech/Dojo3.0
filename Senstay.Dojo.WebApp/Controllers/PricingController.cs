@@ -6,6 +6,7 @@ using Senstay.Dojo.Infrastructure;
 using Senstay.Dojo.Data.Providers;
 using Senstay.Dojo.Models;
 using Senstay.Dojo.Models.View;
+using Senstay.Dojo.Fantastic;
 
 namespace Senstay.Dojo.Controllers
 {
@@ -29,24 +30,133 @@ namespace Senstay.Dojo.Controllers
         }
 
         [HttpPost]
-        public ActionResult UploadPrices(AirbnbPricingViewModel form, HttpPostedFileBase attachedPricingFile)
+        public ActionResult UpdatePrices(AirbnbPricingViewModel form, HttpPostedFileBase attachedPricingFile)
         {
             if (!AuthorizationProvider.CanEditPricing()) return Forbidden();
 
             try
             {
+                int total = 0, good = 0, bad = 0;
+                string message = string.Empty;
                 if (attachedPricingFile != null)
                 {
                     var provider = new AirbnbPricingProvider(_dbContext);
-                    provider.UploadPrices(attachedPricingFile.InputStream);
+                    var priceModels = provider.ImportPricing(attachedPricingFile.InputStream);
+                    var apiService = new FantasticService();
+                    total = priceModels.Count;
+                    foreach (var model in priceModels)
+                    {
+                        var response = apiService.PricePush(model);
+                        if (response.success == "false")
+                        {
+                            bad++;
+                            message = "Fantastic API call error: " + response.error;
+                        }
+                        else
+                            good++;
+                    }
                 }
-                return Json(0, JsonRequestBehavior.AllowGet);
+
+                var result = new { total = total, good = good, bad = bad, imported = 1, message = message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch(Exception ex)
+            {
+                var result = new { imported = 0, message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult UpdateCustomStays(AirbnbPricingViewModel form, HttpPostedFileBase attachedPricingFile)
+        {
+            if (!AuthorizationProvider.CanEditPricing()) return Forbidden();
+
+            try
+            {
+                int total = 0, good = 0, bad = 0;
+                string message = string.Empty;
+                if (attachedPricingFile != null)
+                {
+                    var provider = new AirbnbCustomStayProvider(_dbContext);
+                    var models = provider.ImportCustomStays(attachedPricingFile.InputStream);
+                    var apiService = new FantasticService();
+                    total = models.Count;
+                    foreach (var model in models)
+                    {
+                        var response = apiService.CustomStay(model);
+                        if (response.success == "false")
+                        {
+                            bad++;
+                            message = "Fantastic API call error: " + response.error;
+                        }
+                        else
+                            good++;
+                    }
+                }
+
+                var result = new { total = total, good = good, bad = bad, imported = 1, message = message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { imported = 0, message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        #region Testing
+
+        public ActionResult PropertyListing()
+        {
+            if (!AuthorizationProvider.CanEditPricing()) return Forbidden();
+
+            try
+            {
+                var apiService = new FantasticService();
+                var listing = apiService.PropertyListing(1157); // SD011
+                return Json(listing, JsonRequestBehavior.AllowGet);
             }
             catch
             {
-                return Json(-1, JsonRequestBehavior.AllowGet);
+                return Json(0, JsonRequestBehavior.AllowGet);
             }
         }
+
+        public ActionResult PriceListing()
+        {
+            if (!AuthorizationProvider.CanEditPricing()) return Forbidden();
+
+            try
+            {
+                var apiService = new FantasticService();
+                var listing = apiService.PriceListing(1157, new DateTime(2018, 12, 17), new DateTime(2018, 12, 20)); // SD011
+                return Json(listing, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return Json(0, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult PricePush()
+        {
+            if (!AuthorizationProvider.CanEditPricing()) return Forbidden();
+
+            try
+            {
+                var apiService = new FantasticService();
+                var result = apiService.PricePush(1157, new DateTime(2018, 12, 17), new DateTime(2018, 12, 20), true, 1150, "Dojo Api call"); // SD011
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(0, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        #endregion
 
         #region helper methods
 

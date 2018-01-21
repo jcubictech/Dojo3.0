@@ -174,10 +174,6 @@ namespace Senstay.Dojo.Data.Providers
                 {
                     var balance = _context.PropertyBalances.Where(b => b.PropertyCode == carryover.PropertyCode && b.Month == nextMonth && b.Year == nextYear)
                                                            .FirstOrDefault();
-                    if (carryover.CarryOver != 0)
-                    {
-                        var debug = true;
-                    }
                     if (balance == null)
                     {
                         balance = new PropertyBalance();

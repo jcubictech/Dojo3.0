@@ -317,6 +317,7 @@
     <Compile Include="Data\GoogleDrive\ResolutionProvider.cs" />
     <Compile Include="Data\GoogleDrive\ReservationProvider.cs" />
     <Compile Include="Data\GoogleDrive\OwnerPayoutProvider.cs" />
+    <Compile Include="Data\Providers\AirbnbCustomStayProvider.cs" />
     <Compile Include="Data\Providers\AirbnbPricingProvider.cs" />
     <Compile Include="Data\Providers\AirbnbImportProvider.cs" />
     <Compile Include="Data\Providers\AuthorizationProvider.cs" />
@@ -781,6 +782,10 @@
     <ProjectReference Include="..\Senstay.Dojo.Airbnb.Import\Senstay.Dojo.Airbnb.Import.csproj">
       <Project>{08258612-076f-487e-a63d-e6eb602d8426}</Project>
       <Name>Senstay.Dojo.Airbnb.Import</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Senstay.Dojo.Fantastic\Senstay.Dojo.Fantastic.csproj">
+      <Project>{20c7fe87-5d9e-41cc-959c-79bd365ed2da}</Project>
+      <Name>Senstay.Dojo.Fantastic</Name>
     </ProjectReference>
     <ProjectReference Include="..\Senstay.Dojo.FtpClient\Senstay.Dojo.FtpClient.csproj">
       <Project>{d098a446-bc54-4a5a-a5f0-ac09f110c689}</Project>

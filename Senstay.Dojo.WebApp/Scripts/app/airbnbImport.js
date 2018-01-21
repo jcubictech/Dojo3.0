@@ -135,7 +135,7 @@ DojoWeb.AirbnbImportForm = function () {
         _futureField = 'FutureGoogleFileList',
         _completedFiles = [],
         _futureFiles = [],
-        _processNote = 'Depending on how many import files you have selected, It may take a while to complete. Please sit back and relax until the completion...',
+        _processNote = 'Depending on how many import files you have selected, it may take a while to complete. Please wait for the completion...',
 
         init = function () {
             $(window).scrollTop();

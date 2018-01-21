@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.DojoAirbnbImport", "App
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.ValidateAirbnbTransaction", "App.ValidateAirbnbTransaction\App.ValidateAirbnbTransaction.csproj", "{D882457F-DC67-455D-B864-0F919102D8AB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Senstay.Dojo.Fantastic", "Senstay.Dojo.Fantastic\Senstay.Dojo.Fantastic.csproj", "{20C7FE87-5D9E-41CC-959C-79BD365ED2DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{D882457F-DC67-455D-B864-0F919102D8AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D882457F-DC67-455D-B864-0F919102D8AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D882457F-DC67-455D-B864-0F919102D8AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20C7FE87-5D9E-41CC-959C-79BD365ED2DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20C7FE87-5D9E-41CC-959C-79BD365ED2DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20C7FE87-5D9E-41CC-959C-79BD365ED2DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20C7FE87-5D9E-41CC-959C-79BD365ED2DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

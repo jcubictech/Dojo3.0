@@ -24,6 +24,12 @@
             @Html.AntiForgeryToken()
 
             <div class="import-section">
+                <div id="updateOption" class="transaction-type-group">
+                    <span class="import-item" style="margin-left:0px;">Airbnb Listing Update Selection: </span>
+                    <span class="import-item"><input type="radio" name="UpdateType" id="UpdateType" value="1" checked="checked" /><span>Pricing update</span></span>
+                    <span class="import-item"><input type="radio" name="UpdateType" id="UpdateType" value="2" /><span>Custom Stay update</span></span>
+                </div>
+
                 <!-- file upload -->
                 <div class="control-group ownerPayout-field">
                     <div class="col-xs-5 no-left-padding">
@@ -43,12 +49,28 @@
                 <!-- action buttons -->
                 <div class="control-group">
                     <div class="col-xs-2 ss-section-spacing-top no-left-padding">
-                        <input id="doPricing" type="button" value="Import Pricing File" class="btn btn-default btn-success" />
+                        <input id="doPricing" type="button" value="Update Airbnb Pricing" class="btn btn-default btn-success" />
                     </div>
                </div>
+                <div class="control-group hide">
+                    <div class="col-xs-2 ss-section-spacing-top">
+                        <input id="testPropertyList" type="button" value="Retrieve Property List" class="btn btn-default btn-success" />
+                    </div>
+                </div>
+                <div class="control-group hide">
+                    <div class="col-xs-2 ss-section-spacing-top">
+                        <input id="testCalendarList" type="button" value="Retrieve Calendar List" class="btn btn-default btn-success" />
+                    </div>
+                </div>
+                <div class="control-group hide">
+                    <div class="col-xs-2 ss-section-spacing-top">
+                        <input id="testPricePush" type="button" value="Update Pricing" class="btn btn-default btn-success" />
+                    </div>
+                </div>
                 <div class="clearfix"></div>
 
-                <div id="longProcessNote" class="col-xs-12 ss-process-note hide">Please wait for completion...</div>
+                <div id="longProcessNote" class="col-xs-12 ss-process-note ss-section-spacing-top no-left-padding"></div>
+                <div id="notificationMessage" class="col-xs-12 ss-process-note hide"></div>
                 <div id="import-alert" class="alert-container"></div>
             </div>
         }
