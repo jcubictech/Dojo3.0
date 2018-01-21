@@ -26,13 +26,19 @@ namespace Senstay.Dojo.Data.Providers
             }
         }
 
-        public void AddOrUpdate(Senstay.Dojo.Fantastic.PropertyMap map, bool commit = false)
+        public bool AddOrUpdate(Senstay.Dojo.Fantastic.PropertyMap map, bool commit = false)
         {
+            bool changed = true;
             var entity = _context.PropertyFantasticMaps.Where(x => x.PropertyCode == map.nickname).FirstOrDefault();
             if (entity != null) // update
             {
-                entity.ListingId = map.id;
-                this.Update(entity.PropertyFantasticMapId, entity);
+                if (entity.ListingId != map.id) // only update if listing id has changed
+                {
+                    entity.ListingId = map.id;
+                    this.Update(entity.PropertyFantasticMapId, entity);
+                }
+                else
+                    changed = false;
             }
             else // create
             {
@@ -40,7 +46,9 @@ namespace Senstay.Dojo.Data.Providers
                 this.Create(entity);
             }
 
-            if (commit) _context.SaveChanges();
+            if (changed && commit) _context.SaveChanges();
+
+            return changed;
         }
 
         public bool Exist(int id)

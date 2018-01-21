@@ -39,23 +39,34 @@ namespace Senstay.Dojo.Controllers
 
             try
             {
-                string message = string.Empty;
                 var apiService = new FantasticService();
                 var listingJson = apiService.PropertyListing();
                 if (listingJson.total > 0)
                 {
+                    int changeCount = 0;
                     var dataProvider = new PropertyFantasticMapProvider(_dbContext);
                     foreach (var map in listingJson.listings)
                     {
-                        dataProvider.AddOrUpdate(map, false);
+                        changeCount += dataProvider.AddOrUpdate(map, false) == true ? 1: 0;
                     }
-                    dataProvider.Commit();
-                    var result = new { sync = 1, message = "there are total of " + listingJson.listings.Count.ToString() + " properties synced." };
+
+                    var sync = 1;
+                    var message = "Total of " + changeCount.ToString() + " listing IDs are updated.";
+                    if (changeCount > 0)
+                    {
+                        dataProvider.Commit();
+                    }
+                    else
+                    {
+                        sync = 2;
+                        message = "Sync is completed. No change is needed.";
+                    }
+                    var result = new { sync = sync, message = message };
                     return Json(result, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
-                    var result = new { sync = 1, message = "No property is available from Fantastic API service." };
+                    var result = new { sync = 3, message = "No property is available from Fantastic API service." };
                     return Json(result, JsonRequestBehavior.AllowGet);
                 }
             }

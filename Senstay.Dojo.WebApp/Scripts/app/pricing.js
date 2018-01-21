@@ -3,7 +3,7 @@ var DojoWeb = DojoWeb || {};
 
 DojoWeb.PricingForm = function () {
     var
-        _processNote = 'Depending on how many prices to push to Airbnb, it may take a while to complete. Please wait for the completion...',
+        _processNote = 'Depending on how many updates to push to Airbnb, it may take a while to complete. Please wait ...',
 
         init = function () {
             initEvents();
@@ -56,10 +56,10 @@ DojoWeb.PricingForm = function () {
             // determine which action to take
             var updateType = $('input[name="UpdateType"]:checked').val();
             var method = 'UpdatePrices';
-            var messageTemplate = '{0}: Airbnb price update result: total = {1}, successful = {2}, failed = {3}.';
+            var messageTemplate = '{0}: Airbnb listing update result: total = {1} price change requests, successful = {2}, failed = {3}.';
             if (updateType == '2') { // custom stay
                 method = 'UpdateCustomStays';
-                messageTemplate = '{0}: Airbnb custom stay update result: total = {1}, successful = {2}, failed = {3}.';
+                messageTemplate = '{0}: Airbnb listing update result: total = {1} custom stay change requests, successful = {2}, failed = {3}.';
             }
 
             //  add import file

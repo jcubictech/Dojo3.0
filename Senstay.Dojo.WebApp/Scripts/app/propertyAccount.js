@@ -1215,10 +1215,12 @@ DojoWeb.FantasticMapEditor = function () {
                     var grid = $(_gridId).data('kendoGrid');
                     grid.dataSource.read();
 
-                    if (result.sync == '1')
-                        DojoWeb.ActionAlert.success('ss-account-alert', result.message, 10000);
-                    else
-                        DojoWeb.ActionAlert.warn('ss-account-alert', result.message, 10000);
+                    switch(result.sync)
+                    {
+                        case 1: DojoWeb.ActionAlert.success('ss-account-alert', result.message, 10000); break;
+                        case 2: DojoWeb.ActionAlert.success('ss-account-alert', result.message, 10000); break;
+                        case 3: DojoWeb.ActionAlert.warn('ss-account-alert', result.message, 10000); break;
+                    }
                 },
                 error: function (jqXHR, status, errorThrown) {
                 if (status == 'error') {
