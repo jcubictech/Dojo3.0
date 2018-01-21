@@ -97,6 +97,7 @@
     <Compile Include="Schema\PropertyEntity.cs" />
     <Compile Include="Schema\PropertyFee.cs" />
     <Compile Include="Schema\PropertyPayoutMethod.cs" />
+    <Compile Include="Schema\PropertyFantasticMap.cs" />
     <Compile Include="Schema\PropertyTitleHistory.cs" />
     <Compile Include="Schema\ReportMapping.cs" />
     <Compile Include="Schema\FutureReservation.cs" />

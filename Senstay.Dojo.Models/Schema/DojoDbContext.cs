@@ -270,5 +270,7 @@ namespace Senstay.Dojo.Models
         public DbSet<ReportMapping> ReportMappings { get; set; }
 
         public DbSet<StatementCompletion> StatementCompletions { get; set; }
+
+        public DbSet<PropertyFantasticMap> PropertyFantasticMaps { get; set; }
     }
 }

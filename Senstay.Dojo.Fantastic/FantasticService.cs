@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using Senstay.Dojo.Fantastic.Models;
 
 namespace Senstay.Dojo.Fantastic
@@ -16,14 +17,15 @@ namespace Senstay.Dojo.Fantastic
         {
         }
 
-        public string PropertyListing(int listingId)
+        public ListingResult PropertyListing()
         {
-            var endPoint = RestRequest.GetEndPoint(API_LISTINGS_SERVICE, listingId);
+            var endPoint = RestRequest.GetEndPoint(API_LISTINGS_SERVICE);
             var response = RestRequest.Get(endPoint);
-            return response;
+            var listingJson = JsonConvert.DeserializeObject<ListingResult>(response);
+            return listingJson;
         }
 
-        public string PriceListing(int listingId)
+        public string CalendarListing(int listingId)
         {
             var parameters = new List<KeyValuePair<string, object>>() {
                                  new KeyValuePair<string, object>("listing_id", listingId.ToString())

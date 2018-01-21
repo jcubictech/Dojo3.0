@@ -9,12 +9,11 @@ using Senstay.Dojo.Fantastic.Models;
 
 namespace Senstay.Dojo.Data.Providers
 {
-    public class AirbnbPricingProvider
+    public class AirbnbPricingProvider : FantasticServiceBase
     {
         private readonly DojoDbContext _context;
-        private const int _dateCol = 1;
 
-        public AirbnbPricingProvider(DojoDbContext dbContext)
+        public AirbnbPricingProvider(DojoDbContext dbContext) : base(dbContext)
         {
             _context = dbContext;
         }
@@ -152,47 +151,6 @@ namespace Senstay.Dojo.Data.Providers
                 }
             }
             return priceModels;
-        }
-
-        private List<string> ParsePropertyRow(ExcelRange cells, int row, int totalCols)
-        {
-            var properties = new List<string>();
-
-            if (cells[row, _dateCol].Text != string.Empty && cells[row, _dateCol+1].Text != string.Empty)
-            {
-                for (int col = _dateCol+1; col <= totalCols; col++) // excel column index starts from 1
-                {
-                    properties.Add(GetSafeCellString(cells[row, col].Value));
-                }
-            }
-            return properties;
-        }
-
-        private List<int> MapPropertyToIds(List<string> properties)
-        {
-            var ids = new List<int>();
-            foreach(string property in properties)
-            {
-                var id = MapProperty(property);
-                if (id != 0) ids.Add(id);
-            }
-            return ids;
-        }
-
-        private int MapProperty(string property)
-        {
-            // TODO: create Fantastic listing Id to property table
-            if (property == "SD011")
-                return 1157;
-            else if (property == "SD012")
-                return 1158;
-            else
-                return 0;
-        }
-
-        private string GetSafeCellString(object cellValue, string defaultValue = "")
-        {
-            return cellValue == null ? defaultValue : cellValue.ToString();
         }
     }
 }

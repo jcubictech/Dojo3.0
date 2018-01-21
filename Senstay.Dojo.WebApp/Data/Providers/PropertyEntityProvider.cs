@@ -29,14 +29,17 @@ namespace Senstay.Dojo.Data.Providers
                 foreach (var entity in entities)
                 {
                     entity.EffectiveDate = ConversionHelper.EnsureUtcDate(entity.EffectiveDate.Date);
-                    string[] currentPropertyCodes = entity.CurrentPropertyCodes.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                    foreach (string propertyCode in currentPropertyCodes)
+                    if (entity.CurrentPropertyCodes != null)
                     {
-                        entity.SelectedPropertyCodes.Add(new SelectListItem
+                        string[] currentPropertyCodes = entity.CurrentPropertyCodes.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                        foreach (string propertyCode in currentPropertyCodes)
                         {
-                            Text = propertyCode.Trim(),
-                            Value = propertyCode.Trim(),
-                        });
+                            entity.SelectedPropertyCodes.Add(new SelectListItem
+                            {
+                                Text = propertyCode.Trim(),
+                                Value = propertyCode.Trim(),
+                            });
+                        }
                     }
                 }
                 return entities;

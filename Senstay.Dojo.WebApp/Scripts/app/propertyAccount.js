@@ -9,6 +9,7 @@ DojoWeb.PropertyAccount = function () {
         _entityEditorId = 'propertyEntity',
         _feeEditorId = 'propertyFee',
         _titleEditorId = 'propertyTitle',
+        _fantasticMapEditorId = 'propertyFantasticMap',
         _availablePropertyCodes = [],
 
         init = function () {
@@ -18,6 +19,7 @@ DojoWeb.PropertyAccount = function () {
             DojoWeb.PropertyEntityEditor.init(_entityEditorId);
             DojoWeb.PropertyFeeEditor.init(_feeEditorId);
             DojoWeb.PropertyTitleEditor.init(_titleEditorId);
+            DojoWeb.FantasticMapEditor.init(_fantasticMapEditorId);
             showGrid(_payoutEditorId); // default
         },
 
@@ -42,6 +44,7 @@ DojoWeb.PropertyAccount = function () {
                 case 'Entity': id = _entityEditorId; break;
                 case 'Fee': id = _feeEditorId; break;
                 case 'Title': id = _titleEditorId; break;
+                case 'FantasticMap': id = _fantasticMapEditorId; break;
                 case 'Payout':
                 default: id = _payoutEditorId; break;
             }
@@ -1069,6 +1072,161 @@ DojoWeb.PropertyTitleEditor = function () {
                 dataSource: DojoWeb.PropertyAccount.availablePropertyCodes()
             });
         }
+
+    return {
+        init: init,
+    }
+}();
+
+DojoWeb.FantasticMapEditor = function () {
+    var _gridId = undefined,
+        _dataSource = undefined,
+
+        init = function (id) {
+            _gridId = '#' + id;
+            setupDataSource();
+            setupGrid();
+            initEvents();
+        },
+
+        initEvents = function () {
+            $('a.k-syncFantasticMap').unbind('click').on('click', function (e) {
+                e.preventDefault();
+                syncMap();
+            });
+        },
+
+        setupGrid = function () {
+            var height = $(window).height() - 300;
+            $(_gridId).kendoGrid({
+                dataSource: _dataSource,
+                height: height,
+                editable: 'inline',
+                pageable: false,
+                filterable: true,
+                sortable: true,
+                scrollable: true,
+                edit: function (e) {
+                    if (!e.model.isNew()) {
+                        // prevent cancel button to bring up delete button if the user can't do delete
+                        $(_gridId + ' .k-grid-cancel').unbind('click').on('click', function () {
+                            setTimeout(function () {
+                                $grid.data('kendoGrid').trigger('dataBound');
+                            });
+                        })
+                    }
+                    else if (e.model.isNew()) {
+                        e.model.set('PropertyFantasticMapId', 0);
+                    }
+
+                    // customize action buttons using font awesome icon wth color for save/cancel
+                    var commandCell = e.container.find('td:nth-child(' + _inlineEditIndex + ')');
+                    commandCell.html('<a class="k-button k-grid-update" href="" style="min-width:20px;"><span class="fa fa-save green"></span></a><a class="k-button k-grid-cancel" href="" style="min-width:20px;"><span class="fa fa-close red"></span></a>');
+                },
+                remove: function (e) {
+                    if (!e.model.isNew()) {
+                        //e.preventDefault();
+                    }
+                },
+                toolbar: [
+                    { name: 'sync', text: ' Sync Property - Fantastic Listing IDs ', className: 'k-syncFantasticMap syncFantasticMap', iconClass: 'fa fa-refresh' },
+                ],
+                columns: [
+                        { field: 'PropertyFantasticMapId', hidden: true },
+                        { field: 'PropertyCode', title: 'Property Code', width: '200px' },
+                        { field: 'ListingId', title: 'Fantastic Listing ID' },
+                ],
+            });
+
+            // for some reason, Kendo 2016/June version has 'filter' text in the background of default filter icon.
+            // we remove the 'filter' text ad-hoc here
+            $(_gridId + ' span.k-filter').text('');
+
+            // for some reason, the height of k-grid-content is not set for grid content to scroll as needed. 
+            // we explicitly set the height here; compensate 70 pixel to account for the actionbar to allow the entire content to scroll up
+            $(_gridId + ' .k-grid-content').css('height', (height - 70) + 'px');
+        },
+
+        setupDataSource = function () {
+            _dataSource = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        url: '/PropertyFantasticMap/Retrieve',
+                        type: 'get',
+                        dataType: 'json'
+                    },
+                    create: {
+                        url: '/PropertyFantasticMap/Create',
+                        type: 'post',
+                        dataType: 'json'
+                    },
+                    update: {
+                        url: '/PropertyFantasticMap/Update',
+                        type: 'post',
+                        dataType: 'json'
+                    },
+                    destroy: {
+                        url: '/PropertyFantasticMap/Delete',
+                        type: 'post',
+                        dataType: 'json'
+                    },
+                    parameterMap: function (options, operation) {
+                        if (operation !== 'read' && options.models) { // batch = true goes here
+                            if (operation === 'create') options.models[0].PropertyTitleHistoryId = 0;
+                            return { model: kendo.stringify(options.models) };
+                        }
+                        else if (operation !== 'read' && options.models == undefined) { // batch = false goes here
+                            if (operation === 'create') options.PropertyTitleHistoryId = 0;
+                            return { model: kendo.stringify(options) };
+                        }
+                        //else if (operation !== "read" && options.models) { // batch = true goes here
+                        //    return { model: kendo.stringify(options.models) };
+                        //}
+                    }
+                },
+                batch: false, // enable options.models above if this is set to true; need to change controller code to support IEnumerable<CustomEventDate>
+                schema: {
+                    model: {
+                        id: 'PropertyFantasticMapId',
+                        fields: {
+                            PropertyFantasticMapId: { type: 'number', editable: false, nullable: false },
+                            PropertyCode: { type: 'string', editable: true, validation: { required: true }, nullable: false },
+                            ListingId: { type: 'string', editable: true, validation: { required: true }, nullable: false },
+                        }
+                    }
+                },
+                error: function (e) {
+                    DojoWeb.ActionAlert.fail('ss-account-alert', e.errorThrown);
+                    var grid = $(_gridId).data('kendoGrid');
+                    if (grid != undefined) grid.cancelChanges();
+                }
+            });
+        },
+
+        syncMap = function () {
+            DojoWeb.Busy.show();
+            $.ajax({
+                url: '/PropertyFantasticMap/SyncMap',
+                dataType: 'json',
+                success: function (result) {
+                    DojoWeb.Busy.hide();
+
+                    // reload the grid
+                    var grid = $(_gridId).data('kendoGrid');
+                    grid.dataSource.read();
+
+                    if (result.sync == '1')
+                        DojoWeb.ActionAlert.success('ss-account-alert', result.message, 10000);
+                    else
+                        DojoWeb.ActionAlert.warn('ss-account-alert', result.message, 10000);
+                },
+                error: function (jqXHR, status, errorThrown) {
+                if (status == 'error') {
+                    DojoWeb.ActionAlert.fail('ss-account-alert', errorThrown);
+                }
+            }
+        });
+    }
 
     return {
         init: init,

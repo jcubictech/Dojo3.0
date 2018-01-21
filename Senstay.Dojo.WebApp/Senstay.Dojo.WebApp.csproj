@@ -285,6 +285,7 @@
     <Compile Include="Controllers\PricingController.cs" />
     <Compile Include="Controllers\PropertyEntityController.cs" />
     <Compile Include="Controllers\PropertyCodeController.cs" />
+    <Compile Include="Controllers\PropertyFantasticMapController.cs" />
     <Compile Include="Controllers\PropertyTitleController.cs" />
     <Compile Include="Controllers\PropertyFeeController.cs" />
     <Compile Include="Controllers\PropertyAccountController.cs" />
@@ -318,6 +319,7 @@
     <Compile Include="Data\GoogleDrive\ReservationProvider.cs" />
     <Compile Include="Data\GoogleDrive\OwnerPayoutProvider.cs" />
     <Compile Include="Data\Providers\AirbnbCustomStayProvider.cs" />
+    <Compile Include="Data\Providers\FantasticServiceBase.cs" />
     <Compile Include="Data\Providers\AirbnbPricingProvider.cs" />
     <Compile Include="Data\Providers\AirbnbImportProvider.cs" />
     <Compile Include="Data\Providers\AuthorizationProvider.cs" />
@@ -326,7 +328,7 @@
     <Compile Include="Data\Providers\PropertyAccountProvider.cs" />
     <Compile Include="Data\Providers\PropertyBalanceImportProvider.cs" />
     <Compile Include="Data\Providers\PropertyCodeProvider.cs" />
-    <Compile Include="Data\Providers\PropertyTitleProvider.cs" />
+    <Compile Include="Data\Providers\PropertyFantasticMapProvider.cs" />
     <Compile Include="Data\Providers\FutureRevenueProvider.cs" />
     <Compile Include="Data\Providers\StatementCompletionProvider.cs" />
     <Compile Include="Data\Providers\StatementReportProvider.cs" />

@@ -9,12 +9,11 @@ using Senstay.Dojo.Fantastic.Models;
 
 namespace Senstay.Dojo.Data.Providers
 {
-    public class AirbnbCustomStayProvider
+    public class AirbnbCustomStayProvider : FantasticServiceBase
     {
         private readonly DojoDbContext _context;
-        private const int _dateCol = 1;
 
-        public AirbnbCustomStayProvider(DojoDbContext dbContext)
+        public AirbnbCustomStayProvider(DojoDbContext dbContext) : base(dbContext)
         {
             _context = dbContext;
         }
@@ -65,7 +64,7 @@ namespace Senstay.Dojo.Data.Providers
                         }
                     }
                 }
-                return OptimizePCustomStayModels(models);
+                return OptimizeCustomStayModels(models);
             }
             catch
             {
@@ -73,7 +72,7 @@ namespace Senstay.Dojo.Data.Providers
             }
         }
 
-        private List<FantasticCustomStayModel> OptimizePCustomStayModels(List<FantasticCustomStayModel> models)
+        private List<FantasticCustomStayModel> OptimizeCustomStayModels(List<FantasticCustomStayModel> models)
         {
             var optimizedModels = new List<FantasticCustomStayModel>();
             if (models == null || models.Count == 0) return optimizedModels;
@@ -152,47 +151,6 @@ namespace Senstay.Dojo.Data.Providers
             {
                 throw;
             }
-        }
-
-        private List<string> ParsePropertyRow(ExcelRange cells, int row, int totalCols)
-        {
-            var properties = new List<string>();
-
-            if (cells[row, _dateCol].Text != string.Empty && cells[row, _dateCol+1].Text != string.Empty)
-            {
-                for (int col = _dateCol+1; col <= totalCols; col++) // excel column index starts from 1
-                {
-                    properties.Add(GetSafeCellString(cells[row, col].Value));
-                }
-            }
-            return properties;
-        }
-
-        private List<int> MapPropertyToIds(List<string> properties)
-        {
-            var ids = new List<int>();
-            foreach(string property in properties)
-            {
-                var id = MapProperty(property);
-                if (id != 0) ids.Add(id);
-            }
-            return ids;
-        }
-
-        private int MapProperty(string property)
-        {
-            // TODO: create Fantastic listing Id to property table
-            if (property == "SD011")
-                return 1157;
-            else if (property == "SD012")
-                return 1158;
-            else // no matching listing Id
-                return 0;
-        }
-
-        private string GetSafeCellString(object cellValue, string defaultValue = "")
-        {
-            return cellValue == null ? defaultValue : cellValue.ToString();
         }
     }
 }

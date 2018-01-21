@@ -114,7 +114,7 @@ namespace Senstay.Dojo.Controllers
             try
             {
                 var apiService = new FantasticService();
-                var listing = apiService.PropertyListing(1157); // SD011
+                var listing = apiService.PropertyListing();
                 return Json(listing, JsonRequestBehavior.AllowGet);
             }
             catch

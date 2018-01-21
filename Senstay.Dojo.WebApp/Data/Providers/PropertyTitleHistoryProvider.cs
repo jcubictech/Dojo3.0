@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Data;
 using Senstay.Dojo.Models;
@@ -44,5 +45,16 @@ namespace Senstay.Dojo.Data.Providers
             else
                 return null;
         }
+    }
+
+    public class PropertyTitleHistoryRow
+    {
+        public int PropertyTitleHistoryId { get; set; }
+
+        public string PropertyTitle { get; set; }
+
+        public string PropertyCode { get; set; }
+
+        public DateTime EffectiveDate { get; set; }
     }
 }

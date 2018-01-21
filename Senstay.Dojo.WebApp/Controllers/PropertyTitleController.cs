@@ -38,7 +38,7 @@ namespace Senstay.Dojo.Controllers
 
             try
             {
-                var provider = new PropertyTitleProvider(_dbContext);
+                var provider = new PropertyTitleHistoryProvider(_dbContext);
                 var propertyTitles = provider.All();
                 return Json(propertyTitles, JsonRequestBehavior.AllowGet);
             }
@@ -60,7 +60,7 @@ namespace Senstay.Dojo.Controllers
             try
             {
                 PropertyTitleHistory titleHistory = new PropertyTitleHistory();
-                var dataProvider = new PropertyTitleProvider(_dbContext);
+                var dataProvider = new PropertyTitleHistoryProvider(_dbContext);
                 titleHistory.PropertyCode = titleModel.PropertyCode;
                 titleHistory.PropertyTitle = titleModel.PropertyTitle.Substring(0, Math.Min(200, titleModel.PropertyTitle.Length));
                 titleHistory.EffectiveDate = ConversionHelper.EnsureUtcDate(titleModel.EffectiveDate);
@@ -86,7 +86,7 @@ namespace Senstay.Dojo.Controllers
 
             try
             {
-                var dataProvider = new PropertyTitleProvider(_dbContext);
+                var dataProvider = new PropertyTitleHistoryProvider(_dbContext);
                 var entity = dataProvider.Retrieve(titleModel.PropertyTitleHistoryId);
                 entity.PropertyCode = titleModel.PropertyCode;
                 entity.PropertyTitle = titleModel.PropertyTitle.Substring(0, Math.Min(200, titleModel.PropertyTitle.Length));
@@ -113,7 +113,7 @@ namespace Senstay.Dojo.Controllers
 
             try
             {
-                var dataProvider = new PropertyTitleProvider(_dbContext);
+                var dataProvider = new PropertyTitleHistoryProvider(_dbContext);
                 dataProvider.Delete(titleModel.PropertyTitleHistoryId);
                 dataProvider.Commit();
                 return Json("success", JsonRequestBehavior.AllowGet);
