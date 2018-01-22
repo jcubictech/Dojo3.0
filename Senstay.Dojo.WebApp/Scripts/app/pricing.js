@@ -63,6 +63,7 @@ DojoWeb.PricingForm = function () {
 
             // determine which action to take
             var updateType = $('input[name="UpdateType"]:checked').val();
+            // default settings
             var method = 'UpdatePrices';
             var messageTemplate = '{0}: Airbnb listing update result: total = {1} price change requests, successful = {2}, failed = {3}.';
             if (updateType == '2') { // custom stay
@@ -90,8 +91,9 @@ DojoWeb.PricingForm = function () {
                         var message = kendo.format(messageTemplate, kendo.toString(new Date(), 'G'), result.total, result.good, result.bad);
                         if (result.bad > 0)
                             DojoWeb.ActionAlert.fail('import-alert', message + ' Error message = ' + result.message);
-                        else
+                        else {
                             DojoWeb.ActionAlert.success('import-alert', message);
+                        }
                     }
                     else { // fail
                         DojoWeb.ActionAlert.fail('import-alert', result.message);

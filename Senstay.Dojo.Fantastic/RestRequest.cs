@@ -17,7 +17,7 @@ namespace Senstay.Dojo.Fantastic
         #region  Web API request using api-key
 
         /// <summary>
-        /// Make a GET call to Fantastic API.
+        /// Make a generic GET call to Fantastic API.
         /// </summary>
         /// <param name="requestEndPoint">Fantastic API end point url including optional query paraemters</param>
         /// <returns>the response string of the 'GET' API call</returns>
@@ -38,6 +38,37 @@ namespace Senstay.Dojo.Fantastic
                     string responseJsonString = response.Content.ReadAsStringAsync().Result;
 
                     return responseJsonString;
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Get price list from Fantastic calendar API service
+        /// </summary>
+        /// <param name="requestEndPoint">Fantastic calendar API end point url including optional query paraemters</param>
+        /// <returns>calendar result</returns>
+        public static CalendarResult GetPrices(string requestEndPoint)
+        {
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    // setup client
+                    client.BaseAddress = new Uri(requestEndPoint);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(FANTASTIC_CONTENT_TYPE));
+                    client.DefaultRequestHeaders.Add("api-key", FANTASTIC_API_KEY);
+
+                    // make GET request
+                    HttpResponseMessage httpResponse = client.GetAsync(requestEndPoint).Result;
+                    string content = httpResponse.Content.ReadAsStringAsync().Result;
+
+                    var responseJson = JsonConvert.DeserializeObject<CalendarResult>(content);
+                    return responseJson;
                 }
             }
             catch
@@ -172,14 +203,5 @@ namespace Senstay.Dojo.Fantastic
         }
         
         #endregion
-    }
-
-    /// <summary>
-    /// Fantastic API POST request response Json string
-    /// </summary>
-    public class PostResponse
-    {
-        public string success { get; set; }
-        public string error { get; set; } = string.Empty;
     }
 }

@@ -47,7 +47,7 @@ namespace Senstay.Dojo.Controllers
                     foreach (var model in priceModels)
                     {
                         var response = apiService.PricePush(model);
-                        if (response.success == "false")
+                        if (response.success == false)
                         {
                             bad++;
                             message = "Fantastic API call error: " + response.error;
@@ -85,7 +85,7 @@ namespace Senstay.Dojo.Controllers
                     foreach (var model in models)
                     {
                         var response = apiService.CustomStay(model);
-                        if (response.success == "false")
+                        if (response.success == false)
                         {
                             bad++;
                             message = "Fantastic API call error: " + response.error;
@@ -101,6 +101,29 @@ namespace Senstay.Dojo.Controllers
             catch (Exception ex)
             {
                 var result = new { imported = 0, message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult ViewPrices(int listingId, DateTime startDate, DateTime endDate)
+        {
+            if (!AuthorizationProvider.CanEditPricing()) return Forbidden();
+
+            try
+            {
+                var apiService = new FantasticService();
+                var result = apiService.PriceListing(listingId, startDate, endDate);
+                if (result.success)
+                    return Json(result, JsonRequestBehavior.AllowGet);
+                else
+                {
+                    var response = new { success = false, message = "There is error while calling Fantastic calendar API." };
+                    return Json(response, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                var result = new { success = false, message = ex.Message };
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
         }

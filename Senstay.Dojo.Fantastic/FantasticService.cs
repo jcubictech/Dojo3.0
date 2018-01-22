@@ -31,11 +31,10 @@ namespace Senstay.Dojo.Fantastic
                                  new KeyValuePair<string, object>("listing_id", listingId.ToString())
                              };
             var endPoint = RestRequest.GetEndPoint(API_CALENDAR_SERVICE, parameters);
-            var response = RestRequest.Get(endPoint);
-            return response;
+            return RestRequest.Get(endPoint);
         }
 
-        public string PriceListing(int listingId, DateTime startDate, DateTime endDate)
+        public CalendarResult PriceListing(int listingId, DateTime startDate, DateTime endDate)
         {
             var parameters = new List<KeyValuePair<string, object>>() {
                                  new KeyValuePair<string, object>("listing_id", listingId.ToString()),
@@ -43,8 +42,7 @@ namespace Senstay.Dojo.Fantastic
                                  new KeyValuePair<string, object>("end_date", endDate.ToString("yyyy-MM-dd")),
                              };
             var endPoint = RestRequest.GetEndPoint(API_CALENDAR_SERVICE, parameters);
-            var response = RestRequest.Get(endPoint);
-            return response;
+            return RestRequest.GetPrices(endPoint);
         }
 
         public PostResponse PricePush(int listingId, DateTime startDate, DateTime endDate, bool isAvailable, double price, string note)
@@ -52,8 +50,7 @@ namespace Senstay.Dojo.Fantastic
             // Fantastic API takes request body as the same format as query parameters; not a serialized json object
             var requestContent = PricingParameters.Stringify(listingId, startDate, endDate, isAvailable, price, note);
             var endPoint = RestRequest.GetEndPoint(API_CALENDAR_SERVICE);
-            var response = RestRequest.Post(endPoint, requestContent);
-            return response;
+            return RestRequest.Post(endPoint, requestContent);
         }
 
         public PostResponse PricePush(FantasticPriceModel model)
@@ -73,8 +70,7 @@ namespace Senstay.Dojo.Fantastic
             // Fantastic API takes request body as the same format as query parameters; not a serialized json object
             var requestContent = CustomStayParameters.Stringify(listingId, startDate, endDate, minStay);
             var endPoint = RestRequest.GetEndPoint(API_CUSTOMSTAY_SERVICE);
-            var response = RestRequest.Post(endPoint, requestContent);
-            return response;
+            return RestRequest.Post(endPoint, requestContent);
         }
 
         public PostResponse CustomStay(FantasticCustomStayModel model)

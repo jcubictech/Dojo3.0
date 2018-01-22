@@ -2,8 +2,14 @@ using System.Collections.Generic;
 
 namespace Senstay.Dojo.Fantastic
 {
-    public class RestResponse
+
+    /// <summary>
+    /// Fantastic API POST request response Json string
+    /// </summary>
+    public class PostResponse
     {
+        public bool success { get; set; }
+        public string error { get; set; } = string.Empty;
     }
 
     public class ListingResult
