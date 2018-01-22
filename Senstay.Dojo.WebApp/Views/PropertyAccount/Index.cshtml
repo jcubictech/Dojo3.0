@@ -1,4 +1,5 @@
-﻿@{
+﻿@using Senstay.Dojo.Data.Providers
+@{
     ViewBag.AppName = "SenStay Dojo";
     ViewBag.Title = "Property Relationship Management";
     ViewBag.PageHint = "Statement";
@@ -20,7 +21,10 @@
             <span class="looup-table-item"><input type="radio" name="owner-account" id="owner-account" value="PropertyEntity" onclick="DojoWeb.PropertyAccount.show('Entity')" /> Property Entities</span>
             <span class="looup-table-item"><input type="radio" name="owner-account" id="owner-account" value="PropertyFee" onclick="DojoWeb.PropertyAccount.show('Fee')" /> Property Fees</span>
             <span class="looup-table-item"><input type="radio" name="owner-account" id="owner-account" value="PropertyTitle" onclick="DojoWeb.PropertyAccount.show('Title')" /> Property Titles</span>
-            <span class="looup-table-item"><input type="radio" name="owner-account" id="owner-account" value="PropertyFantasticMap" onclick="DojoWeb.PropertyAccount.show('FantasticMap')" /> Property-Fantastic Map</span>
+            @if (AuthorizationProvider.IsPricingAdmin())
+            {
+                <span class="looup-table-item"><input type="radio" name="owner-account" id="owner-account" value="PropertyFantasticMap" onclick="DojoWeb.PropertyAccount.show('FantasticMap')" /> Property-Fantastic Map</span>
+            }
         </div>
         <div class="clearfix"></div>
 

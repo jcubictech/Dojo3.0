@@ -462,12 +462,17 @@ DojoWeb.ActionAlert = function () {
                     delay: (delay == undefined ? null : delay)
                 }
         );
-    }
+    },
+
+        remove = function (id) {
+            $('#' + id).html('');
+        }
 
     return {
         success: success,
         warn: warn,
-        fail: fail
+        fail: fail,
+        remove: remove
     }
 }();
 

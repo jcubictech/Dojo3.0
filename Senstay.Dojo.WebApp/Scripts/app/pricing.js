@@ -48,10 +48,18 @@ DojoWeb.PricingForm = function () {
         },
 
         doListingUpdate = function () {
+            // ensure a file is selected
+            DojoWeb.ActionAlert.remove('import-alert');
+            var pathname = $('#PricingFile').val();
+            if (pathname == '') {
+                DojoWeb.ActionAlert.fail('import-alert', 'Please select an Excel to update.');
+                return;
+            }
+
             var formData = new FormData();
             // add the form fields
             formData.append('FileType', 'Excel');
-            formData.append('PricingFile', $('#PricingFile').val());
+            formData.append('PricingFile', pathname);
 
             // determine which action to take
             var updateType = $('input[name="UpdateType"]:checked').val();
