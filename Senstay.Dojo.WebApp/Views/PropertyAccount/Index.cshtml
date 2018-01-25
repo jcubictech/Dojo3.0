@@ -84,12 +84,23 @@
 {
     @Scripts.Render("~/Scripts/app/propertyAccount.js")
 
+    <!-- for Payout method -->
     <script id="propertyTemplate" type="text/x-kendo-template">
         <span class="search-multi-select property-search">
             <label class="search-label" for="propertySearchBox">Search Property Code</label>
             <input type="search" id="propertySearchBox" class="k-textbox" style="width: 150px" />
             <input type="button" id="propertySearch" class="k-button" value="Search" />
             <input type="button" id="propertyReset" class="k-button" value="Reset" />
+        </span>
+    </script>
+
+    <!-- for Property Entity -->
+    <script id="entityTemplate" type="text/x-kendo-template">
+        <span class="search-multi-select property-search">
+            <label class="search-label" for="entitySearchBox">Search Property Code</label>
+            <input type="search" id="entitySearchBox" class="k-textbox" style="width: 150px" />
+            <input type="button" id="entitySearch" class="k-button" value="Search" />
+            <input type="button" id="entityReset" class="k-button" value="Reset" />
         </span>
     </script>
 

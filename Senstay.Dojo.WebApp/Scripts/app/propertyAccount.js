@@ -554,30 +554,30 @@ DojoWeb.PropertyEntityEditor = function () {
         },
 
         initEvents = function () {
-            $('#propertySearch').on('click', function (e) {
-                if ($('#propertySearchBox').val() != '') {
+            $('#entitySearch').on('click', function (e) {
+                if ($('#entitySearchBox').val() != '') {
                     $(_gridId).data('kendoGrid').dataSource.filter({
                         field: 'joinedPropertyCodes',
                         operator: 'contains',
-                        value: $('#propertySearchBox').val()
+                        value: $('#entitySearchBox').val()
                     });
                 }
             });
 
-            $('#propertyReset').on('click', function (e) {
+            $('#entityReset').on('click', function (e) {
                 //getData();
                 // clear this filter is hang a long time if reset is used more than once
-                $('#propertySearchBox').val('');
+                $('#entitySearchBox').val('');
                 $(_gridId).data('kendoGrid').dataSource.filter([]);
             });
 
-            $('#propertySearchBox').on('keydown', function (e) {
+            $('#entitySearchBox').on('keydown', function (e) {
                 if (e.keyCode == 13) {
                     e.preventDefault();
                     $(_gridId).data('kendoGrid').dataSource.filter({
                         field: 'joinedPropertyCodes',
                         operator: 'contains',
-                        value: $('#propertySearchBox').val()
+                        value: $('#entitySearchBox').val()
                     });
                 }
             });
@@ -619,7 +619,7 @@ DojoWeb.PropertyEntityEditor = function () {
                 },
                 toolbar: [
                         { name: 'create', text: 'New Property Entity' },
-                        { template: kendo.template($('#propertyTemplate').html()) },
+                        { template: kendo.template($('#entityTemplate').html()) },
                 ],
                 columns: [
                         {
