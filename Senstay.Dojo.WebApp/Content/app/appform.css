@@ -160,7 +160,7 @@ tr.ss-field td {border:1px solid lightgray;}
 .import-file-list ul.multiselect-container.dropdown-menu {height:300px; overflow-y:scroll;width:100%;}
 .import-file-list {margin-top:20px;width:600px;}
 .import-date {margin-right:30px;width:200px;}
-.transaction-type-group {font-size:16px;margin-top:30px;}
+.transaction-type-group {font-size:16px;}
 .transaction-item {margin-right:20px;}
 
 .ss-process-note {margin-top:10px;color:#ff6600;font-size:14px;}

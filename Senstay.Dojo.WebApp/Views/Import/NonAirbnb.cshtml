@@ -24,20 +24,7 @@
             @Html.AntiForgeryToken()
 
             <div class="import-section">
-                <div class="float-left import-field-item">
-                    <div class="control-group">
-                        <div class="input-group revenue-input-item">
-                            <div class="input-group-addon"><span class="fa fa-calendar"><span> Report Date </span> </span></div>
-                            <input id="ImportDate" value="" title="Report Date" />
-                        </div>
-                    </div>
-                </div>
-                <div class="float-left revenue-input-item">
-                    <span class="import-note">(Choose a date within the statement report month)</span>
-                </div>
-                <div class="clearfix"></div>
-
-                <div class="transaction-type-group">
+                <div class="transaction-type-group ss-top-margin10">
                     <span class="import-item" style="margin-left:0px;">Non-Airbnb Import Type: </span>
                     <span class="import-item"><input type="radio" name="FileType" id="FileType" value="1" checked="checked" /><span>Job Costs</span></span>
                     <span class="import-item"><input type="radio" name="FileType" id="FileType" value="2" /><span>Off-Airbnb</span></span>
@@ -48,10 +35,23 @@
                     }
                 </div>
 
+                <div class="float-left import-field-item ss-top-margin40">
+                    <div class="control-group">
+                        <div class="input-group revenue-input-item">
+                            <div class="input-group-addon"><span class="fa fa-calendar"><span> Report Date </span> </span></div>
+                            <input id="ImportDate" value="" title="Report Date" />
+                        </div>
+                    </div>
+                </div>
+                <div class="float-left revenue-input-item ss-top-margin40">
+                    <span class="import-note">(Choose a date within the statement report month)</span>
+                </div>
+                <div class="clearfix"></div>
+
                 <!-- file upload -->
                 <div class="control-group ownerPayout-field">
                     <div class="col-xs-5 no-left-padding">
-                        @Html.LabelFor(m => m.ImportFile, htmlAttributes: new { @class = "control-label import-file-label" })
+                        @Html.LabelFor(m => m.ImportFile, htmlAttributes: new { @class = "control-label import-file-label" }) <span class="blue bold">(xlsx format only)</span>
                         @Html.TextBoxFor(m => m.ImportFile, new { @class = "form-control", @readonly = "readonly" })
                         @Html.ValidationMessageFor(m => m.ImportFile, "", new { @class = "text-danger" })
                         <div id="importFileMessage" class="no-left-padding"></div>

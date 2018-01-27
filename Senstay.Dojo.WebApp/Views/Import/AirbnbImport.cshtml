@@ -25,7 +25,19 @@
             @Html.AntiForgeryToken()
 
             <div class="transaction-import">
-                <div class="float-left statement-filter-item400">
+                <div class="float-left transaction-type-group ss-top-margin10">
+                    <span class="transaction-item">Airbnb Transaction Type:</span>
+                    <span class="transaction-item"><input type="radio" name="transaction-type" id="transaction-type" value="completed" checked="checked" onclick="DojoWeb.AirbnbImportForm.setType('completed')" /> Completed Transactions</span>
+                    <span class="transaction-item"><input type="radio" name="transaction-type" id="transaction-type" value="future" onclick="DojoWeb.AirbnbImportForm.setType('future')" /> Future Transactions</span>
+                    <span class="transaction-item"><input type="radio" name="transaction-type" id="transaction-type" value="gross" onclick="DojoWeb.AirbnbImportForm.setType('gross')" /> Gross Earnings</span>
+                    @if (Request.Url.GetLeftPart(UriPartial.Path).ToLower().IndexOf("localhost") > 0)
+                    {
+                        <span class="transaction-item"><input type="radio" name="transaction-type" id="transaction-type" value="gross" onclick="DojoWeb.AirbnbImportForm.setType('log')" /> Missing Completed Transactions</span>
+                    }
+                </div>
+                <div class="clearfix"></div>
+
+                <div class="float-left statement-filter-item400 ss-top-margin40" style="margin-bottom:20px;">
                     <div class="control-group">
                         <div class="input-group revenue-input-item">
                             <div class="input-group-addon"><span class="fa fa-calendar"><span> Report Date </span> </span></div>
@@ -43,17 +55,6 @@
                         @Html.ValidationMessageFor(m => m.ReportDate, "", new { @class = "text-danger" })
                     </div>
                 </div>*@
-                <div class="float-left transaction-type-group">
-                    <span class="transaction-item">Airbnb Transaction Type:</span>
-                    <span class="transaction-item"><input type="radio" name="transaction-type" id="transaction-type" value="completed" checked="checked" onclick="DojoWeb.AirbnbImportForm.setType('completed')" /> Completed Transactions</span>
-                    <span class="transaction-item"><input type="radio" name="transaction-type" id="transaction-type" value="future" onclick="DojoWeb.AirbnbImportForm.setType('future')" /> Future Transactions</span>
-                    <span class="transaction-item"><input type="radio" name="transaction-type" id="transaction-type" value="gross" onclick="DojoWeb.AirbnbImportForm.setType('gross')" /> Gross Earnings</span>
-                    @if (Request.Url.GetLeftPart(UriPartial.Path).ToLower().IndexOf("localhost") > 0)
-                    {
-                        <span class="transaction-item"><input type="radio" name="transaction-type" id="transaction-type" value="gross" onclick="DojoWeb.AirbnbImportForm.setType('log')" /> Missing Completed Transactions</span>
-                    }
-                </div>
-                <div class="clearfix"></div>
 
                 <!-- completed Airbnb transaction files list -->
                 <div id="completedFilesContainer" class="import-file-list hide">

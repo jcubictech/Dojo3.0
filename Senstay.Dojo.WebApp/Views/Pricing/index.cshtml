@@ -24,7 +24,7 @@
             @Html.AntiForgeryToken()
 
             <div class="import-section">
-                <div id="updateOption" class="transaction-type-group">
+                <div id="updateOption" class="transaction-type-group ss-top-margin10">
                     <span class="import-item" style="margin-left:0px;">Airbnb Listing Update Selection: </span>
                     <span class="import-item"><input type="radio" name="UpdateType" id="UpdateType" value="1" checked="checked" /><span>Pricing update</span></span>
                     <span class="import-item"><input type="radio" name="UpdateType" id="UpdateType" value="2" /><span>Custom Stay update</span></span>
@@ -33,7 +33,7 @@
                 <!-- file upload -->
                 <div class="control-group ownerPayout-field">
                     <div class="col-xs-5 no-left-padding">
-                        @Html.LabelFor(m => m.PricingFile, htmlAttributes: new { @class = "control-label import-file-label" })
+                        @Html.LabelFor(m => m.PricingFile, htmlAttributes: new { @class = "control-label import-file-label" }) <span class="blue bold">(xlsx format only)</span>
                         @Html.TextBoxFor(m => m.PricingFile, new { @class = "form-control", @readonly = "readonly" })
                         @Html.ValidationMessageFor(m => m.PricingFile, "", new { @class = "text-danger" })
                         <div id="importFileMessage" class="no-left-padding"></div>
