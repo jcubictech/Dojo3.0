@@ -264,7 +264,6 @@ DojoWeb.ReservationRevenue = function () {
                         dataGrid.bind('dataBound', function (e) {
                             installGridEvents();
                             setCount();
-                            rebindComboBox();
                             var id = DojoWeb.ReservationForm.getId();
                             var msgTemplate = '{0} of reservation for property "{0}" is successful.';
                             var message = '';

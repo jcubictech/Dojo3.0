@@ -45,10 +45,10 @@ namespace Senstay.Dojo.Data
             //SeedChannels();
             //SeedSenstayPayoutAccounts();
             //SeedCauses();
-            //SeedPropertyStatuses();
-            //SeedFinancialRoles();
-            //SeedStatementCompletions();
-            //SeedPricingRoles();
+            SeedPropertyStatuses();
+            SeedFinancialRoles();
+            SeedStatementCompletions();
+            SeedPricingRoles();
         }
 
         public void SeedPricingRoles()

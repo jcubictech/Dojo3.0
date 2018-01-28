@@ -51,6 +51,7 @@ DojoWeb.OwnerPayoutRevenue = function () {
             });
 
             $month.unbind('change').unbind('click').on('change', function (e) {
+                rebindComboBox();
                 if (requiredSelected()) {
                     getData();
                 }
@@ -504,6 +505,12 @@ DojoWeb.OwnerPayoutRevenue = function () {
 
         requiredSelected = function () {
             return $account.val() != '' && $month.val() != '';
+        },
+
+        rebindComboBox = function () {
+            $account.data('kendoComboBox').dataSource.transport.options.read.url =
+                '/Property/GetOwnerPayoutAccounts?month=' + kendo.toString($month.data('kendoDatePicker').value(), 'MM/dd/yyyy');
+            $account.data('kendoComboBox').dataSource.read();
         },
 
         emptyGrid = function () {
