@@ -133,6 +133,7 @@
     <Build Include="GetPropertyCodeInfo.sql" />
     <Build Include="GetOrphanResolutions.sql" />
     <Build Include="GetUnitExpensesOld.sql" />
+    <Build Include="CreatePropertyChangeSqlFromAuditLogs.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DojoDbTools.publish.xml" />

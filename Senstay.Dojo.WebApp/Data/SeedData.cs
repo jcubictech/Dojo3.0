@@ -36,7 +36,6 @@ namespace Senstay.Dojo.Data
             //SeedAbbreviatedStates();
             //SeedYesNos();
             //SeedYesNoNas();
-            //SeedPropertyStatuses();
             //SeedApprovals();
             //SeedDecisions();
             //AddFeature_20170502();
@@ -49,7 +48,7 @@ namespace Senstay.Dojo.Data
             //SeedPropertyStatuses();
             //SeedFinancialRoles();
             //SeedStatementCompletions();
-            SeedPricingRoles();
+            //SeedPricingRoles();
         }
 
         public void SeedPricingRoles()
