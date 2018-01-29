@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using System.Security.Claims;
 using NLog;
 using Senstay.Dojo.Infrastructure;
 using Senstay.Dojo.Models;
@@ -149,7 +150,7 @@ namespace Senstay.Dojo.Controllers
                 ViewBag.Accounts = (new AirbnbAccountProvider(_dbContext)).AggregatedAccounts();
                 return PartialView("_PropertyFormPartial", property);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // TODO: log
             }
@@ -184,7 +185,9 @@ namespace Senstay.Dojo.Controllers
                         titleChanged = true;
                         managementFeeChanged = true;
                         form.PropertyCode = form.PropertyCode.ToUpper();
-                        form.CreatedDate = DateTime.Now.Date;
+                        // if entity state is EntityState.UnAttached, CreatedDate won't be created. we set it explicitly here just to be sure
+                        form.CreatedDate = ConversionHelper.EnsureUtcDate(DateTime.Now.Date);
+                        form.CreatedBy = ClaimsPrincipal.Current.Identity.Name;
                         dataProvider.Create(form);
                     }
                     else // updating property
