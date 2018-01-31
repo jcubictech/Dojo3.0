@@ -4,6 +4,18 @@ namespace Senstay.Dojo.Fantastic.Models
 {
     public class FantasticCustomStayModel
     {
+        // default constructor
+        public FantasticCustomStayModel() { }
+
+        // copy constructor
+        public FantasticCustomStayModel(FantasticCustomStayModel model)
+        {
+            ListingId = model.ListingId;
+            StartDate = model.StartDate;
+            EndDate = model.EndDate;
+            MinStay = model.MinStay;
+        }
+
         public int ListingId { get; set; }
 
         public DateTime StartDate { get; set; }

@@ -3,7 +3,7 @@ using OfficeOpenXml;
 using Senstay.Dojo.Models;
 using System.Collections.Generic;
 
-namespace Senstay.Dojo.Data.Providers
+namespace Senstay.Dojo.Data.FantasticApi
 {
     public class FantasticServiceBase
     {

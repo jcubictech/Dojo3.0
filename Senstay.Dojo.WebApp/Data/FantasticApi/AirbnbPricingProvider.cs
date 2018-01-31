@@ -6,8 +6,9 @@ using OfficeOpenXml;
 using Senstay.Dojo.Models;
 using System.Collections.Generic;
 using Senstay.Dojo.Fantastic.Models;
+using Senstay.Dojo.Fantastic;
 
-namespace Senstay.Dojo.Data.Providers
+namespace Senstay.Dojo.Data.FantasticApi
 {
     public class AirbnbPricingProvider : FantasticServiceBase
     {
@@ -79,9 +80,14 @@ namespace Senstay.Dojo.Data.Providers
 
             string note = "updated on " + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt");
             var orderedModels = models.OrderBy(x => x.ListingId).ThenBy(x => x.StartDate).ToList();
-            var currentModel = orderedModels[0];
+
+            // keep only those that need to be updated
+            var filteredModels = FilterModels(orderedModels);
+            if (filteredModels.Count == 0) return filteredModels; // nothing to update
+
+            var currentModel = filteredModels[0];
             var lastModel = currentModel;
-            foreach (var model in orderedModels)
+            foreach (var model in filteredModels)
             {
                 // optimize the API call to bundle consecutive dates that has same price into one call
                 if (currentModel.ListingId == model.ListingId && // same listing id 
@@ -151,6 +157,47 @@ namespace Senstay.Dojo.Data.Providers
                 }
             }
             return priceModels;
+        }
+
+        /// <summary>
+        /// Filter price models to those that are not yet booked and have different prices
+        /// </summary>
+        /// <param name="orderedModels">list of price models sorted by listingId</param>
+        /// <returns>the price models that need to be updated</returns>
+        private List<FantasticPriceModel> FilterModels(List<FantasticPriceModel> orderedModels)
+        {
+            var apiService = new FantasticService();
+            var filteredModels = new List<FantasticPriceModel>();
+            List<CalendarMap> priceCalendar = null;
+
+            int currentListingId = 0;
+            foreach (var model in orderedModels)
+            {
+                // query once for each unique listingId (models comes in as sorted order)
+                if (currentListingId != model.ListingId)
+                {
+                    priceCalendar = null;
+                    currentListingId = model.ListingId;
+                    // find the end date for same listingId
+                    var endDateModel = orderedModels.Where(x => x.ListingId == currentListingId).OrderByDescending(x => x.EndDate).FirstOrDefault();
+                    if (endDateModel != null)
+                    {
+                        var result = apiService.PriceListing(model.ListingId, model.StartDate, endDateModel.EndDate);
+                        if (result.success == true) priceCalendar = result.calendar;
+                    }
+                }
+
+                if (priceCalendar != null)
+                {
+                    // only update those dates that are available with different prices
+                    if (priceCalendar.Exists(x => x.status == FantasticService.PRICING_AVAILABLE && x.price != model.Price))
+                    {
+                        filteredModels.Add(new FantasticPriceModel(model));
+                    }
+                }
+            }
+
+            return filteredModels;
         }
     }
 }

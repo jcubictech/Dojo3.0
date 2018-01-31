@@ -2,7 +2,6 @@ using System.Collections.Generic;
 
 namespace Senstay.Dojo.Fantastic
 {
-
     /// <summary>
     /// Fantastic API POST request response Json string
     /// </summary>
@@ -25,6 +24,12 @@ namespace Senstay.Dojo.Fantastic
         public List<CalendarMap> calendar { get; set; }
     }
 
+    public class CustomStayResult
+    {
+        public bool success { get; set; }
+        public List<CustomStayMap> calendar { get; set; }
+    }
+
     public class PropertyMap
     {
         public string id { get; set; }
@@ -38,6 +43,14 @@ namespace Senstay.Dojo.Fantastic
         public double price { get; set; }
         public string note { get; set; }
         public string date { get; set; } // yyyy-MM-dd format
+        public string status { get; set; } // 'booked' or 'available'
+    }
+
+    public class CustomStayMap
+    {
+        public string id { get; set; }  // airbnb listing id
+        public string fs_listing_id { get; set; }  // fantastic listing id
+        public int min_stay { get; set; }
     }
 
 }

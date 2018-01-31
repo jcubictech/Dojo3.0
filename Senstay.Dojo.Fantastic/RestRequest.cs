@@ -78,7 +78,38 @@ namespace Senstay.Dojo.Fantastic
         }
 
         /// <summary>
-        /// Make a POST call to Fantastic API with well-formed query string.
+        /// Get custom stay list from Fantastic calendar API service
+        /// </summary>
+        /// <param name="requestEndPoint">Fantastic calendar API end point url including optional query paraemters</param>
+        /// <returns>calendar result</returns>
+        public static CustomStayResult GetCustomStays(string requestEndPoint)
+        {
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    // setup client
+                    client.BaseAddress = new Uri(requestEndPoint);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(FANTASTIC_CONTENT_TYPE));
+                    client.DefaultRequestHeaders.Add("api-key", FANTASTIC_API_KEY);
+
+                    // make GET request
+                    HttpResponseMessage httpResponse = client.GetAsync(requestEndPoint).Result;
+                    string content = httpResponse.Content.ReadAsStringAsync().Result;
+
+                    var responseJson = JsonConvert.DeserializeObject<CustomStayResult>(content);
+                    return responseJson;
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Make a POST call to Fantastic API with well-formed query string. The POST call response is in a form of success flag + error message if available.
         /// </summary>
         /// <param name="requestEndPoint">Fantastic API end point url</param>
         /// <param name="queryString">well-formed query string</param>
@@ -111,7 +142,7 @@ namespace Senstay.Dojo.Fantastic
         }
 
         /// <summary>
-        /// Make a POST call to Fantastic API with list of name-value query pairs.
+        /// Make a POST call to Fantastic API with list of name-value query pairs. The POST call response is in a form of success flag + error message if available.
         /// </summary>
         /// <param name="requestEndPoint">Fantastic API end point url</param>
         /// <param name="queryParams">list of name-value pairs of string type</param>

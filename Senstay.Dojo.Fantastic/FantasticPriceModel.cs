@@ -4,6 +4,20 @@ namespace Senstay.Dojo.Fantastic.Models
 {
     public class FantasticPriceModel
     {
+        // default constructor
+        public FantasticPriceModel() { }
+
+        // copy constructor
+        public FantasticPriceModel(FantasticPriceModel model)
+        {
+            ListingId = model.ListingId;
+            StartDate = model.StartDate;
+            EndDate = model.EndDate;
+            IsAvailable = model.IsAvailable;
+            Price = model.Price;
+            Note = model.Note;
+        }
+
         public int ListingId { get; set; }
 
         public DateTime StartDate { get; set; }

@@ -6,8 +6,9 @@ using OfficeOpenXml;
 using Senstay.Dojo.Models;
 using System.Collections.Generic;
 using Senstay.Dojo.Fantastic.Models;
+using Senstay.Dojo.Fantastic;
 
-namespace Senstay.Dojo.Data.Providers
+namespace Senstay.Dojo.Data.FantasticApi
 {
     public class AirbnbCustomStayProvider : FantasticServiceBase
     {
@@ -78,9 +79,14 @@ namespace Senstay.Dojo.Data.Providers
             if (models == null || models.Count == 0) return optimizedModels;
 
             var orderedModels = models.OrderBy(x => x.ListingId).ThenBy(x => x.StartDate).ToList();
-            var currentModel = orderedModels[0];
+
+            // keep only those that need to be updated
+            var filteredModels = FilterModels(orderedModels);
+            if (filteredModels.Count == 0) return filteredModels; // nothing to update
+
+            var currentModel = filteredModels[0];
             var lastModel = currentModel;
-            foreach (var model in orderedModels)
+            foreach (var model in filteredModels)
             {
                 // optimize the API call to bundle consecutive dates that has same minimum stay into one call
                 if (currentModel.ListingId == model.ListingId && // same listing id 
@@ -151,6 +157,42 @@ namespace Senstay.Dojo.Data.Providers
             {
                 throw;
             }
+        }
+
+        private List<FantasticCustomStayModel> FilterModels(List<FantasticCustomStayModel> orderedModels)
+        {
+            var apiService = new FantasticService();
+            var filteredModels = new List<FantasticCustomStayModel>();
+            List<CustomStayMap> customStayCalendar = null;
+
+            int currentListingId = 0;
+            foreach (var model in orderedModels)
+            {
+                // query once for each unique listingId (models comes in as sorted order)
+                if (currentListingId != model.ListingId)
+                {
+                    customStayCalendar = null;
+                    currentListingId = model.ListingId;
+                    // find the end date for same listingId
+                    var endDateModel = orderedModels.Where(x => x.ListingId == currentListingId).OrderByDescending(x => x.EndDate).FirstOrDefault();
+                    if (endDateModel != null)
+                    {
+                        var result = apiService.CustomStayListing(model.ListingId, model.StartDate, endDateModel.EndDate);
+                        if (result.success == true) customStayCalendar = result.calendar;
+                    }
+                }
+
+                if (customStayCalendar != null)
+                {
+                    // only update those dates that are available with different custom stay
+                    if (customStayCalendar.Exists(x => x.min_stay != model.MinStay))
+                    {
+                        filteredModels.Add(new FantasticCustomStayModel(model));
+                    }
+                }
+            }
+
+            return filteredModels;
         }
     }
 }

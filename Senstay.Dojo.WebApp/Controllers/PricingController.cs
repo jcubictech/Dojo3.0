@@ -3,10 +3,12 @@ using System.Web;
 using System.Web.Mvc;
 using NLog;
 using Senstay.Dojo.Infrastructure;
-using Senstay.Dojo.Data.Providers;
 using Senstay.Dojo.Models;
 using Senstay.Dojo.Models.View;
+using Senstay.Dojo.Data.Providers;
 using Senstay.Dojo.Fantastic;
+using Senstay.Dojo.Fantastic.Models;
+using Senstay.Dojo.Data.FantasticApi;
 
 namespace Senstay.Dojo.Controllers
 {
@@ -40,8 +42,11 @@ namespace Senstay.Dojo.Controllers
                 string message = string.Empty;
                 if (attachedPricingFile != null)
                 {
+                    // parse out pricing file for those that need to be updated
                     var provider = new AirbnbPricingProvider(_dbContext);
                     var priceModels = provider.ImportPricing(attachedPricingFile.InputStream);
+
+                    // use Fantastic API service to update prices, returning the service result
                     var apiService = new FantasticService();
                     total = priceModels.Count;
                     foreach (var model in priceModels)
@@ -78,13 +83,16 @@ namespace Senstay.Dojo.Controllers
                 string message = string.Empty;
                 if (attachedPricingFile != null)
                 {
+                    // parse out custom stay file for those that need to be updated
                     var provider = new AirbnbCustomStayProvider(_dbContext);
                     var models = provider.ImportCustomStays(attachedPricingFile.InputStream);
+
+                    // use Fantastic API service to update custom stay, returning the service result
                     var apiService = new FantasticService();
                     total = models.Count;
                     foreach (var model in models)
                     {
-                        var response = apiService.CustomStay(model);
+                        var response = apiService.CustomStayUpdate(model);
                         if (response.success == false)
                         {
                             bad++;
@@ -170,7 +178,14 @@ namespace Senstay.Dojo.Controllers
             try
             {
                 var apiService = new FantasticService();
-                var result = apiService.PricePush(1157, new DateTime(2018, 12, 17), new DateTime(2018, 12, 20), true, 1150, "Dojo Api call"); // SD011
+                var result = apiService.PricePush(new FantasticPriceModel {
+                                                    ListingId = 1157,
+                                                    StartDate = new DateTime(2018, 12, 17),
+                                                    EndDate = new DateTime(2018, 12, 20),
+                                                    IsAvailable = true,
+                                                    Price = 1150,
+                                                    Note = "Dojo Api call"
+                                                }); // SD011
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
