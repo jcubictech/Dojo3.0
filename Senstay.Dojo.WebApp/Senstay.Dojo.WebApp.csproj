@@ -318,9 +318,9 @@
     <Compile Include="Data\GoogleDrive\ResolutionProvider.cs" />
     <Compile Include="Data\GoogleDrive\ReservationProvider.cs" />
     <Compile Include="Data\GoogleDrive\OwnerPayoutProvider.cs" />
-    <Compile Include="Data\Providers\AirbnbCustomStayProvider.cs" />
-    <Compile Include="Data\Providers\FantasticServiceBase.cs" />
-    <Compile Include="Data\Providers\AirbnbPricingProvider.cs" />
+    <Compile Include="Data\FantasticApi\AirbnbCustomStayProvider.cs" />
+    <Compile Include="Data\FantasticApi\FantasticServiceBase.cs" />
+    <Compile Include="Data\FantasticApi\AirbnbPricingProvider.cs" />
     <Compile Include="Data\Providers\AirbnbImportProvider.cs" />
     <Compile Include="Data\Providers\AuthorizationProvider.cs" />
     <Compile Include="Data\Providers\AirbnbAccountProvider.cs" />
