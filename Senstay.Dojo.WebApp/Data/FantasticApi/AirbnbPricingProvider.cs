@@ -190,7 +190,10 @@ namespace Senstay.Dojo.Data.FantasticApi
                 if (priceCalendar != null)
                 {
                     // only update those dates that are available with different prices
-                    if (priceCalendar.Exists(x => x.status == FantasticService.PRICING_AVAILABLE && x.price != model.Price))
+                    if (priceCalendar.Exists(x => x.fs_listing_id == model.ListingId.ToString() && 
+                                                  x.date == model.StartDate.ToString("yyyy-MM-dd") && 
+                                                  x.status == FantasticService.PRICING_AVAILABLE && 
+                                                  x.price != model.Price))
                     {
                         filteredModels.Add(new FantasticPriceModel(model));
                     }

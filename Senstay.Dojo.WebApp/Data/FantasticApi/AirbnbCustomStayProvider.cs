@@ -185,9 +185,10 @@ namespace Senstay.Dojo.Data.FantasticApi
                 if (customStayCalendar != null)
                 {
                     // only update those dates that are available with different custom stay
-                    if (customStayCalendar.Exists(x => x.min_stay != model.MinStay))
-                    {
-                        filteredModels.Add(new FantasticCustomStayModel(model));
+                    if (customStayCalendar.Exists(x => x.fs_listing_id == model.ListingId.ToString() &&
+                                                       x.min_stay != model.MinStay))
+                        {
+                            filteredModels.Add(new FantasticCustomStayModel(model));
                     }
                 }
             }
