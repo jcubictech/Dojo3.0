@@ -915,10 +915,10 @@ DojoWeb.ExcelExport = function () {
         },
 
         customDownload = function (gridSelector, columnsToShow, columnsToHide) {
-            if (DojoWeb.Helpers.isEdge()) {
-                alert('Excel Export does not currently support Edge browser. Please use other browsers.');
-                return;
-            }
+            //if (DojoWeb.Helpers.isEdge()) {
+            //    alert('Excel Export does not currently support Edge browser. Please use other browsers.');
+            //    return;
+            //}
             $gridData = $(gridSelector).data('kendoGrid');
             if (columnsToShow != undefined) {
                 $.each(columnsToShow, function (index, name) {
