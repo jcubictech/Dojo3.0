@@ -27,11 +27,7 @@ namespace Senstay.Dojo.Fantastic
             {
                 using (var client = new HttpClient())
                 {
-                    // setup client
-                    client.BaseAddress = new Uri(requestEndPoint);
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(FANTASTIC_CONTENT_TYPE));
-                    client.DefaultRequestHeaders.Add("api-key", FANTASTIC_API_KEY);
+                    SetClientHeader(client, requestEndPoint);
 
                     // make GET request
                     HttpResponseMessage response = client.GetAsync(requestEndPoint).Result;
@@ -57,11 +53,7 @@ namespace Senstay.Dojo.Fantastic
             {
                 using (var client = new HttpClient())
                 {
-                    // setup client
-                    client.BaseAddress = new Uri(requestEndPoint);
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(FANTASTIC_CONTENT_TYPE));
-                    client.DefaultRequestHeaders.Add("api-key", FANTASTIC_API_KEY);
+                    SetClientHeader(client, requestEndPoint);
 
                     // make GET request
                     HttpResponseMessage httpResponse = client.GetAsync(requestEndPoint).Result;
@@ -88,11 +80,7 @@ namespace Senstay.Dojo.Fantastic
             {
                 using (var client = new HttpClient())
                 {
-                    // setup client
-                    client.BaseAddress = new Uri(requestEndPoint);
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(FANTASTIC_CONTENT_TYPE));
-                    client.DefaultRequestHeaders.Add("api-key", FANTASTIC_API_KEY);
+                    SetClientHeader(client, requestEndPoint);
 
                     // make GET request
                     HttpResponseMessage httpResponse = client.GetAsync(requestEndPoint).Result;
@@ -120,11 +108,7 @@ namespace Senstay.Dojo.Fantastic
             {
                 using (var client = new HttpClient())
                 {
-                    // setup client
-                    client.BaseAddress = new Uri(requestEndPoint);
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(FANTASTIC_CONTENT_TYPE));
-                    client.DefaultRequestHeaders.Add("api-key", FANTASTIC_API_KEY);
+                    SetClientHeader(client, requestEndPoint);
 
                     // make POST request; note that FANTASTIC_CONTENT_TYPE is required to construct the request content
                     StringContent content = new StringContent(queryString, Encoding.UTF8, FANTASTIC_CONTENT_TYPE);
@@ -153,11 +137,7 @@ namespace Senstay.Dojo.Fantastic
             {
                 using (var client = new HttpClient())
                 {
-                    // setup client
-                    client.BaseAddress = new Uri(requestEndPoint);
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(FANTASTIC_CONTENT_TYPE));
-                    client.DefaultRequestHeaders.Add("api-key", FANTASTIC_API_KEY);
+                    SetClientHeader(client, requestEndPoint);
 
                     // make POST request
                     StringContent content = new StringContent(Stringify(queryParams), Encoding.UTF8, FANTASTIC_CONTENT_TYPE); // covnert list object to query string first
@@ -175,6 +155,19 @@ namespace Senstay.Dojo.Fantastic
         }
 
         /// <summary>
+        /// Set up api request header
+        /// </summary>
+        /// <param name="client">HTTP request client object to be filled with header</param>
+        /// <param name="requestEndPoint">request url</param>
+        private static void SetClientHeader(HttpClient client, string requestEndPoint)
+        {
+            client.BaseAddress = new Uri(requestEndPoint);
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(FANTASTIC_CONTENT_TYPE));
+            client.DefaultRequestHeaders.Add("api-key", FANTASTIC_API_KEY);
+        }
+
+        /// <summary>
         /// Convert name-value pairs into restful query string; the string is not url-encoded
         /// </summary>
         /// <param name="query">list of name-value pairs of string type</param>
@@ -189,7 +182,7 @@ namespace Senstay.Dojo.Fantastic
             }
             return dataString;
         }
-
+        
         #endregion
 
         #region RESTful EndPoint formatters
