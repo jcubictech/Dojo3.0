@@ -740,11 +740,20 @@ DojoWeb.PropertyFeeEditor = function () {
     var _gridId = undefined,
         _dataSource = undefined,
         _inlineEditIndex = 1,
+        _exportFeeSelector = 'a.k-exportFee',
 
         init = function (id) {
             _gridId = '#' + id;
             setupDataSource();
             setupGrid();
+            initGridEvent();
+        },
+
+        initGridEvent = function () {
+            $(_exportFeeSelector).unbind('click').on('click', function (e) {
+                e.preventDefault();
+                DojoWeb.ExcelExport.download(_gridId);
+            });
         },
 
         setupGrid = function () {
@@ -782,7 +791,10 @@ DojoWeb.PropertyFeeEditor = function () {
                         //$(_gridId).data('kendoGrid').cancelChanges();
                     }
                 },
-                toolbar: [ { name: 'create', text: ' New Property Fee', iconClass: 'fa fa-plus' } ],
+                toolbar: [
+                            { name: 'create', text: ' New Property Fee', iconClass: 'fa fa-plus' },
+                            { name: 'exportFee', text: ' Export to Excel ', className: 'k-exportFee' }
+                         ],
                 columns: [
                         {
                             command: [
@@ -814,6 +826,11 @@ DojoWeb.PropertyFeeEditor = function () {
                         { field: 'TrashService', title: 'Trash Service', width: '130px', editor: decimalEditor, template: "#= DojoWeb.PropertyFeeEditor.decimalDisplay(data.TrashService, 2) #" },
                         { field: 'PestService', title: 'Pest Control Service', width: '180px', editor: decimalEditor, template: "#= DojoWeb.PropertyFeeEditor.decimalDisplay(data.PestService, 2) #" },
                 ],
+                excel: {
+                    fileName: 'Dojo Property Fee.xlsx',
+                    proxyURL: "/proxy/save",
+                    forceProxy: true
+                },
             });
 
             // for some reason, Kendo 2016/June version has 'filter' text in the background of default filter icon.
