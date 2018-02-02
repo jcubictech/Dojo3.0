@@ -45,10 +45,11 @@ namespace Senstay.Dojo.Data
             //SeedChannels();
             //SeedSenstayPayoutAccounts();
             //SeedCauses();
-            SeedPropertyStatuses();
-            SeedFinancialRoles();
-            SeedStatementCompletions();
-            SeedPricingRoles();
+            //SeedPropertyStatuses();
+            //SeedFinancialRoles();
+            //SeedStatementCompletions();
+            //SeedPricingRoles();
+            SeedSenstayPayoutAccounts();
         }
 
         public void SeedPricingRoles()
@@ -107,18 +108,26 @@ namespace Senstay.Dojo.Data
 
         public void SeedSenstayPayoutAccounts()
         {
+            // payout account affects advance payment in owner statement
             var list = new List<Lookup>()
             {
-                new Models.Lookup() { Type = LookupType.SenStayAccount.ToString(), Name = "00250069146" },
-                new Models.Lookup() { Type = LookupType.SenStayAccount.ToString(), Name = "00250074271" },
-                new Models.Lookup() { Type = LookupType.SenStayAccount.ToString(), Name = "00250074301" },
-                new Models.Lookup() { Type = LookupType.SenStayAccount.ToString(), Name = "00250074336" },
-                new Models.Lookup() { Type = LookupType.SenStayAccount.ToString(), Name = "00250074344" },
-                new Models.Lookup() { Type = LookupType.SenStayAccount.ToString(), Name = "00250074352" },
-                new Models.Lookup() { Type = LookupType.SenStayAccount.ToString(), Name = "00250074360" },
-                new Models.Lookup() { Type = LookupType.SenStayAccount.ToString(), Name = "00250074379" },
-                new Models.Lookup() { Type = LookupType.SenStayAccount.ToString(), Name = "00250074387" },
-                new Models.Lookup() { Type = LookupType.SenStayAccount.ToString(), Name = "00250069421" },
+                //new Models.Lookup() { Type = LookupType.SenStayAccount.ToString(), Name = "00250069146" },
+                //new Models.Lookup() { Type = LookupType.SenStayAccount.ToString(), Name = "00250074271" },
+                //new Models.Lookup() { Type = LookupType.SenStayAccount.ToString(), Name = "00250074301" },
+                //new Models.Lookup() { Type = LookupType.SenStayAccount.ToString(), Name = "00250074336" },
+                //new Models.Lookup() { Type = LookupType.SenStayAccount.ToString(), Name = "00250074344" },
+                //new Models.Lookup() { Type = LookupType.SenStayAccount.ToString(), Name = "00250074352" },
+                //new Models.Lookup() { Type = LookupType.SenStayAccount.ToString(), Name = "00250074360" },
+                //new Models.Lookup() { Type = LookupType.SenStayAccount.ToString(), Name = "00250074379" },
+                //new Models.Lookup() { Type = LookupType.SenStayAccount.ToString(), Name = "00250074387" },
+                //new Models.Lookup() { Type = LookupType.SenStayAccount.ToString(), Name = "00250069421" },
+                // added 2018-02-02
+                new Models.Lookup() { Type = LookupType.SenStayAccount.ToString(), Name = "80006530671" }, // east coast
+                new Models.Lookup() { Type = LookupType.SenStayAccount.ToString(), Name = "80006530697" }, // LA/SD
+                new Models.Lookup() { Type = LookupType.SenStayAccount.ToString(), Name = "80006530739" }, // palm spring
+                new Models.Lookup() { Type = LookupType.SenStayAccount.ToString(), Name = "80006530788" }, // Denver
+                new Models.Lookup() { Type = LookupType.SenStayAccount.ToString(), Name = "80006530820" }, // Maxico
+                new Models.Lookup() { Type = LookupType.SenStayAccount.ToString(), Name = "80006530846" }, // Off-Airbnb
             };
 
             // type + name must be unique
