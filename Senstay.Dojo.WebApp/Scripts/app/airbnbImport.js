@@ -79,9 +79,10 @@ DojoWeb.AirbnbImportLog = function () {
                 editable: false,
                 columns: [
                             { field:'CreatedTime', title:'Import Time', filterable:false, width:'200px', template:"#= kendo.toString(kendo.parseDate(CreatedTime, 'yyyy-MM-dd'), 'MM/dd/yyyy hh:mm:ss tt') #" },
-                            { field:'InputSource', title:'Input Source', filterable:{ multi: true }, width:'300px' },
-                            { field:'Section', title:'Section', filterable:false, sortable:false, width:'180px' },
-                            { field:'Message', title:'Import Message', filterable:false, sortable:false, template: '#= DojoWeb.AirbnbImportLog.highlightMessage(data.Message) #' }
+                            { field:'InputSource', title:'Input Source', filterable:{ multi: true }, width:'320px' },
+                            { field:'Section', title:'Section', filterable:false, sortable:false, width:'160px' },
+                            { field: 'Row', title: 'Row', filterable: false, sortable: false, width: '60px' },
+                            { field: 'Message', title: 'Import Message', filterable: false, sortable: false, template: '#= DojoWeb.AirbnbImportLog.highlightMessage(data.Message) #' }
                 ],
             });
 
@@ -105,6 +106,7 @@ DojoWeb.AirbnbImportLog = function () {
                             CreatedTime: { type: 'datetime' },
                             InputSource: { type: 'string' },
                             Section: { type: 'string' },
+                            Row: { type: 'number' },
                             Message: { type: 'string' }
                         }
                     }

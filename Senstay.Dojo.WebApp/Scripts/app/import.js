@@ -27,6 +27,10 @@ DojoWeb.ImportForm = function () {
                 doImport();
             });
 
+            $('#importLogViewer').unbind('click').on('click', function (e) {
+                DojoWeb.AirbnbImport.showImportLog();
+            });
+
             $ImportDate.kendoDatePicker({
                 format: 'MM/dd/yyyy',
                 open: function (e) {

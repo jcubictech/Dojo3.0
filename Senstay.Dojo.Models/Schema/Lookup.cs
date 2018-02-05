@@ -10,8 +10,10 @@ namespace Senstay.Dojo.Models
         [Key]
         public int Id { get; set; }
 
+        [MaxLength(50)]
         public string Type { get; set; }
 
+        [MaxLength(100)]
         public string Name { get; set; }
     }
 }

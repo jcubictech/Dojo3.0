@@ -66,10 +66,13 @@
 
                 <!-- action buttons -->
                 <div class="control-group">
-                    <div class="col-xs-2 ss-section-spacing-top no-left-padding">
+                    <div class="float-left ss-section-spacing-top no-left-padding">
                         <input id="excelImport" type="button" value="Import Excel File" class="btn btn-default btn-success" />
                     </div>
                </div>
+                <div class="float-left ss-section-spacing-top ss-left-margin10">
+                    <input id="importLogViewer" type="button" value="View Import Log" class="btn btn-info ss-left-margin10" />
+                </div>
                 <div class="clearfix"></div>
 
                 <div id="longProcessNote" class="col-xs-12 ss-process-note hide">Please wait for completion...</div>
@@ -97,6 +100,7 @@
 
 @section scripts
 {
+    @Scripts.Render("~/Scripts/app/airbnbImport.js")
     @Scripts.Render("~/Scripts/app/import.js")
 
 
