@@ -10,10 +10,12 @@ namespace Senstay.Dojo.Models
         [Key]
         public int InputErrorId { get; set; }
 
+        [MaxLength(100)]
         public string InputSource { get; set; }
 
         public int Row { get; set; }
 
+        [MaxLength(100)]
         public string Section { get; set; }
 
         public string OriginalText { get; set; }
