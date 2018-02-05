@@ -79,7 +79,7 @@ BEGIN
 							then 
 								2
 							else 
-								0
+								1
 					     end
 
 		ORDER BY [PropertyCode]
