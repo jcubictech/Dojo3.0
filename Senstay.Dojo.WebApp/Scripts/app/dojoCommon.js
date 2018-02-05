@@ -1277,6 +1277,8 @@ DojoWeb.Template = function () {
         propertyColorLegend = function () {
             return '# if (data.Empty == 1) { #' +
                        '<span style="color:gray;text-decoration:line-through;">#: data.PropertyCodeAndAddress #</span>' +
+                   '# } else if (data.Empty == 2) { #' +
+                       '<span style="color:red;">#: data.PropertyCodeAndAddress #</span>' +
                    '# } else if (data.AllApproved == 1) { #' +
                        '<span style="color:blue;">#: data.PropertyCodeAndAddress #</span>' +
                    '# } else if (data.AllReviewed == 1) { #' +

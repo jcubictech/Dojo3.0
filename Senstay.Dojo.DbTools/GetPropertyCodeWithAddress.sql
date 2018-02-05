@@ -63,6 +63,25 @@ BEGIN
 		FROM [dbo].[CPL] p
 		WHERE (p.[PropertyStatus] like 'Active%' or p.[PropertyStatus] = 'Inactive' or p.[PropertyStatus] = 'Pending-Onboarding') and
 			  p.[PropertyCode] <> 'PropertyPlaceholder'
+
+		UNION
+
+		SELECT [PropertyCode] = 'PropertyPlaceHolder'
+			  ,[PropertyCodeAndAddress] = 'Missing Property Code for Property Title'
+			  ,[AllReviewed] = 0
+			  ,[AllApproved] = 0
+			  ,[Finalized] = 0
+			  ,[Empty] = case
+							when (select count(r.[PropertyCode]) from [dbo].[Reservation] r 
+								  where r.[PropertyCode] = 'PropertyPlaceholder' and r.[IsDeleted] = 0 and 
+								  ((r.[Channel] = 'Airbnb' and Convert(date,r.[TransactionDate]) >= @StartDate and Convert(date,r.[TransactionDate]) <= @EndDate) or
+								   (r.[Channel] <> 'Airbnb' and Convert(date,r.[CheckinDate]) >= @StartDate and Convert(date,r.[CheckinDate]) <= @EndDate))) > 0 
+							then 
+								2
+							else 
+								0
+					     end
+
 		ORDER BY [PropertyCode]
 	END
 
