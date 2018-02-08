@@ -68,6 +68,9 @@ namespace Senstay.Dojo.Controllers
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
+        //==========================================================
+        // TODO: stored procedure not implemented yet
+        //==========================================================
         [OutputCache(Duration = 0, NoStore = true)]
         public JsonResult GetMissingPropertyCodes(DateTime month)
         {

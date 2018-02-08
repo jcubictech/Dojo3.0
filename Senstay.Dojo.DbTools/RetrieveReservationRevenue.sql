@@ -48,6 +48,9 @@ BEGIN
 										   Not(Convert(date, t.[CheckinDate]) >= Convert(date, DateAdd(day, tt.[Nights], tt.[CheckinDate])) or 
 											   Convert(date, DateAdd(day, t.[Nights], t.[CheckinDate])) <= Convert(date, tt.[CheckinDate]))) > 0
 							   then 'red'
+							   when (Select Count([ReservationId]) From [dbo].[Reservation] r
+									 Where t.[ConfirmationCode] = r.[ConfirmationCode] and r.[TransactionDate] < DATEFROMPARTS (Year(t.[PayoutDate]), Month(t.[PayoutDate]), 1)) > 0
+							   then 'orange'
 							   else ''
 							   end
 	FROM #Temp t

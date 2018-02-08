@@ -133,6 +133,7 @@ namespace Senstay.Dojo.Data.Providers
                 sqlParams[1] = new SqlParameter("@EndDate", SqlDbType.DateTime);
                 sqlParams[1].Value = endDate;
 
+                // TODO: create GetMissingPropertyCodes stored procedure
                 var missing = _context.Database.SqlQuery<MissingPropertyCodesModel>("GetMissingPropertyCodes @StartDate, @EndDate", sqlParams).ToList();
 
                 return missing;
