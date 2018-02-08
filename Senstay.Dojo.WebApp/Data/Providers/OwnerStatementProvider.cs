@@ -15,6 +15,9 @@ namespace Senstay.Dojo.Data.Providers
     {
         private readonly DojoDbContext _context;
         private const string GRONDSKEEPING_CATEGORY = "Groundskeeping";
+        private const string CLEANING_CATEGORY = "Cleaning";
+        private const string LAUNDRY_CATEGORY = "Laundry";
+        private const string CONSUMABLES_CATEGORY = "Consumables";
         private DateTime GRONDSKEEPING_EFFECTIVE_DATE = (new DateTime(2017, 12, 1)).Date;
 
         public OwnerStatementProvider(DojoDbContext dbContext) : base(dbContext)
@@ -109,7 +112,10 @@ namespace Senstay.Dojo.Data.Providers
                 if (isFixedCostModel)
                 {
                     fixedUnitExpenses = GetUnitExpenses(month, GetFixedCostModelCount(reservations), propertyFee);
-                    if (UseGroundKeepingRule(month)) MergeGroundskeeping(ownerStatement.UnitExpenseDetails, fixedUnitExpenses);
+                    if (UseGroundKeepingRule(month))
+                    {
+                        MergeExpenses(ownerStatement.UnitExpenseDetails, fixedUnitExpenses);
+                    }
                 }
                 ownerStatement.UnitExpenseDetails.AddRange(fixedUnitExpenses);
 
@@ -649,24 +655,21 @@ namespace Senstay.Dojo.Data.Providers
             return unitExpense;
         }
 
-        private void MergeGroundskeeping(List<UnitExpenseStatement> unitExpenseDetails, List<UnitExpenseStatement> fixedUnitExpenses)
+        private void MergeExpenses(List<UnitExpenseStatement> unitExpenseDetails, List<UnitExpenseStatement> fixedUnitExpenses)
         {
             foreach (UnitExpenseStatement expense in unitExpenseDetails)
             {
-                if (expense.Category == GRONDSKEEPING_CATEGORY)
+                UnitExpenseStatement matchedExpense = null;
+                foreach (UnitExpenseStatement fixedExpense in fixedUnitExpenses)
                 {
-                    UnitExpenseStatement matchedExpense = null;
-                    foreach (UnitExpenseStatement fixedExpense in fixedUnitExpenses)
+                    if (fixedExpense.Category == expense.Category)
                     {
-                        if (fixedExpense.Category == GRONDSKEEPING_CATEGORY)
-                        {
-                            expense.Amount += fixedExpense.Amount;
-                            matchedExpense = fixedExpense;
-                            break;
-                        }
+                        expense.Amount += fixedExpense.Amount;
+                        matchedExpense = fixedExpense;
+                        break;
                     }
-                    if (matchedExpense != null) fixedUnitExpenses.Remove(matchedExpense);
                 }
+                if (matchedExpense != null) fixedUnitExpenses.Remove(matchedExpense);
             }
         }
 
