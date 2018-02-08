@@ -47,7 +47,6 @@ BEGIN
 			WHERE Convert(date, [ExpenseDate]) >= @StartDate and Convert(date, [ExpenseDate]) <= @EndDate and
 					[PropertyCode] = @PropertyCode and
 					[ExpenseId] = [ParentId] and
-					[Category] not like '%Cleaning%' and [Category] not like '%Consum%' and [Category] not like '%Laundry%' and 
 					([Category] not like '%Maint%' and [ApprovedNote] not like '516%') and 
 					[IncludeOnStatement] = 1 and
 					[IsDeleted] = 0
