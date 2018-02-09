@@ -141,8 +141,9 @@ namespace Senstay.Dojo.Data.Providers
                 {
                     // special rule: cleaning fee for fixed cost also include special cleaning fees from expense table
                     ownerStatement.CleaningFees = -GetCleanFees(month, propertyCode);
-                    if (isFixedCostModel && propertyFee.Cleanings != null && reservations.Count > 0)
-                        ownerStatement.CleaningFees += -Math.Round(reservations.Count * propertyFee.Cleanings.Value * 1.1, 2); // mark up 10% on fixed clean fee
+                    int fixedCostCount = GetFixedCostModelCount(reservations); // filter reservations that do not need cleaning
+                    if (isFixedCostModel && propertyFee.Cleanings != null && fixedCostCount > 0)
+                        ownerStatement.CleaningFees += -Math.Round(fixedCostCount * propertyFee.Cleanings.Value * 1.1, 2); // mark up 10% on fixed clean fee
 
                     // special rule: management fee = 0 if there is no revenue but has cleaning fee
                     if ((ConversionHelper.ZeroMoneyValue(ownerStatement.TotalRevenue) && ownerStatement.CleaningFees < 0) ||
