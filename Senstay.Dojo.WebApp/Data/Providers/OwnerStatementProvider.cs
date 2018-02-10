@@ -19,6 +19,7 @@ namespace Senstay.Dojo.Data.Providers
         private const string LAUNDRY_CATEGORY = "Laundry";
         private const string CONSUMABLES_CATEGORY = "Consumables";
         private DateTime GRONDSKEEPING_EFFECTIVE_DATE = (new DateTime(2017, 12, 1)).Date;
+        private DateTime CLEANINGRULE_EFFECTIVE_DATE = (new DateTime(2018, 1, 1)).Date;
 
         public OwnerStatementProvider(DojoDbContext dbContext) : base(dbContext)
         {
@@ -111,13 +112,19 @@ namespace Senstay.Dojo.Data.Providers
                 ownerStatement.UnitExpenseDetails = GetUnitExpenses(month, propertyCode, isFixedCostModel);
                 if (isFixedCostModel)
                 {
-                    fixedUnitExpenses = GetUnitExpenses(month, GetFixedCostModelCount(reservations), propertyFee);
-                    if (UseGroundKeepingRule(month))
+                    fixedUnitExpenses = GetUnitExpenses(month, GetFixedCostModelCount(reservations, month), propertyFee);
+                    if (fixedUnitExpenses.Count > 0)
                     {
-                        MergeExpenses(ownerStatement.UnitExpenseDetails, fixedUnitExpenses);
+                        if (UseGroundKeepingRule(month))
+                        {
+                            if (UseCleaningCountRule(month))
+                                MergeExpenses(ownerStatement.UnitExpenseDetails, fixedUnitExpenses);
+                            else
+                                MergeGroundskeeping(ownerStatement.UnitExpenseDetails, fixedUnitExpenses);
+                        }
                     }
                 }
-                ownerStatement.UnitExpenseDetails.AddRange(fixedUnitExpenses);
+                if (fixedUnitExpenses.Count > 0) ownerStatement.UnitExpenseDetails.AddRange(fixedUnitExpenses);
 
                 // footer section
                 ownerStatement.IsProductRS = (property.Vertical == "RS");
@@ -140,10 +147,13 @@ namespace Senstay.Dojo.Data.Providers
                 else
                 {
                     // special rule: cleaning fee for fixed cost also include special cleaning fees from expense table
-                    ownerStatement.CleaningFees = -GetCleanFees(month, propertyCode);
-                    int fixedCostCount = GetFixedCostModelCount(reservations); // filter reservations that do not need cleaning
+                    ownerStatement.CleaningFees = -GetCleanFees(month, propertyCode); // cleaning fee for one-off cleaning cost including 10% surcharge
+                    int fixedCostCount = GetFixedCostModelCount(reservations, month); // filter reservations that do not need cleaning
                     if (isFixedCostModel && propertyFee.Cleanings != null && fixedCostCount > 0)
                         ownerStatement.CleaningFees += -Math.Round(fixedCostCount * propertyFee.Cleanings.Value * 1.1, 2); // mark up 10% on fixed clean fee
+
+                    // all cleaning fees are accounted for by fixed cleaning rule above, so we remove it from unit expenses
+                    RemoveCleaningExpenses(ownerStatement.UnitExpenseDetails);
 
                     // special rule: management fee = 0 if there is no revenue but has cleaning fee
                     if ((ConversionHelper.ZeroMoneyValue(ownerStatement.TotalRevenue) && ownerStatement.CleaningFees < 0) ||
@@ -643,7 +653,7 @@ namespace Senstay.Dojo.Data.Providers
             return unitExpenses;
         }
 
-        private int GetFixedCostModelCount(List<ReservationStatement> reservations)
+        private int GetFixedCostModelCount(List<ReservationStatement> reservations, DateTime month)
         {
             return reservations.Where(x => x.Type != "Maintenance").Count();
         }
@@ -674,10 +684,42 @@ namespace Senstay.Dojo.Data.Providers
             }
         }
 
+        private void RemoveCleaningExpenses(List<UnitExpenseStatement> unitExpenseDetails)
+        {
+            var cleaningExpenses = unitExpenseDetails.RemoveAll(x => x.Category == "Cleaning");
+        }
+
+        private void MergeGroundskeeping(List<UnitExpenseStatement> unitExpenseDetails, List<UnitExpenseStatement> fixedUnitExpenses)
+        {
+            foreach (UnitExpenseStatement expense in unitExpenseDetails)
+            {
+                if (expense.Category == GRONDSKEEPING_CATEGORY)
+                {
+                    UnitExpenseStatement matchedExpense = null;
+                    foreach (UnitExpenseStatement fixedExpense in fixedUnitExpenses)
+                    {
+                        if (fixedExpense.Category == GRONDSKEEPING_CATEGORY)
+                        {
+                            expense.Amount += fixedExpense.Amount;
+                            matchedExpense = fixedExpense;
+                            break;
+                        }
+                    }
+                    if (matchedExpense != null) fixedUnitExpenses.Remove(matchedExpense);
+                }
+            }
+        }
+
         private bool UseGroundKeepingRule(DateTime month)
         {
             // use ground keeping service for consolidated pool, pest, landscape, and trash expenses
             return month >= GRONDSKEEPING_EFFECTIVE_DATE;
+        }
+
+        private bool UseCleaningCountRule(DateTime month)
+        {
+            // use ground keeping service for consolidated pool, pest, landscape, and trash expenses
+            return month >= CLEANINGRULE_EFFECTIVE_DATE;
         }
 
         private float GetExcludedTaxRevenue(List<ReservationStatement> reservations)
