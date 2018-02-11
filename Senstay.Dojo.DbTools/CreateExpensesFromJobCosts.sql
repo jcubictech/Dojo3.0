@@ -223,6 +223,6 @@ BEGIN
 	CLOSE GroupCursor 
 	DEALLOCATE GroupCursor
 
-	Select 'New Expense Count' = @InsertCount, 'Error Count' = @ErrorCount
+	Select 'Count' = @InsertCount * 10000 + @ErrorCount -- insert count is in thousands; error count is under 1000 
 
 END

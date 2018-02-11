@@ -413,7 +413,8 @@ namespace Senstay.Dojo.Controllers
                 int result = dataProvider.ImportExcel(dataStream, newVersion);
                 if (result > 0) // JobCost import successes; create and group expenses from it
                 {
-                    dataProvider.CreateExpenses(importDate.Month, importDate.Year, startJobCostId);
+                    // from SQL script: insert count is in thousands; error count is under 1000
+                    result = dataProvider.CreateExpenses(importDate.Month, importDate.Year, startJobCostId);
                 }
                 return result;
             }

@@ -66,15 +66,15 @@ namespace Senstay.Dojo.Data.Providers
 
             using (var package = new ExcelPackage(excelData))
             {
+                // storage for parsed data
+                List<InputError> errorRows = new List<InputError>();
+
                 ExcelWorkbook workBook = package.Workbook;
                 if (workBook != null)
                 {
                     if (workBook.Worksheets.Count > 0)
                     {
                         ExcelWorksheet currentWorksheet = workBook.Worksheets[1];
-
-                        // storage for parsed data
-                        List<InputError> errorRows = new List<InputError>();
 
                         for (int row = startRow; row <= currentWorksheet.Dimension.End.Row; row++)
                         {
@@ -144,6 +144,20 @@ namespace Senstay.Dojo.Data.Providers
                             errorCount = 100000; // a large number
                         }
                     }
+                    else
+                    {
+                        var message = "Input file error: Cannot detect workbook in the import file.";
+                        var inputError = CreateInputError(inputSource, 0, "Input File", message, "Job Cost Excel file");
+                        errorRows.Add(inputError);
+                        errorCount++;
+                    }
+                }
+                else
+                {
+                    var message = "Input file error: Cannot detect worksheet in the import file.";
+                    var inputError = CreateInputError(inputSource, 0, "Input File", message, "Job Cost Excel file");
+                    errorRows.Add(inputError);
+                    errorCount++;
                 }
             }
 
@@ -166,7 +180,7 @@ namespace Senstay.Dojo.Data.Providers
                 sqlParams[2].Value = startJobCostId;
                 var result = _context.Database.SqlQuery<SqlResult>("CreateExpensesFromJobCosts @StartDate, @EndDate, @StartJobCostId", sqlParams).FirstOrDefault();
                 if (result != null)
-                    return result.Count;
+                    return result.Count; // from SQL script: insert count is in ten thousands; error count is under 10000
                 else
                     return 0;
             }

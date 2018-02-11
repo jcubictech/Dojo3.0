@@ -69,9 +69,9 @@ DojoWeb.ImportForm = function () {
                         if (count < 0) {
                             var message = '';
                             if (count < -9999)
-                                message = kendo.format('There are {0} errors while importing data from Excel file. See InputError table for details.', -ErrorCount);
+                                message = kendo.format('There are {0} errors while importing data from Excel file. See Input Log for details.', -ErrorCount);
                             else
-                                message = kendo.format('There are database saving errors while importing data from Excel file.');
+                                message = kendo.format('There are database saving errors while importing data from Excel file. See Input Log for details.');
 
                             DojoWeb.ActionAlert.fail('import-alert', message);
                         }
@@ -80,8 +80,12 @@ DojoWeb.ImportForm = function () {
                             var bad = count % 10000;
                             if (bad == 0)
                                 DojoWeb.ActionAlert.success('import-alert', kendo.format('{0} records are imported successfully.', good));
-                            else
-                                DojoWeb.ActionAlert.success('import-alert', kendo.format('{0} records are imported successfully; {1} property codes are not found.', good, bad));
+                            else {
+                                if (filetype == 1) // Expense
+                                    DojoWeb.ActionAlert.success('import-alert', kendo.format('{0} expenses are created successfully; {1} expenses cannot inserted. Please See Input Log for details.', good, bad));
+                                else
+                                    DojoWeb.ActionAlert.success('import-alert', kendo.format('{0} records are imported successfully; {1} property codes are not found.', good, bad));
+                            }
                         }
                     }
                     else {

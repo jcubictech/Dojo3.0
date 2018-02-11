@@ -10,7 +10,7 @@ BEGIN
 	WHERE Convert(date, [ExpenseDate]) >= @StartDate and Convert(date, [ExpenseDate]) <= @EndDate and
 		  [PropertyCode] = @PropertyCode and
 		  [ExpenseId] = [ParentId] and
-		  [Category] like '%Cleaning%' and
+		  [Category] = 'Cleaning' and
 		  [IncludeOnStatement] = 1 and
 		  [IsDeleted] = 0
 END
