@@ -78,8 +78,12 @@ DojoWeb.ImportForm = function () {
                         else {
                             var good = (count / 10000) | 0; // convert to integer
                             var bad = count % 10000;
-                            if (bad == 0)
-                                DojoWeb.ActionAlert.success('import-alert', kendo.format('{0} records are imported successfully.', good));
+                            if (bad == 0) {
+                                if (filetype == 1) // Expense
+                                    DojoWeb.ActionAlert.success('import-alert', kendo.format('{0} combined expenses are imported successfully.', good));
+                                else
+                                    DojoWeb.ActionAlert.success('import-alert', kendo.format('{0} records are imported successfully.', good));
+                            }
                             else {
                                 if (filetype == 1) // Expense
                                     DojoWeb.ActionAlert.success('import-alert', kendo.format('{0} expenses are created successfully; {1} expenses cannot inserted. Please See Input Log for details.', good, bad));
