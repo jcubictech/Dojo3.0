@@ -625,11 +625,12 @@ namespace Senstay.Dojo.Data.Providers
                     {
                         if (fee.Consumables != null && fee.Consumables != 0) unitExpenses.Add(MakeUnitExpense(Math.Round(fee.Consumables.Value * reservationCount, 2), "Consumables"));
                         if (fee.Laundry != null && fee.Laundry != 0) unitExpenses.Add(MakeUnitExpense(Math.Round(fee.Laundry.Value * reservationCount, 2), "Laundry Service"));
+
                         if (fee.Landscaping != null && fee.Landscaping != 0) groundsKeepingFee += fee.Landscaping.Value;
+                        if (fee.PoolService != null && fee.PoolService != 0) groundsKeepingFee += fee.PoolService.Value;
+                        if (fee.TrashService != null && fee.TrashService != 0) groundsKeepingFee += fee.TrashService.Value;
+                        if (fee.PestService != null && fee.PestService != 0) groundsKeepingFee += fee.PestService.Value;
                     }
-                    if (fee.PoolService != null && fee.PoolService != 0) groundsKeepingFee += fee.PoolService.Value;
-                    if (fee.TrashService != null && fee.TrashService != 0) groundsKeepingFee += fee.TrashService.Value;
-                    if (fee.PestService != null && fee.PestService != 0) groundsKeepingFee += fee.PestService.Value;
 
                     if (groundsKeepingFee > 0) unitExpenses.Add(MakeUnitExpense(Math.Round(groundsKeepingFee, 2), GRONDSKEEPING_CATEGORY));
                 }
@@ -638,12 +639,13 @@ namespace Senstay.Dojo.Data.Providers
                     if (reservationCount > 0)
                     {
                         if (fee.Consumables != null && fee.Consumables != 0) unitExpenses.Add(MakeUnitExpense(Math.Round(fee.Consumables.Value * reservationCount, 2), "Consumables"));
-                        if (fee.Landscaping != null && fee.Landscaping != 0) unitExpenses.Add(MakeUnitExpense(fee.Landscaping.Value, "Landscaping"));
                         if (fee.Laundry != null && fee.Laundry != 0) unitExpenses.Add(MakeUnitExpense(Math.Round(fee.Laundry.Value * reservationCount, 2), "Laundry Service"));
+
+                        if (fee.Landscaping != null && fee.Landscaping != 0) unitExpenses.Add(MakeUnitExpense(fee.Landscaping.Value, "Landscaping"));
+                        if (fee.PoolService != null && fee.PoolService != 0) unitExpenses.Add(MakeUnitExpense(fee.PoolService.Value, "Pool Service"));
+                        if (fee.TrashService != null && fee.TrashService != 0) unitExpenses.Add(MakeUnitExpense(fee.TrashService.Value, "Trash Service"));
+                        if (fee.PestService != null && fee.PestService != 0) unitExpenses.Add(MakeUnitExpense(fee.PestService.Value, "Pest Control Service"));
                     }
-                    if (fee.PoolService != null && fee.PoolService != 0) unitExpenses.Add(MakeUnitExpense(fee.PoolService.Value, "Pool Service"));
-                    if (fee.TrashService != null && fee.TrashService != 0) unitExpenses.Add(MakeUnitExpense(fee.TrashService.Value, "Trash Service"));
-                    if (fee.PestService != null && fee.PestService != 0) unitExpenses.Add(MakeUnitExpense(fee.PestService.Value, "Pest Control Service"));
                 }
             }
             catch
@@ -655,7 +657,7 @@ namespace Senstay.Dojo.Data.Providers
 
         private int GetFixedCostModelCount(List<ReservationStatement> reservations, DateTime month)
         {
-            return reservations.Where(x => x.Type != "Maintenance").Count();
+            return reservations.Where(x => x.Type != "Maintenance" && !x.Type.Contains("Cancellation")).Count();
         }
 
         private UnitExpenseStatement MakeUnitExpense(double amount, string category)

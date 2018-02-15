@@ -15,7 +15,7 @@ BEGIN
 		,'ApprovedNote' = case when r.[ApprovedNote] is null then '' else r.[ApprovedNote] end
 		,r.[ResolutionDescription]
 	FROM [dbo].[Resolution] r
-	INNER JOIN [dbo].[Reservation] s on s.[ConfirmationCode] = r.[ConfirmationCode] and s.[PropertyCode] = @PropertyCode and s.[IsDeleted] = 0 and s.[IncludeOnStatement] = 1
+	INNER JOIN [dbo].[Reservation] s on s.[ConfirmationCode] = r.[ConfirmationCode] and s.[PropertyCode] = @PropertyCode and s.[IsDeleted] = 0 --and s.[IncludeOnStatement] = 1
 	WHERE Convert(date, [ResolutionDate]) >= @StartDate and Convert(date, [ResolutionDate]) <= @EndDate and
 		  r.[IncludeOnStatement] = 1 and 
 		  r.[IsDeleted] = 0 
